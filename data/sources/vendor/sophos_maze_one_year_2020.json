@@ -1,0 +1,30 @@
+{
+  "id": "source:sophos_maze_one_year_2020",
+  "title": "Maze ransomware: extorting victims for 1 year and counting",
+  "publisher": "Sophos",
+  "url": "https://www.sophos.com/en-us/blog/maze-ransomware-1-year-counting",
+  "published_at": "2020-05-12",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor research source for Maze first-seen context, delivery patterns, and double-extortion behavior."
+}

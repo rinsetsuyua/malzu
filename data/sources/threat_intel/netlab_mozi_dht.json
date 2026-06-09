@@ -1,0 +1,30 @@
+{
+  "id": "source:netlab_mozi_dht",
+  "title": "Mozi, Another Botnet Using DHT",
+  "publisher": "360 Netlab",
+  "url": "https://blog.netlab.360.com/mozi-another-botnet-using-dht/",
+  "published_at": "2019-12-23",
+  "source_type": "threat_intel_report",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Primary technical reporting on Mozi, including DHT behavior and Gafgyt code reuse."
+}

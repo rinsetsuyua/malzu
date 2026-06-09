@@ -1,0 +1,27 @@
+{
+  "id": "source:nhs_gozi_isfb_2017",
+  "title": "Gozi ISFB Information-Stealing Trojan",
+  "publisher": "NHS Digital",
+  "url": "https://digital.nhs.uk/cyber-alerts/2017/cc-1835",
+  "published_at": "2017-12-06",
+  "source_type": "threat_intel_report",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "medium",
+  "license_posture": "open_government_attribution_required",
+  "redistribution_policy": "cite_and_summarize_with_attribution",
+  "allowed_uses": [
+    "public alert claims",
+    "campaign context",
+    "relationship claims when explicit"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "misleading reuse",
+    "logo_or_mark_use",
+    "third_party_embedded_material_without_review",
+    "copied_ioc_dumps"
+  ],
+  "notice_required": true,
+  "trust_notes": "Archived public alert describing Gozi ISFB as an information-stealing trojan family that includes Ursnif and Dreambot."
+}

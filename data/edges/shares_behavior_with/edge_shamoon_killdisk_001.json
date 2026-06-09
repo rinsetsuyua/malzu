@@ -1,0 +1,31 @@
+{
+  "id": "edge_shamoon_killdisk_001",
+  "from": "malware:shamoon",
+  "to": "malware:killdisk",
+  "type": "shares_behavior_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "behavior_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_shamoon",
+      "claim": "MITRE ATT&CK identifies Shamoon as wiper malware that leverages RawDisk and Filerase for data wiping tasks.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:mitre_attack_killdisk",
+      "claim": "MITRE ATT&CK identifies KillDisk as malware that can overwrite and destroy data and later evolved into stand-alone wiper/ransomware variants.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Shared destructive-wiper behavior only, not lineage.",
+  "confidence_reason": "Both wiper behaviors are directly documented in MITRE ATT&CK.",
+  "review_state": "reviewed",
+  "relation_qualifier": "inferred_from_behavior_similarity",
+  "shared_artifact_type": "behavior",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

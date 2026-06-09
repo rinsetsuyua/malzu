@@ -1,0 +1,26 @@
+{
+  "id": "source:fbi_doppelpaymer_critical_infrastructure_2020",
+  "title": "DoppelPaymer Ransomware Attacks on Critical Infrastructure Impact Critical Services",
+  "publisher": "FBI Internet Crime Complaint Center",
+  "url": "https://www.ic3.gov/CSA/2020/201215-1.pdf",
+  "published_at": "2020-12-10",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review",
+    "copied_ioc_dumps"
+  ],
+  "notice_required": false,
+  "trust_notes": "FBI PIN coordinated with DHS-CISA describing DoppelPaymer activity against critical infrastructure since 2019."
+}

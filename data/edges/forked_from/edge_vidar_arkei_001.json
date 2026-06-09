@@ -1,0 +1,31 @@
+{
+  "id": "edge_vidar_arkei_001",
+  "from": "malware:vidar",
+  "to": "malware:arkei_stealer",
+  "type": "forked_from",
+  "direction": "directed",
+  "confidence": "medium",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:malwarebytes_vidar_gandcrab",
+      "claim": "Malwarebytes reports Vidar was analyzed as an Arkei copycat/forked stealer.",
+      "claim_scope": "family",
+      "locator": "overview"
+    },
+    {
+      "source": "source:sans_isc_arkei_variants",
+      "claim": "SANS ISC describes Vidar as a copycat or fork of Arkei malware.",
+      "claim_scope": "family",
+      "locator": "introduction"
+    }
+  ],
+  "curator_note": "Accepted as forked_from because multiple public sources use fork/base language. Confidence remains medium until the primary Fumik0_ analysis is recorded directly.",
+  "confidence_reason": "Multiple public sources align on Vidar being Arkei-based, but the strongest technical source is referenced indirectly rather than stored as a source record.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "created_at": "2026-06-06",
+  "updated_at": "2026-06-06"
+}

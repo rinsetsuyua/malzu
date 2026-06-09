@@ -1,0 +1,28 @@
+{
+  "id": "source:mirai_descendants_mozi",
+  "title": "The End of the Canonical IoT Botnet: A Measurement Study of Mirai's Descendants",
+  "publisher": "arXiv",
+  "url": "https://arxiv.org/abs/2309.01130",
+  "published_at": "2023-09-03",
+  "source_type": "academic_paper",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "medium",
+  "license_posture": "mixed_academic_citation_only",
+  "redistribution_policy": "metadata_and_short_curator_summary_only",
+  "allowed_uses": [
+    "paper metadata",
+    "short claim summaries",
+    "methodology context",
+    "relationship claims when explicit"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_figures",
+    "copied_tables",
+    "large_excerpts",
+    "license_assumption_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Academic measurement paper framing Mozi as a Mirai descendant. Use as supporting evidence for lineage context."
+}

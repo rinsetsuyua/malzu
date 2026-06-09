@@ -1,0 +1,41 @@
+{
+  "id": "edge_gafgyt_mirai_001",
+  "from": "malware:gafgyt",
+  "to": "malware:mirai",
+  "type": "shares_code_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:uptycs_gafgyt_mirai_reuse_2021",
+      "claim": "Uptycs reports that several recent Gafgyt variants reused modules and implementations from Mirai source code.",
+      "claim_scope": "variant",
+      "locator": "technical analysis"
+    },
+    {
+      "source": "source:trendmicro_gafgyt_threat_encyclopedia",
+      "claim": "Trend Micro reports that a GAFGYT variant added modules derived from Mirai malware, including DDoS and Telnet brute-force modules.",
+      "claim_scope": "variant",
+      "locator": "overview"
+    },
+    {
+      "source": "source:bashlite_mirai_evolution_2018",
+      "claim": "The Bashlite/Mirai evolution paper says Mirai source code is based on Bashlite's and that the botnets share many similarities.",
+      "claim_scope": "family",
+      "locator": "section II"
+    }
+  ],
+  "curator_note": "Modeled as shares_code_with rather than derived_from because the public evidence is bidirectional over time: Mirai builds on Bashlite/Gafgyt lineage, while later Gafgyt variants reuse Mirai modules. This edge does not imply a single clean ancestry direction.",
+  "confidence_reason": "Two vendor sources identify Gafgyt variants reusing Mirai code, and an academic measurement paper describes Mirai as Bashlite's successor with source-code basis.",
+  "review_state": "reviewed",
+  "relation_qualifier": "inferred_from_code_similarity",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "variant"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

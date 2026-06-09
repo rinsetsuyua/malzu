@@ -1,0 +1,30 @@
+{
+  "id": "source:blackberry_risepro_2024",
+  "title": "Threat Analysis Insight: RisePro Information Stealer",
+  "publisher": "BlackBerry",
+  "url": "https://blogs.blackberry.com/en/2024/06/threat-analysis-insight-risepro-information-stealer",
+  "published_at": "2024-06-26",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "medium",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Public vendor research source for RisePro identity, information-stealer classification, MaaS context, and distribution via PrivateLoader."
+}

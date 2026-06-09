@@ -1,0 +1,33 @@
+{
+  "id": "source:kaspersky_gauss_securelist_2012",
+  "title": "Gauss: Nation-state cyber-surveillance meets banking Trojan",
+  "publisher": "Securelist / Kaspersky",
+  "authors": [
+    "Kaspersky GReAT"
+  ],
+  "url": "https://securelist.com/gauss-nation-state-cyber-surveillance-meets-banking-trojan-54/33854/",
+  "published_at": "2012-08-09",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor research source describing Gauss as a cyber-espionage toolkit based on the Flame platform and sharing functionality with Flame."
+}

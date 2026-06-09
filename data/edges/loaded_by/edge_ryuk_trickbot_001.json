@@ -1,0 +1,25 @@
+{
+  "id": "edge_ryuk_trickbot_001",
+  "from": "malware:ryuk",
+  "to": "malware:trickbot",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:trendmicro_ryuk_trickbot_bazarloader",
+      "claim": "Trend Micro reports Ryuk ransomware distribution via TrickBot and BazarLoader.",
+      "claim_scope": "family",
+      "locator": "report title and body"
+    }
+  ],
+  "curator_note": "Modeled from the ransomware payload perspective: Ryuk is delivered through TrickBot in documented campaigns.",
+  "confidence_reason": "Direct vendor report on Ryuk distribution via TrickBot.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

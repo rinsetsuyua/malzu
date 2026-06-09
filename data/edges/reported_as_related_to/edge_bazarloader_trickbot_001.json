@@ -1,0 +1,37 @@
+{
+  "id": "edge_bazarloader_trickbot_001",
+  "from": "malware:bazarloader",
+  "to": "malware:trickbot",
+  "type": "reported_as_related_to",
+  "direction": "undirected",
+  "confidence": "medium",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_bazar",
+      "claim": "MITRE ATT&CK says Bazar reportedly has ties to TrickBot campaigns.",
+      "claim_scope": "campaign",
+      "locator": "software description"
+    },
+    {
+      "source": "source:google_tag_exotic_lily_2022",
+      "claim": "Google TAG says BazarLoader delivery and other indicators confirmed a relationship between EXOTIC LILY and Russian cybercrime operations tracked as WIZARD SPIDER, FIN12, and DEV-0193.",
+      "claim_scope": "operator",
+      "locator": "relationship discussion"
+    },
+    {
+      "source": "source:proofpoint_initial_access_ransomware_2021",
+      "claim": "Proofpoint reports BazaLoader activity in the same ransomware initial-access ecosystem as The Trick and other loader families.",
+      "claim_scope": "campaign",
+      "locator": "initial access facilitators section"
+    }
+  ],
+  "curator_note": "Modeled as a reported ecosystem relationship. Public sources support campaign and operator-adjacent ties to TrickBot-era operations, but not direct malware lineage.",
+  "confidence_reason": "MITRE, Google TAG, and Proofpoint independently place BazarLoader in TrickBot/Wizard Spider or adjacent ransomware initial-access ecosystems.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "operator",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

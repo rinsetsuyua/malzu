@@ -1,0 +1,35 @@
+{
+  "id": "edge_bitpaymer_dridex_001",
+  "from": "malware:bitpaymer",
+  "to": "malware:dridex",
+  "type": "shares_creator_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:eset_friedex_bitpaymer_dridex_2018",
+      "claim": "ESET reports that FriedEx/BitPaymer was created by the authors of Dridex and documents shared implementation traits.",
+      "claim_scope": "family",
+      "locator": "overview and code similarities"
+    },
+    {
+      "source": "source:nhs_friedex_bitpaymer_2018",
+      "claim": "NHS Digital says FriedEx/BitPaymer is believed to have been created by the attackers responsible for Dridex.",
+      "claim_scope": "operator",
+      "locator": "summary"
+    }
+  ],
+  "curator_note": "Modeled as shared creator/authorship, not derivation, because public sources support common authorship and code-trait overlap more clearly than BitPaymer being a direct Dridex descendant.",
+  "confidence_reason": "ESET provides technical code-similarity evidence and an explicit authorship conclusion; NHS Digital independently reflects the same relationship in public alerting.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "creator",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

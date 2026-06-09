@@ -1,0 +1,1288 @@
+/* Malzu
+   Frutiger Aero warmth, disciplined by Rams / Bauhaus seriousness.
+   Hierarchy comes from type, scale, color and space — not from drawn frames.
+   Surfaces (glass) appear only where structure genuinely requires enclosure:
+   the graph canvas and the inspector. Everything else breathes. */
+
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* ink — a near-black with a trace of blue, never pure #000 */
+  --ink: #10151d;
+  --ink-soft: #4a586b;
+  --ink-faint: #8893a4;
+  --ink-ghost: #aab3c0;
+
+  /* aero atmosphere */
+  --sky: #cfeafe;
+  --sky-deep: #9fd0f5;
+  --meadow: #dff3e6;
+  --paper: #f4f9fd;
+
+  /* one decisive accent for the lens / selection — warm against the cool base */
+  --signal: #ff5d2e;
+  --signal-deep: #d8431a;
+  --signal-wash: rgba(255, 93, 46, 0.12);
+
+  /* relationship hues — quiet, distinct, never neon */
+  --rel-derived: #276c8e;
+  --rel-forked: #2f7df0;
+  --rel-inspired: #8a6dd8;
+  --rel-loaded: #47706a;
+  --rel-related: #68758a;
+  --rel-behavior: #6c8e27;
+  --rel-code: #1f9d74;
+  --rel-creator: #e0961b;
+  --rel-variant: #c1556b;
+
+  /* status */
+  --ok: #15935b;
+  --warn: #d98a06;
+  --bad: #c1455a;
+
+  /* glass tokens — warmth lives here, as inner light, never lingering shadow */
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-strong: rgba(255, 255, 255, 0.72);
+  --glass-edge: rgba(255, 255, 255, 0.85);
+  --hairline: rgba(16, 21, 29, 0.08);
+  --hairline-soft: rgba(16, 21, 29, 0.05);
+
+  --rhythm: 3.6rem;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; min-height: 100%; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  overflow: hidden;
+  /* sky -> meadow vertical wash, with soft radial glow blobs floating over it */
+  background:
+    radial-gradient(40rem 30rem at 12% -4%, rgba(159, 208, 245, 0.55), transparent 70%),
+    radial-gradient(34rem 28rem at 92% 8%, rgba(207, 234, 254, 0.6), transparent 72%),
+    radial-gradient(48rem 40rem at 78% 108%, rgba(223, 243, 230, 0.7), transparent 70%),
+    linear-gradient(178deg, var(--sky) 0%, var(--paper) 42%, var(--meadow) 100%);
+  background-attachment: fixed;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+::selection { background: var(--signal-wash); }
+
+/* ---- boot splash : shown while atlas.json loads ---- */
+.boot {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100vh;
+  justify-content: center;
+}
+
+.boot-mark {
+  border: 2px solid var(--signal);
+  border-radius: 999px;
+  border-top-color: transparent;
+  height: 26px;
+  width: 26px;
+  animation: boot-spin 720ms linear infinite;
+}
+
+@keyframes boot-spin {
+  to { transform: rotate(360deg); }
+}
+
+.boot-error { color: var(--ink-soft); font-size: 14px; }
+
+.boot-error button {
+  background: var(--glass-strong);
+  border: 0;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  color: var(--signal-deep);
+  font-weight: 600;
+  margin-top: 12px;
+  padding: 9px 18px;
+}
+
+/* ---- shell : a column of placements, not a grid of containers ---- */
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  height: 100vh;
+  min-height: 100vh;
+}
+
+/* rail — floats on the atmosphere, no enclosing panel */
+.rail {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 54px;
+  padding: 30px 0;
+}
+
+.mark {
+  display: grid;
+  height: 30px;
+  place-items: center;
+  width: 30px;
+}
+
+/* two overlapping strokes — a lineage glyph */
+.mark span {
+  border: 1.6px solid var(--ink);
+  display: block;
+  height: 18px;
+  position: relative;
+  width: 13px;
+}
+
+.mark span::after {
+  border: 1.6px solid var(--signal);
+  content: "";
+  height: 18px;
+  left: 8px;
+  position: absolute;
+  top: -5px;
+  width: 13px;
+}
+
+.rail-actions {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+  justify-items: center;
+}
+
+.rail-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 14px;
+  color: var(--ink-faint);
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: 10px 0 8px;
+  position: relative;
+  transition: color 160ms ease, background 160ms ease;
+  width: 56px;
+}
+
+.rail-button span {
+  font-size: 10px;
+  font-weight: 560;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.rail-button:hover {
+  color: var(--ink-soft);
+}
+
+.rail-button.active {
+  color: var(--signal-deep);
+  /* glass pill with inner light — warmth without a drop shadow */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
+  box-shadow:
+    inset 0 1px 0 var(--glass-edge),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+/* ---- workspace ---- */
+
+.workspace {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  min-height: 0;
+  padding-right: 22px;
+}
+
+/* topbar — pure typographic placement, no border, no fill */
+.topbar {
+  align-items: end;
+  display: grid;
+  gap: 32px;
+  grid-template-columns: minmax(260px, 1fr) auto minmax(200px, 280px);
+  padding: 30px 4px 26px;
+}
+
+.identity {
+  display: grid;
+  gap: 4px;
+}
+
+.identity h1 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.018em;
+  margin: 0;
+}
+
+.public-dot {
+  align-items: center;
+  color: var(--ink-faint);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 560;
+  gap: 7px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.public-dot::before {
+  background: var(--ok);
+  border-radius: 999px;
+  box-shadow: 0 0 0 4px rgba(21, 147, 91, 0.14);
+  content: "";
+  height: 5px;
+  width: 5px;
+}
+
+/* metrics — big numerals, small labels. Bauhaus clarity. */
+.metrics {
+  align-items: end;
+  display: flex;
+  gap: 34px;
+  margin: 0;
+}
+
+.metrics div {
+  display: grid;
+  gap: 1px;
+}
+
+.metrics dt, .metrics dd { margin: 0; }
+
+.metrics dt {
+  color: var(--ink);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.metrics dd {
+  color: var(--ink-faint);
+  font-size: 10px;
+  font-weight: 560;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metrics .validated dt {
+  align-items: center;
+  color: var(--ok);
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 6px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* search — a single underline, the most restrained input possible */
+.search {
+  align-items: center;
+  border-bottom: 1.5px solid var(--hairline);
+  color: var(--ink-faint);
+  display: flex;
+  gap: 10px;
+  height: 36px;
+  padding: 0 2px 4px;
+  transition: border-color 160ms ease;
+}
+
+.search:focus-within { border-color: var(--signal); }
+
+.search input {
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  min-width: 0;
+  outline: 0;
+  width: 100%;
+}
+
+.search input::placeholder { color: var(--ink-ghost); }
+
+/* ---- work surface : graph-first, panels float over it ---- */
+
+.work-surface {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* the canvas fills the whole workspace and anchors the floating overlays */
+.canvas-region {
+  border-radius: 22px;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.22));
+  box-shadow:
+    inset 0 1px 0 var(--glass-edge),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 0 1.5px var(--hairline-soft);
+}
+
+/* ---- floating overlay panels (inspector, analytical dock) ---- */
+
+.overlay-panel {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  background: linear-gradient(180deg, var(--glass-strong), rgba(255, 255, 255, 0.62));
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  box-shadow:
+    inset 0 1px 0 var(--glass-edge),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 18px 50px rgba(40, 56, 82, 0.12);
+  transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay-panel .overlay-body {
+  min-height: 0;
+  min-width: 0;
+  overflow: auto;
+  flex: 1;
+}
+
+/* the small tab/handle that stays visible when collapsed */
+.overlay-handle {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--ink-soft);
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 650;
+  gap: 7px;
+  letter-spacing: 0.06em;
+  position: absolute;
+  text-transform: uppercase;
+  transition: color 140ms ease;
+  z-index: 1;
+}
+
+.overlay-handle:hover { color: var(--signal-deep); }
+
+/* right-docked inspector */
+.overlay-panel.right {
+  top: 16px;
+  bottom: 16px;
+  right: 16px;
+  width: min(380px, 42vw);
+  border-radius: 20px;
+  flex-direction: column;
+}
+
+.overlay-panel.right .overlay-handle {
+  top: 18px;
+  right: 18px;
+}
+
+.overlay-panel.right.open .overlay-body { padding-top: 8px; }
+
+.overlay-panel.right.collapsed {
+  transform: translateX(calc(100% + 16px));
+}
+
+/* when collapsed, pin the handle just outside the panel and a bit below the top
+   row so it clears the graph controls (TYPE/RELATIONSHIP/STATUS). */
+.overlay-panel.right.collapsed .overlay-handle {
+  right: calc(100% + 12px);
+  top: 84px;
+  background: var(--glass-strong);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(40, 56, 82, 0.12);
+  padding: 9px 12px;
+  white-space: nowrap;
+}
+
+/* bottom-docked analytical dock */
+.overlay-panel.bottom {
+  left: 16px;
+  right: calc(380px + 28px); /* clear the inspector */
+  bottom: 16px;
+  max-height: 46%;
+  border-radius: 20px;
+  flex-direction: column;
+}
+
+.overlay-panel.bottom .overlay-handle {
+  top: 16px;
+  right: 18px;
+}
+
+.overlay-panel.bottom .overlay-body { padding: 8px 4px 4px; }
+
+.overlay-panel.bottom.collapsed {
+  transform: translateY(calc(100% - 42px));
+}
+
+/* keep the handle at the visible lip when the bottom panel is collapsed */
+.overlay-panel.bottom.collapsed .overlay-handle {
+  top: 12px;
+}
+
+/* when the inspector is collapsed, let the dock span full width */
+.overlay-panel.inspector-overlay.collapsed ~ .overlay-panel.bottom,
+.work-surface:has(.inspector-overlay.collapsed) .overlay-panel.bottom {
+  right: 16px;
+}
+
+/* faint engineering grid + a warm glow under the focus node */
+.canvas-region::before {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 93, 46, 0.07), transparent 38%),
+    linear-gradient(90deg, rgba(16, 21, 29, 0.035) 1px, transparent 1px),
+    linear-gradient(rgba(16, 21, 29, 0.032) 1px, transparent 1px);
+  background-size: auto, 46px 46px, 46px 46px;
+  content: "";
+  inset: 0;
+  mask-image: radial-gradient(circle at 50% 48%, black, transparent 76%);
+  opacity: 0.7;
+  position: absolute;
+  pointer-events: none;
+}
+
+.graph-controls {
+  align-items: flex-start;
+  display: flex;
+  gap: 26px;
+  justify-content: space-between;
+  left: 22px;
+  position: absolute;
+  right: 22px;
+  top: 20px;
+  z-index: 3;
+}
+
+.graph-toolset {
+  align-items: center;
+  background: var(--glass-strong);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+}
+
+.layout-toggle { display: flex; gap: 2px; }
+
+.toolset-divider {
+  align-self: stretch;
+  background: var(--hairline);
+  margin: 4px 4px;
+  width: 1px;
+}
+
+.graph-filterset {
+  align-items: flex-start;
+  display: flex;
+  gap: 22px;
+}
+
+.graph-filterset label { display: grid; gap: 4px; }
+
+.graph-filterset label span {
+  color: var(--ink-faint);
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.graph-filterset select {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 540;
+  outline: 0;
+  min-width: 108px;
+  padding-right: 4px;
+}
+
+/* pan/zoom viewport */
+.canvas-viewport {
+  height: 100%;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.graph-canvas.panning { cursor: grabbing; }
+.canvas-viewport { cursor: grab; }
+.canvas-viewport:active { cursor: grabbing; }
+
+.zoom-controls {
+  align-items: center;
+  background: var(--glass-strong);
+  border-radius: 12px;
+  bottom: 18px;
+  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  position: absolute;
+  right: 18px;
+  z-index: 4;
+}
+
+.zoom-controls button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  color: var(--ink-soft);
+  display: inline-flex;
+  height: 30px;
+  justify-content: center;
+  transition: background 140ms ease, color 140ms ease;
+  width: 32px;
+}
+
+.zoom-controls button:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
+  color: var(--signal-deep);
+}
+
+.zoom-controls span {
+  color: var(--ink-faint);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  min-width: 38px;
+  text-align: center;
+}
+
+.tool-button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  color: var(--ink-soft);
+  display: inline-flex;
+  height: 32px;
+  justify-content: center;
+  width: 36px;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.tool-button:hover { color: var(--ink); }
+
+.tool-button.active {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
+  box-shadow: inset 0 1px 0 var(--glass-edge);
+  color: var(--signal-deep);
+}
+
+/* ---- graph ---- */
+
+.graph-canvas {
+  display: block;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.graph-edge { color: rgba(74, 88, 107, 0.5); outline: 0; cursor: pointer; }
+
+.graph-edge line:not(.edge-hitbox) {
+  stroke: currentColor;
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+  transition: stroke-width 140ms ease;
+}
+
+.graph-edge.dashed line:not(.edge-hitbox) { stroke-dasharray: 5 7; }
+
+/* relationship-typed color carries through the whole edge */
+.graph-edge.rel-derived_from { color: var(--rel-derived); }
+.graph-edge.rel-forked_from { color: var(--rel-forked); }
+.graph-edge.rel-inspired_by { color: var(--rel-inspired); }
+.graph-edge.rel-loaded_by { color: var(--rel-loaded); }
+.graph-edge.rel-reported_as_related_to { color: var(--rel-related); }
+.graph-edge.rel-shares_behavior_with { color: var(--rel-behavior); }
+.graph-edge.rel-shares_code_with { color: var(--rel-code); }
+.graph-edge.rel-shares_creator_with { color: var(--rel-creator); }
+.graph-edge.rel-uses_loader { color: var(--rel-loaded); }
+.graph-edge.rel-variant_of { color: var(--rel-variant); }
+
+/* at rest, edges keep their typed hue but soften — lineage stays legible */
+.graph-edge:not(.activated):not(.selected) line:not(.edge-hitbox) {
+  opacity: 0.55;
+}
+
+.graph-edge.activated line:not(.edge-hitbox) { stroke-width: 1.8; }
+
+.graph-edge.selected line:not(.edge-hitbox) {
+  stroke: var(--signal);
+  stroke-width: 2.4;
+}
+
+.graph-edge text {
+  fill: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 540;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-linejoin: round;
+  stroke-width: 5px;
+  text-anchor: middle;
+  transition: opacity 140ms ease;
+}
+
+.graph-edge.activated text, .graph-edge.selected text, .graph-edge.force-label text { opacity: 1; }
+.graph-edge.force-label:not(.activated):not(.selected) text { opacity: 0.7; }
+.graph-edge.selected text { fill: var(--signal-deep); }
+
+.edge-hitbox { opacity: 0; stroke: transparent; stroke-width: 20; }
+
+.graph-node { cursor: pointer; outline: 0; }
+
+.graph-node circle {
+  fill: rgba(255, 255, 255, 0.92);
+  stroke: rgba(16, 21, 29, 0.16);
+  stroke-width: 1.2;
+  transition: stroke 140ms ease, fill 140ms ease, r 140ms ease;
+}
+
+/* layer tints — depth from center, very quiet */
+.graph-node.focus circle {
+  fill: #fff;
+  stroke: rgba(16, 21, 29, 0.24);
+  stroke-width: 1.6;
+}
+
+.graph-node.focus:not(.selected) circle {
+  filter: drop-shadow(0 0 12px rgba(255, 93, 46, 0.16));
+}
+.graph-node.near circle { fill: rgba(231, 244, 255, 0.94); stroke: rgba(47, 125, 240, 0.26); }
+.graph-node.far circle { fill: rgba(231, 247, 240, 0.94); stroke: rgba(31, 157, 116, 0.28); }
+.graph-node.outer circle { fill: rgba(250, 244, 230, 0.94); stroke: rgba(224, 150, 27, 0.26); }
+
+.graph-node.activated circle { stroke-width: 1.6; }
+
+.graph-node.selected circle {
+  fill: #fff;
+  stroke: var(--signal);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 14px rgba(255, 93, 46, 0.28));
+}
+
+/* status ring for actively-tracked families */
+.graph-node.status-active circle { stroke-dasharray: 0; }
+
+.graph-node text {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 580;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+.graph-node.selected text { fill: var(--signal-deep); }
+
+/* ---- inspector : the second earned surface — a glass panel of detail ---- */
+
+/* the inspector/dock now live inside a floating .overlay-panel which provides
+   the glass surface — so these are transparent, just supplying padding/flow */
+.inspector {
+  align-content: start;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 26px 24px;
+}
+
+.inspector-kicker {
+  color: var(--ink-faint);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  margin-bottom: 22px;
+  text-transform: uppercase;
+}
+
+.edge-type-row {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.edge-type-row span:not(.edge-dot) {
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: 0.01em;
+}
+
+.edge-type-row small {
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  margin-left: auto;
+  text-transform: uppercase;
+}
+
+.edge-dot {
+  border-radius: 999px;
+  display: inline-block;
+  height: 9px;
+  width: 9px;
+}
+
+.lens-dot { background: var(--signal); box-shadow: 0 0 0 4px var(--signal-wash); }
+
+.inspector h2 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  margin: 0 0 24px;
+}
+
+.inspector h2:not(.entity-title) {
+  align-items: center;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
+.inspector h2 span { color: var(--ink-ghost); font-weight: 300; }
+.entity-title { display: block; }
+
+/* collapsibles — hairline separation, not boxes */
+.collapsible-section { border-top: 1px solid var(--hairline); padding: 16px 0; }
+.collapsible-section:last-child { padding-bottom: 0; }
+
+.collapsible-section summary {
+  align-items: center;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  font-size: 11px;
+  font-weight: 650;
+  justify-content: space-between;
+  letter-spacing: 0.08em;
+  list-style: none;
+  min-height: 22px;
+  outline: 0;
+  text-transform: uppercase;
+}
+
+.collapsible-section summary::-webkit-details-marker { display: none; }
+
+.collapsible-section summary::after {
+  color: var(--ink-ghost);
+  content: "+";
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.collapsible-section[open] summary::after { content: "\2013"; }
+
+.collapsible-body { padding-top: 14px; }
+
+.collapsible-body p {
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.62;
+  margin: 0;
+}
+
+/* confidence meter — clean dots */
+.confidence-meter {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 12px;
+}
+
+.confidence-meter > span {
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.confidence-meter small { color: var(--ink-faint); font-size: 11px; }
+
+.confidence-dots { display: flex; gap: 7px; }
+
+.confidence-dots i {
+  background: rgba(16, 21, 29, 0.1);
+  border-radius: 999px;
+  height: 9px;
+  width: 9px;
+}
+
+.tone-low { color: var(--bad); }
+.tone-medium { color: var(--warn); }
+.tone-high { color: var(--ok); }
+.confidence-dots .tone-low { background: var(--bad); }
+.confidence-dots .tone-medium { background: var(--warn); }
+.confidence-dots .tone-high { background: var(--ok); }
+
+/* source list — link rows, no card chrome */
+.source-list { display: grid; gap: 2px; }
+
+.source-list a {
+  align-items: center;
+  border-radius: 10px;
+  color: inherit;
+  display: grid;
+  gap: 2px 12px;
+  grid-template-columns: minmax(0, 1fr) 16px;
+  padding: 10px;
+  margin: 0 -10px;
+  text-decoration: none;
+  transition: background 140ms ease;
+}
+
+.source-list a:hover { background: rgba(255, 255, 255, 0.6); }
+
+.source-list a span {
+  color: var(--signal-deep);
+  font-size: 11px;
+  font-weight: 600;
+  grid-column: 1;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-list a strong {
+  font-size: 13px;
+  font-weight: 540;
+  grid-column: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-list a small {
+  color: var(--ink-faint);
+  font-size: 11px;
+  grid-column: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.source-list a svg { color: var(--ink-ghost); grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+
+.metadata-row, .timeline-row {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.metadata-row span, .timeline-row span { color: var(--ink-soft); font-size: 12px; }
+
+.metadata-row strong, .timeline-row strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.status-accepted { color: var(--ok) !important; }
+.status-tentative { color: var(--warn) !important; }
+.status-disputed, .status-deprecated { color: var(--bad) !important; }
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+
+.tag-row span {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 540;
+  padding: 5px 10px;
+}
+
+.relationship-list { display: grid; gap: 2px; }
+
+.relationship-row {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(80px, 1fr) minmax(78px, 1fr) auto;
+  padding: 7px 0;
+}
+
+.relationship-row span, .relationship-row small {
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.relationship-row strong { color: var(--ink); font-size: 12px; font-weight: 600; }
+.relationship-row small { font-weight: 650; letter-spacing: 0.04em; text-transform: uppercase; font-size: 10px; }
+
+/* ---- analytical dock : tabbed, dense when wanted, quiet otherwise ---- */
+
+.analysis-dock {
+  display: grid;
+  gap: 16px;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-height: 0;
+  padding: 6px 14px 10px;
+}
+
+/* keep the dock tabs from running under the collapse handle */
+.overlay-panel.bottom .dock-tabs { padding-right: 92px; }
+
+.dock-tabs {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+}
+
+.dock-tab {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+  color: var(--ink-faint);
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 580;
+  gap: 7px;
+  letter-spacing: 0.01em;
+  padding: 7px 12px;
+  transition: color 140ms ease, background 140ms ease;
+}
+
+.dock-tab:hover { color: var(--ink-soft); }
+
+.dock-tab.active {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.45));
+  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  color: var(--signal-deep);
+}
+
+.dock-content { min-height: 0; }
+
+.dock-kicker {
+  color: var(--ink-faint);
+  display: block;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.dock-column { min-width: 0; }
+
+/* timeline dock — a real horizontal track of family emergence */
+.timeline-dock {
+  display: grid;
+  gap: 36px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+
+/* vertical chronology — ordered by year, never overlaps regardless of count */
+.timeline-track {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+  max-height: 132px;
+  overflow-y: auto;
+  position: relative;
+  padding-left: 2px;
+}
+
+.timeline-mark {
+  align-items: baseline;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 40px 8px minmax(0, 1fr);
+  padding: 3px 0;
+}
+
+.timeline-year {
+  color: var(--ink-faint);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.timeline-mark i {
+  align-self: center;
+  background: var(--signal);
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px var(--signal-wash);
+  height: 7px;
+  width: 7px;
+}
+
+.timeline-mark strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 580;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-ribbon { display: grid; gap: 6px; }
+
+.event-pill {
+  align-items: baseline;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 64px minmax(0, 1fr);
+}
+
+.event-pill span {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.event-pill strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 540;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* matrix dock — family × relationship grid, the dense view Codex deleted.
+   Each row owns its own grid via the shared --matrix-cols custom property,
+   so column tracks stay aligned without relying on subgrid/inherit. */
+.matrix-dock { display: flex; flex-direction: column; gap: 3px; align-content: start; }
+
+.matrix-head, .matrix-row {
+  align-items: center;
+  display: grid;
+  gap: 3px;
+  grid-template-columns: var(--matrix-cols);
+}
+
+.matrix-head { margin-bottom: 3px; }
+
+.matrix-head strong {
+  color: var(--ink-faint);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.matrix-row strong {
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 580;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.matrix-cell {
+  align-items: center;
+  background: rgba(16, 21, 29, 0.04);
+  border-radius: 6px;
+  color: var(--ink-soft);
+  display: flex;
+  font-size: 11px;
+  font-weight: 650;
+  height: 26px;
+  justify-content: center;
+}
+
+.matrix-cell.accepted {
+  background: rgba(21, 147, 91, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(21, 147, 91, 0.32);
+  color: var(--ok);
+}
+
+.matrix-cell.tentative {
+  background: rgba(217, 138, 6, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(217, 138, 6, 0.32);
+  color: var(--warn);
+}
+
+/* coverage dock — citation bars per family */
+.coverage-dock { display: grid; gap: 9px; align-content: start; }
+
+.coverage-row {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 88px minmax(0, 1fr) auto;
+}
+
+.coverage-row > strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 580;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.coverage-bar {
+  background: rgba(16, 21, 29, 0.06);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.coverage-bar i {
+  background: linear-gradient(90deg, var(--signal), rgba(47, 125, 240, 0.55));
+  border-radius: 999px;
+  display: block;
+  height: 100%;
+}
+
+.coverage-row small { color: var(--ink-faint); font-size: 11px; white-space: nowrap; }
+
+/* lens dock — the explainable-attention readout */
+.lens-dock {
+  display: grid;
+  gap: 36px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+}
+
+.lens-copy strong {
+  color: var(--ink);
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 10px;
+}
+
+.lens-copy p { color: var(--ink-soft); font-size: 12px; line-height: 1.6; margin: 0; }
+
+.activation-list { display: grid; gap: 4px; align-content: start; }
+
+.activation-row {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto minmax(72px, 0.9fr) minmax(0, 1fr) auto;
+  padding: 5px 0;
+}
+
+.rel-tick { border-radius: 999px; height: 8px; width: 8px; background: var(--ink-ghost); }
+.rel-tick.rel-derived_from { background: var(--rel-derived); }
+.rel-tick.rel-forked_from { background: var(--rel-forked); }
+.rel-tick.rel-inspired_by { background: var(--rel-inspired); }
+.rel-tick.rel-loaded_by { background: var(--rel-loaded); }
+.rel-tick.rel-reported_as_related_to { background: var(--rel-related); }
+.rel-tick.rel-shares_behavior_with { background: var(--rel-behavior); }
+.rel-tick.rel-shares_code_with { background: var(--rel-code); }
+.rel-tick.rel-shares_creator_with { background: var(--rel-creator); }
+.rel-tick.rel-uses_loader { background: var(--rel-loaded); }
+.rel-tick.rel-variant_of { background: var(--rel-variant); }
+
+.activation-row > span:not(.rel-tick) { color: var(--ink-soft); font-size: 12px; }
+
+.activation-row strong {
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 580;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activation-row small { color: var(--ink-faint); font-size: 11px; white-space: nowrap; }
+
+/* ---- responsive ---- */
+
+@media (max-width: 1040px) {
+  .app-shell { grid-template-columns: 64px minmax(0, 1fr); }
+  .workspace { padding-right: 16px; }
+  .topbar { grid-template-columns: 1fr; gap: 20px; padding: 22px 4px; }
+  .graph-controls { flex-direction: column; gap: 14px; }
+
+  /* narrower inspector, dock spans to meet it */
+  .overlay-panel.right { width: min(320px, 50vw); }
+  .overlay-panel.bottom { right: calc(320px + 28px); }
+}
+
+/* phones: panels become full-width bottom sheets over a fixed-height graph */
+@media (max-width: 680px) {
+  body { overflow: auto; }
+  .app-shell { grid-template-columns: 1fr; height: auto; }
+  .workspace { padding-right: 0; height: auto; }
+  .rail {
+    flex-direction: row;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 12px 16px;
+  }
+  .rail-actions { display: flex; gap: 6px; }
+  .metrics { flex-wrap: wrap; gap: 22px; }
+  .graph-filterset { flex-direction: column; gap: 12px; }
+  .inspector h2 { font-size: 22px; }
+  .timeline-dock, .lens-dock { grid-template-columns: 1fr; gap: 22px; }
+
+  /* the graph gets a guaranteed, usable height */
+  .work-surface { height: 70vh; min-height: 460px; }
+
+  /* both panels are full-width bottom sheets; each tucks fully away when closed */
+  .overlay-panel.right,
+  .overlay-panel.bottom {
+    left: 10px;
+    right: 10px;
+    width: auto;
+    top: auto;
+    bottom: 10px;
+    max-height: 64%;
+    border-radius: 18px;
+  }
+
+  /* only one sheet shows at a time on phones — both anchor to the bottom edge */
+  .overlay-panel.right.collapsed,
+  .overlay-panel.bottom.collapsed {
+    transform: translateY(calc(100% - 40px));
+  }
+
+  .overlay-panel.right .overlay-handle,
+  .overlay-panel.bottom .overlay-handle {
+    top: 14px;
+    right: 16px;
+    background: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  /* when the dock is open, lift the inspector handle above it so both reachable */
+  .overlay-panel.right { bottom: 56px; }
+  .overlay-panel.right.collapsed { bottom: 10px; }
+}

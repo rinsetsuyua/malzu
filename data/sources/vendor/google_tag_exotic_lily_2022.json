@@ -1,0 +1,34 @@
+{
+  "id": "source:google_tag_exotic_lily_2022",
+  "title": "Exposing initial access broker with ties to Conti",
+  "publisher": "Google Threat Analysis Group",
+  "authors": [
+    "Vlad Stolyarov",
+    "Benoit Sevens"
+  ],
+  "url": "https://blog.google/threat-analysis-group/exposing-initial-access-broker-ties-conti/",
+  "published_at": "2022-03-17",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor threat research source for EXOTIC LILY, BazarLoader delivery, Bumblebee, and links to Conti/Diavol initial-access activity."
+}

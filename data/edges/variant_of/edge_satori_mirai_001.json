@@ -1,0 +1,29 @@
+{
+  "id": "edge_satori_mirai_001",
+  "from": "malware:satori",
+  "to": "malware:mirai",
+  "type": "variant_of",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:nhs_satori_mirai",
+      "claim": "NHS Digital describes Satori as a new variant of the Mirai botnet malware using large portions of Mirai source code.",
+      "claim_scope": "family",
+      "locator": "advisory"
+    }
+  ],
+  "curator_note": "Lineage direction follows descendant to ancestor: Satori -> Mirai.",
+  "confidence_reason": "Direct variant wording plus source-code reuse statement.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

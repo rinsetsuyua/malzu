@@ -1,0 +1,35 @@
+{
+  "id": "source:sekoia_mars_red_hot",
+  "title": "Mars, a red-hot information stealer",
+  "publisher": "Sekoia.io",
+  "authors": [
+    "Pierre Le Bourhis",
+    "Quentin Bourgue",
+    "Sekoia TDR"
+  ],
+  "url": "https://blog.sekoia.io/mars-a-red-hot-information-stealer/",
+  "published_at": "2022-04-07",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-06",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Useful technical source for Mars Stealer market context and explicit code-sharing claims involving Arkei, Oski, and Vidar."
+}

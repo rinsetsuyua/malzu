@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-06-08",
+  "purpose": "Registry of public source families used to discover, normalize, and harden Malware Lineage Atlas data.",
+  "rule_zero": "A source can create a lead. It cannot create an accepted edge unless the claim is explicit and the relationship type is narrow.",
+  "publication_rule": "Public availability does not imply redistributable licensing. Prefer links, metadata, and curator-written summaries over copied upstream content.",
+  "safety": {
+    "allowed": [
+      "public metadata",
+      "public advisories",
+      "public CTI taxonomies",
+      "public research reports",
+      "sample hashes and labels as metadata"
+    ],
+    "blocked": [
+      "malware sample downloads",
+      "sample uploads",
+      "sandbox execution",
+      "private or account-gated scraping",
+      "credentialed threat intel ingestion without explicit review"
+    ]
+  },
+  "sources": [
+    {
+      "id": "mitre_attack_stix",
+      "name": "MITRE ATT&CK STIX Data",
+      "tier": "canonical",
+      "license_posture": "attribution_required",
+      "publication_policy": "Allowed in the public repo with MITRE copyright and permission notice preserved. Do not imply MITRE endorsement.",
+      "url": "https://github.com/mitre-attack/attack-stix-data",
+      "api_urls": [
+        "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/index.json",
+        "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json",
+        "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/ics-attack/ics-attack.json",
+        "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/mobile-attack/mobile-attack.json"
+      ],
+      "claim_uses": [
+        "identity",
+        "aliases",
+        "platforms",
+        "technique mappings",
+        "group usage",
+        "software similarity when wording is explicit"
+      ],
+      "blocked_claim_uses": [
+        "direct code lineage from technique overlap",
+        "operator lineage from group usage alone"
+      ],
+      "notes": "Good first-pass source for candidate discovery and stable ATT&CK IDs. Use exact software pages as source records when promoting nodes."
+    },
+    {
+      "id": "malpedia",
+      "name": "Malpedia",
+      "tier": "canonical",
+      "license_posture": "non_commercial_sharealike",
+      "publication_policy": "Restricted. Use only as local discovery, identity hint, alias hint, and reference pointer. Do not include Malpedia source records, citations, descriptions, YARA rules, references, or API output in the public core dataset.",
+      "url": "https://malpedia.caad.fkie.fraunhofer.de/families",
+      "storage_policy": "Local-only notes and source records must stay under data/research/restricted/, which is ignored by git.",
+      "claim_uses": [
+        "family identity",
+        "aliases",
+        "family references",
+        "YARA context",
+        "historical notes when explicitly stated"
+      ],
+      "blocked_claim_uses": [
+        "public core citation",
+        "accepted lineage from reference co-occurrence",
+        "accepted edges without following cited references"
+      ],
+      "notes": "Use family pages as identity anchors only when needed. Follow references back to public reports for strong edges. Malpedia site content is CC BY-NC-SA 3.0 under its ToS."
+    },
+    {
+      "id": "misp_galaxy_malpedia",
+      "name": "MISP Galaxy Malpedia Cluster",
+      "tier": "canonical",
+      "license_posture": "permissive",
+      "publication_policy": "Usable as a public taxonomy lead source under MISP Galaxy licensing. Still avoid treating taxonomy presence as lineage.",
+      "url": "https://github.com/MISP/misp-galaxy",
+      "api_urls": [
+        "https://raw.githubusercontent.com/MISP/misp-galaxy/main/clusters/malpedia.json"
+      ],
+      "claim_uses": [
+        "taxonomy discovery",
+        "alias hints",
+        "cross-vocabulary matching"
+      ],
+      "blocked_claim_uses": [
+        "accepted lineage",
+        "accepted code-sharing edge"
+      ],
+      "notes": "Useful for discovering missing families at scale. Treat as a lead source."
+    },
+    {
+      "id": "misp_galaxy_ransomware",
+      "name": "MISP Galaxy Ransomware Cluster",
+      "tier": "canonical",
+      "license_posture": "permissive",
+      "publication_policy": "Usable as a public taxonomy lead source under MISP Galaxy licensing. Do not infer operator continuity or lineage from cluster membership.",
+      "url": "https://github.com/MISP/misp-galaxy",
+      "api_urls": [
+        "https://raw.githubusercontent.com/MISP/misp-galaxy/main/clusters/ransomware.json"
+      ],
+      "claim_uses": [
+        "ransomware group/family discovery",
+        "alias hints",
+        "ecosystem vocabulary"
+      ],
+      "blocked_claim_uses": [
+        "family lineage from group listing",
+        "operator continuity without separate evidence"
+      ],
+      "notes": "Useful for ransomware coverage breadth, but weak for lineage truth by itself."
+    },
+    {
+      "id": "malwarebazaar",
+      "name": "MalwareBazaar",
+      "tier": "useful_with_caution",
+      "license_posture": "terms_limited",
+      "publication_policy": "Metadata-only leads. Do not download or redistribute samples. Respect fair-use/API terms and avoid heavy mirrored datasets.",
+      "url": "https://bazaar.abuse.ch/api/",
+      "claim_uses": [
+        "recent detections",
+        "sample metadata",
+        "family label prevalence",
+        "TLSH/imphash/ssdeep leads",
+        "tag discovery"
+      ],
+      "blocked_claim_uses": [
+        "accepted lineage from tags",
+        "accepted lineage from fuzzy hash clusters alone",
+        "sample download in this project"
+      ],
+      "notes": "Use metadata only. Do not download samples through this workflow."
+    },
+    {
+      "id": "urlhaus",
+      "name": "URLhaus",
+      "tier": "useful_with_caution",
+      "license_posture": "terms_limited",
+      "publication_policy": "Use for infrastructure leads and source links only. Do not mirror large feed content into the core dataset.",
+      "url": "https://urlhaus.abuse.ch/api/",
+      "claim_uses": [
+        "malware URL observations",
+        "infrastructure leads",
+        "campaign context"
+      ],
+      "blocked_claim_uses": [
+        "code lineage",
+        "operator lineage from shared infrastructure alone"
+      ],
+      "notes": "Useful for distribution and infrastructure context, not ancestry."
+    },
+    {
+      "id": "ransomware_live",
+      "name": "Ransomware.live",
+      "tier": "useful_with_caution",
+      "license_posture": "terms_limited_all_rights_reserved",
+      "publication_policy": "Use for prioritization and links only. Do not mirror victim datasets or ransom-note content into the public repo.",
+      "url": "https://www.ransomware.live/apidocs",
+      "api_urls": [
+        "https://api.ransomware.live/v2/groups",
+        "https://api.ransomware.live/v2/recentvictims"
+      ],
+      "claim_uses": [
+        "ransomware group activity",
+        "current operational context",
+        "victim chronology",
+        "public press links"
+      ],
+      "blocked_claim_uses": [
+        "malware family lineage",
+        "code similarity",
+        "operator continuity without research reports"
+      ],
+      "notes": "Good for prioritizing active ransomware work. Weak as direct malware lineage evidence."
+    },
+    {
+      "id": "cisa_advisories",
+      "name": "CISA Cybersecurity Advisories",
+      "tier": "strong",
+      "license_posture": "low_friction_government",
+      "publication_policy": "Cite and summarize. Do not use CISA marks or logos as branding.",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "claim_uses": [
+        "government advisory claims",
+        "incident and campaign context",
+        "known ransomware ecosystem links",
+        "defender-facing summaries"
+      ],
+      "blocked_claim_uses": [
+        "code lineage unless explicitly stated"
+      ],
+      "notes": "Use advisories as strong public sources when claims are explicit."
+    },
+    {
+      "id": "law_enforcement",
+      "name": "DOJ, FBI, Europol, NCA, and partner takedown releases",
+      "tier": "strong",
+      "license_posture": "mixed_government_low_friction",
+      "publication_policy": "Cite and summarize legal claims carefully. Do not imply endorsement or copy marks/logos.",
+      "url": "https://www.justice.gov/news",
+      "claim_uses": [
+        "operator attribution",
+        "creator relationships",
+        "service disruption history",
+        "infrastructure or backend seizure context"
+      ],
+      "blocked_claim_uses": [
+        "code lineage unless supported by technical analysis"
+      ],
+      "notes": "Strong for creator/operator/service links. Preserve legal wording carefully."
+    },
+    {
+      "id": "vendor_research",
+      "name": "Public vendor reverse-engineering research",
+      "tier": "strong",
+      "license_posture": "copyrighted_citation_only",
+      "publication_policy": "Use report URLs and original curator summaries. Do not copy article text, diagrams, screenshots, or tables.",
+      "url": "https://www.microsoft.com/en-us/security/blog/",
+      "claim_uses": [
+        "reverse-engineering claims",
+        "code reuse",
+        "config format similarity",
+        "builder or panel evidence",
+        "delivery-chain relationships"
+      ],
+      "blocked_claim_uses": [
+        "vendor label consensus without written evidence"
+      ],
+      "notes": "Preferred edge-hardening source class. Use exact report URLs, not broad publisher pages."
+    },
+    {
+      "id": "academic_research",
+      "name": "Peer-reviewed and preprint malware research",
+      "tier": "strong",
+      "license_posture": "mixed",
+      "publication_policy": "Use paper metadata, links, and short claim summaries. Check each paper license before copying figures, tables, or large excerpts.",
+      "url": "https://www.usenix.org/conference/usenixsecurity25",
+      "claim_uses": [
+        "large-scale family history",
+        "measurement methodology",
+        "lineage studies",
+        "ecosystem maps"
+      ],
+      "blocked_claim_uses": [
+        "claims without public data or reproducible description"
+      ],
+      "notes": "Use for broad synthesis and methodology. Preserve paper scope and dates."
+    },
+    {
+      "id": "cybercrime_ai_reporting",
+      "name": "Cybercrime AI and malicious LLM reporting",
+      "tier": "useful_with_caution",
+      "license_posture": "mixed_copyrighted_citation_only",
+      "publication_policy": "Use public report metadata, links, and curator-written summaries. Do not mirror forum posts, screenshots, prompts, model outputs, leaked data, or operational instructions.",
+      "url": "https://www.trendmicro.com/",
+      "claim_uses": [
+        "tool identity",
+        "marketing claims when clearly attributed",
+        "reported capabilities",
+        "pricing and distribution context",
+        "service or marketplace relationships"
+      ],
+      "blocked_claim_uses": [
+        "accepted malware lineage",
+        "claims that require private forum access",
+        "capability claims from marketing alone",
+        "reproducing prompts or malicious generated code"
+      ],
+      "notes": "Use only for quarantined adversary-tooling research. Promote to public nodes only when sources distinguish real observed capability from recycled branding or forum hype."
+    }
+  ]
+}

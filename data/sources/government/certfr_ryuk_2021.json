@@ -1,0 +1,27 @@
+{
+  "id": "source:certfr_ryuk_2021",
+  "title": "Ryuk Ransomware",
+  "publisher": "CERT-FR / ANSSI",
+  "url": "https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-006.pdf",
+  "published_at": "2021-02-25",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "government advisory claims",
+    "incident and disruption chronology",
+    "short curator-written claim summaries",
+    "source links"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review",
+    "copied_ioc_dumps"
+  ],
+  "notice_required": false,
+  "trust_notes": "Government CTI report describing Ryuk as a Hermes 2.1 variant while noting uncertainty around Ryuk's exact origins."
+}

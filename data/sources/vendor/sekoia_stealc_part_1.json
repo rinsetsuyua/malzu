@@ -1,0 +1,35 @@
+{
+  "id": "source:sekoia_stealc_part_1",
+  "title": "Stealc: a copycat of Vidar and Raccoon infostealers gaining in popularity - Part 1",
+  "publisher": "Sekoia.io",
+  "authors": [
+    "Quentin Bourgue",
+    "Pierre Le Bourhis",
+    "Sekoia TDR"
+  ],
+  "url": "https://blog.sekoia.io/stealc-a-copycat-of-vidar-and-raccoon-infostealers-gaining-in-popularity-part-1/",
+  "published_at": "2023-02-20",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-06",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Useful vendor reporting on Stealc market entry, Plymouth claims, infrastructure tracking, and initial technical association. Developer-origin claims should be treated as marketplace claims unless corroborated by reverse engineering."
+}

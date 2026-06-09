@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://malware-lineage-atlas.local/schema/node.schema.json",
+  "title": "Malware Lineage Atlas Node",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "name",
+    "status",
+    "sources"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z0-9][a-z0-9_.-]*$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "malware_family",
+        "variant",
+        "alias",
+        "actor",
+        "seller",
+        "operator",
+        "loader",
+        "campaign",
+        "infrastructure",
+        "source",
+        "report",
+        "tooling"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "infostealer",
+        "ransomware",
+        "rat",
+        "loader",
+        "banker",
+        "botnet",
+        "backdoor",
+        "wiper",
+        "ics_sabotage",
+        "rootkit",
+        "other"
+      ]
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "summary": {
+      "type": "string"
+    },
+    "first_seen": {
+      "$ref": "#/$defs/temporal_claim"
+    },
+    "last_seen": {
+      "$ref": "#/$defs/temporal_claim"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9_-]*$"
+      },
+      "uniqueItems": true
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source_ref"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "historical",
+        "unknown",
+        "tentative",
+        "disputed",
+        "deprecated"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "pattern": "^source:[a-z0-9][a-z0-9_.-]*$"
+        },
+        "claim": {
+          "type": "string"
+        },
+        "locator": {
+          "type": "string"
+        }
+      }
+    },
+    "temporal_claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "precision",
+        "sources"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "pattern": "^[0-9]{4}(-[0-9]{2}){0,2}$"
+        },
+        "precision": {
+          "type": "string",
+          "enum": [
+            "year",
+            "month",
+            "day"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source_ref"
+          }
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "family",
+            "sample",
+            "reporting",
+            "marketplace",
+            "repository",
+            "unknown"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "source:fbi_gameover_cryptolocker",
+  "title": "U.S. Leads Multi-National Action Against GameOver Zeus Botnet and Cryptolocker Ransomware, Charges Botnet Administrator",
+  "publisher": "Federal Bureau of Investigation",
+  "url": "https://www.fbi.gov/news/press-releases/u.s.-leads-multi-national-action-against-gameover-zeus-botnet-and-cryptolocker-ransomware-charges-botnet-administrator",
+  "published_at": "2014-06-02",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Law-enforcement source for the GameOver Zeus and CryptoLocker disruption and relationship context."
+}

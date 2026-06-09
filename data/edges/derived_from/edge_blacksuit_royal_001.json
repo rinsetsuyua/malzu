@@ -1,0 +1,35 @@
+{
+  "id": "edge_blacksuit_royal_001",
+  "from": "malware:blacksuit",
+  "to": "malware:royal",
+  "type": "derived_from",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:ic3_cisa_blacksuit_royal_2024",
+      "claim": "FBI and CISA describe BlackSuit as the evolution of Royal and note numerous coding similarities.",
+      "claim_scope": "family",
+      "locator": "Summary"
+    },
+    {
+      "source": "source:trendmicro_blacksuit_royal_2023",
+      "claim": "Trend Micro reports high binary similarity between BlackSuit and Royal across Linux and Windows variants.",
+      "claim_scope": "family",
+      "locator": "Linux and Windows comparison sections"
+    }
+  ],
+  "curator_note": "Modeled as derived_from rather than alias_of because official evolution language and reverse-engineering evidence support a successor relationship while Royal and BlackSuit keep distinct timelines.",
+  "confidence_reason": "The government advisory provides explicit evolution language, and Trend Micro provides independent binary-similarity analysis.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

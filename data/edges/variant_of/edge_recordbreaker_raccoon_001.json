@@ -1,0 +1,25 @@
+{
+  "id": "edge_recordbreaker_raccoon_001",
+  "from": "malware:recordbreaker",
+  "to": "malware:raccoon",
+  "type": "variant_of",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:esentire_raccoon_v2",
+      "claim": "eSentire describes Raccoon Stealer v2.0 and notes that researchers named the new malware RecordBreaker.",
+      "claim_scope": "family",
+      "locator": "case study"
+    }
+  ],
+  "curator_note": "Use variant_of for taxonomy. Do not model as forked_from or derived_from without stronger code-lineage evidence.",
+  "confidence_reason": "eSentire explicitly describes Raccoon Stealer v2.0 and the RecordBreaker naming context.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "unknown",
+  "created_at": "2026-06-06",
+  "updated_at": "2026-06-06"
+}

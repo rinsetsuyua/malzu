@@ -1,0 +1,35 @@
+{
+  "id": "edge_flame_stuxnet_001",
+  "from": "malware:flame",
+  "to": "malware:stuxnet",
+  "type": "shares_code_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:kaspersky_back_to_stuxnet_2012",
+      "claim": "Kaspersky reports that Stuxnet Resource 207 contained a Flame platform component and that whole pieces of Flame module code matched the Resource 207 code.",
+      "claim_scope": "family",
+      "locator": "Resource 207 and conclusions"
+    },
+    {
+      "source": "source:kaspersky_gauss_abnormal_distribution_2012",
+      "claim": "Kaspersky's Gauss paper states that a first Stuxnet variant included a module created from the Flame platform, indicating collaboration between Flame and Stuxnet/Duqu platform teams.",
+      "claim_scope": "family",
+      "locator": "introduction"
+    }
+  ],
+  "curator_note": "Modeled as code sharing rather than derivation because Kaspersky describes platform collaboration and source-code exchange, while also treating Flame and Stuxnet/Tilded as separate projects.",
+  "confidence_reason": "Two Kaspersky publications provide direct reverse-engineering claims tying early Stuxnet Resource 207 to the Flame platform.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "function"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

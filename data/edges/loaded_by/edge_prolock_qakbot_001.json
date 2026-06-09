@@ -1,0 +1,31 @@
+{
+  "id": "edge_prolock_qakbot_001",
+  "from": "malware:prolock",
+  "to": "malware:qakbot",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "primary_research",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_prolock",
+      "claim": "MITRE ATT&CK says ProLock often obtained initial access with QakBot.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:mitre_attack_qakbot",
+      "claim": "MITRE ATT&CK says QakBot evolved into a delivery agent for ransomware, most notably ProLock and Egregor.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Modeled from the ransomware payload perspective: ProLock initial access and delivery is associated with QakBot.",
+  "confidence_reason": "Direct, mutually reinforcing ATT&CK source statements.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

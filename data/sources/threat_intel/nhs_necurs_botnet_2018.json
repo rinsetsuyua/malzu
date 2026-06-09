@@ -1,0 +1,26 @@
+{
+  "id": "source:nhs_necurs_botnet_2018",
+  "title": "Necurs Botnet",
+  "publisher": "NHS Digital",
+  "url": "https://digital.nhs.uk/cyber-alerts/2018/cc-1894",
+  "published_at": "2018-01-08",
+  "source_type": "threat_intel_report",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "open_government_attribution_required",
+  "redistribution_policy": "cite_and_summarize_with_attribution",
+  "allowed_uses": [
+    "public alert claims",
+    "campaign context",
+    "relationship claims when explicit"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "misleading reuse",
+    "logo_or_mark_use",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": true,
+  "trust_notes": "Public alert identifying Necurs as an email spam botnet delivering malware including Locky and Dridex."
+}

@@ -1,0 +1,33 @@
+{
+  "id": "source:esentire_raccoon_v2",
+  "title": "eSentire Threat Intelligence Malware Analysis: Raccoon Stealer v2.0",
+  "publisher": "eSentire",
+  "authors": [
+    "eSentire Threat Response Unit"
+  ],
+  "url": "https://www.esentire.com/blog/esentire-threat-intelligence-malware-analysis-raccoon-stealer-v2-0",
+  "published_at": "2022-08-31",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-06",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Useful vendor source for Raccoon Stealer v2.0 and RecordBreaker naming context."
+}

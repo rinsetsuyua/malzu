@@ -1,0 +1,31 @@
+{
+  "id": "edge_royal_conti_001",
+  "from": "malware:royal",
+  "to": "malware:conti",
+  "type": "shares_operator_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:unit42_royal_ransomware_2023",
+      "claim": "Unit 42 reports Royal as a private group made up of former Conti members.",
+      "claim_scope": "operator",
+      "locator": "Executive Summary"
+    },
+    {
+      "source": "source:trendmicro_royal_spotlight_2023",
+      "claim": "Trend Micro reports Royal as backed by actors from Conti.",
+      "claim_scope": "operator",
+      "locator": "article overview"
+    }
+  ],
+  "curator_note": "Operator continuity only. This edge does not assert Royal code lineage from Conti.",
+  "confidence_reason": "Two vendor sources make direct former-Conti or Conti-backed operator claims, but neither is used here as malware-family derivation evidence.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "operator",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

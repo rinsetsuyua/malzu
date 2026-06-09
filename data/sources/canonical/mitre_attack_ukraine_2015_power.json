@@ -1,0 +1,25 @@
+{
+  "id": "source:mitre_attack_ukraine_2015_power",
+  "title": "MITRE ATT&CK: 2015 Ukraine Electric Power Attack",
+  "publisher": "MITRE",
+  "url": "https://attack.mitre.org/campaigns/C0028/",
+  "source_type": "cti_knowledge_base",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "attribution_required",
+  "redistribution_policy": "allowed_with_mitre_notice_no_endorsement",
+  "allowed_uses": [
+    "identity normalization",
+    "alias normalization",
+    "technique and platform context",
+    "explicitly stated relationship claims"
+  ],
+  "blocked_uses": [
+    "implied MITRE endorsement",
+    "copied ATT&CK material without required notice",
+    "lineage inferred from technique overlap alone"
+  ],
+  "notice_required": true,
+  "trust_notes": "Stable CTI knowledge-base source for the 2015 Ukraine power campaign and use of BlackEnergy3 and KillDisk."
+}

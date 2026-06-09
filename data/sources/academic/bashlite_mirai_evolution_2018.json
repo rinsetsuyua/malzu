@@ -1,0 +1,40 @@
+{
+  "id": "source:bashlite_mirai_evolution_2018",
+  "title": "The Evolution of Bashlite and Mirai IoT Botnets",
+  "publisher": "IEEE ISCC / CERT.br / UFMG",
+  "authors": [
+    "Artur Marzano",
+    "David Alexander",
+    "Osvaldo Fonseca",
+    "Elverton Fazzion",
+    "Cristine Hoepers",
+    "Klaus Steding-Jessen",
+    "Marcelo H. P. C. Chaves",
+    "Italo Cunha",
+    "Dorgival Guedes",
+    "Wagner Meira Jr."
+  ],
+  "url": "https://honeytarg.cert.br/honeypots/docs/papers/honeypots-iscc18.pdf",
+  "published_at": "2018",
+  "source_type": "academic_paper",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "mixed_academic_citation_only",
+  "redistribution_policy": "metadata_and_short_curator_summary_only",
+  "allowed_uses": [
+    "paper metadata",
+    "short claim summaries",
+    "methodology context",
+    "relationship claims when explicit"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_figures",
+    "copied_tables",
+    "large_excerpts",
+    "license_assumption_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Academic measurement paper comparing Bashlite and Mirai botnets, including source-code relationship and IoT botnet evolution context."
+}

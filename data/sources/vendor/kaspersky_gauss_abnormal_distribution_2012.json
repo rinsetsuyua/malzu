@@ -1,0 +1,30 @@
+{
+  "id": "source:kaspersky_gauss_abnormal_distribution_2012",
+  "title": "Gauss: Abnormal Distribution",
+  "publisher": "Kaspersky Lab Global Research and Analysis Team",
+  "url": "https://media.kasperskycontenthub.com/wp-content/uploads/sites/43/2018/03/20134940/kaspersky-lab-gauss.pdf",
+  "published_at": "2012-08",
+  "source_type": "threat_intel_report",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Public Kaspersky technical paper describing Gauss architecture, Flame-platform similarities, and Stuxnet/Flame collaboration context."
+}

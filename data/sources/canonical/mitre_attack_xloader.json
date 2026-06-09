@@ -1,0 +1,29 @@
+{
+  "id": "source:mitre_attack_xloader",
+  "title": "XLoader, Software S1207",
+  "publisher": "MITRE",
+  "url": "https://attack.mitre.org/software/S1207/",
+  "published_at": "2025-03-11",
+  "source_type": "cti_knowledge_base",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "attribution_required",
+  "redistribution_policy": "allowed_with_mitre_notice_no_endorsement",
+  "allowed_uses": [
+    "software metadata",
+    "short curator-written claim summaries",
+    "ATT&CK technique references",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "implied MITRE endorsement"
+  ],
+  "notice_required": true,
+  "trust_notes": "Canonical ATT&CK software record for XLoader, including the associated Formbook naming context and high-level capability mapping."
+}

@@ -1,0 +1,31 @@
+{
+  "id": "edge_revil_gootloader_001",
+  "from": "malware:revil",
+  "to": "malware:gootloader",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_gootloader",
+      "claim": "MITRE ATT&CK describes Gootloader as a delivery method for REvil among other payloads.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:sophos_gootloader_payload_delivery_2021",
+      "claim": "Sophos reports Gootloader has delivered REvil ransomware.",
+      "claim_scope": "family",
+      "locator": "opening analysis"
+    }
+  ],
+  "curator_note": "Modeled as a loader relationship only. GootLoader delivering REvil does not imply shared authorship, code lineage, or operator continuity.",
+  "confidence_reason": "MITRE and Sophos both explicitly identify REvil as a GootLoader-delivered payload.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

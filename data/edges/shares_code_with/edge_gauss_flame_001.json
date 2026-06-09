@@ -1,0 +1,35 @@
+{
+  "id": "edge_gauss_flame_001",
+  "from": "malware:gauss",
+  "to": "malware:flame",
+  "type": "shares_code_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:kaspersky_gauss_securelist_2012",
+      "claim": "Kaspersky states that Gauss is based on the Flame platform and shares functionality with Flame, including USB infection subroutines.",
+      "claim_scope": "family",
+      "locator": "FAQ introduction"
+    },
+    {
+      "source": "source:kaspersky_gauss_abnormal_distribution_2012",
+      "claim": "Kaspersky's technical paper describes Gauss as using a modular structure resembling Flame, with similar code base and C2 communication system.",
+      "claim_scope": "family",
+      "locator": "introduction"
+    }
+  ],
+  "curator_note": "Modeled as shared code/platform relationship rather than direct descent because the public evidence supports a Flame-platform basis and similarity, but not a simple family-to-family evolution chain.",
+  "confidence_reason": "Kaspersky provides direct platform and code-base similarity claims in both FAQ and technical-paper form.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

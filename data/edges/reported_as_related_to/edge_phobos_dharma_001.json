@@ -1,0 +1,25 @@
+{
+  "id": "edge_phobos_dharma_001",
+  "from": "malware:phobos",
+  "to": "malware:dharma",
+  "type": "reported_as_related_to",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:hhs_hc3_phobos_2021",
+      "claim": "HHS HC3 reports that researchers found links between Phobos and Dharma/CrySiS, including distribution and similarity claims.",
+      "claim_scope": "family",
+      "locator": "Executive Summary and Report"
+    }
+  ],
+  "curator_note": "Modeled as reported_as_related_to rather than derived_from because the source supports relatedness, distribution context, and similarity, but does not cleanly prove a direct lineage path.",
+  "confidence_reason": "The relationship is explicit in a government analyst note, but the exact lineage mechanism remains qualified.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "unknown",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

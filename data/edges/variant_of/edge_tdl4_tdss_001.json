@@ -1,0 +1,25 @@
+{
+  "id": "edge_tdl4_tdss_001",
+  "from": "malware:tdl4",
+  "to": "malware:tdss",
+  "type": "variant_of",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "primary_research",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:securelist_tdss_tdl4_2010",
+      "claim": "Kaspersky Securelist describes TDL-4 as a new variant of the TDSS rootkit.",
+      "claim_scope": "variant",
+      "locator": "article introduction"
+    }
+  ],
+  "curator_note": "Modeled as variant_of because the source explicitly places TDL-4 inside the TDSS rootkit line.",
+  "confidence_reason": "Kaspersky provides direct variant language and technical component analysis.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

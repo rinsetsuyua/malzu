@@ -1,0 +1,25 @@
+{
+  "id": "source:cisa_esxiargs_2023",
+  "title": "ESXiArgs Ransomware Virtual Machine Recovery Guidance",
+  "publisher": "CISA / FBI",
+  "url": "https://www.cisa.gov/sites/default/files/2023-02/aa23-039a-esxiargs-ransomware-virtual-machine-recovery-guidance.pdf",
+  "published_at": "2023-02-08",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Joint advisory source for ESXiArgs identity, affected VMware ESXi context, and recovery guidance metadata."
+}

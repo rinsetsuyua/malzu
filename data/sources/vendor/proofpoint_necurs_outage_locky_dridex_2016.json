@@ -1,0 +1,30 @@
+{
+  "id": "source:proofpoint_necurs_outage_locky_dridex_2016",
+  "title": "It's Quiet...Too Quiet: Necurs Botnet Outage Crimps Dridex and Locky Distribution",
+  "publisher": "Proofpoint",
+  "url": "https://www.proofpoint.com/es/node/10691",
+  "published_at": "2016-06-09",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor source for Necurs distribution of Locky and Dridex email campaigns."
+}

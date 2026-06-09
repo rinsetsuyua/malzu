@@ -1,0 +1,27 @@
+{
+  "id": "source:cisa_hatman_mar_2019",
+  "title": "MAR-17-352-01 HatMan - Safety System Targeted Malware (Update B)",
+  "publisher": "CISA / ICS-CERT",
+  "url": "https://www.cisa.gov/sites/default/files/documents/MAR-17-352-01%20HatMan%20-%20Safety%20System%20Targeted%20Malware%20%28Update%20B%29.pdf",
+  "published_at": "2019-02-27",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "malware analysis report metadata",
+    "short curator-written technical summaries"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review",
+    "copied_yara_rules",
+    "copied_ioc_dumps"
+  ],
+  "notice_required": false,
+  "trust_notes": "Public CISA malware analysis report for HatMan, also known as TRITON and TRISIS, affecting Triconex Tricon safety controllers."
+}

@@ -1,0 +1,30 @@
+{
+  "id": "source:sentinelone_rook_babuk_2021",
+  "title": "New Rook Ransomware Feeds Off the Code of Babuk",
+  "publisher": "SentinelOne SentinelLABS",
+  "url": "https://www.sentinelone.com/labs/new-rook-ransomware-feeds-off-the-code-of-babuk/",
+  "published_at": "2021-12-24",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Reverse-engineering source for Rook and Babuk code similarity and source-code reuse."
+}

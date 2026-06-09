@@ -1,0 +1,23 @@
+{
+  "id": "source:stix_2_1",
+  "title": "STIX Version 2.1",
+  "publisher": "OASIS Open",
+  "url": "https://docs.oasis-open.org/cti/stix/v2.1/stix-v2.1.html",
+  "source_type": "standard",
+  "retrieved_at": "2026-06-06",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "standard_citation_notice",
+  "redistribution_policy": "cite_standard_do_not_represent_standard_as_evidence",
+  "allowed_uses": [
+    "relationship vocabulary alignment",
+    "data model semantics",
+    "schema design reference"
+  ],
+  "blocked_uses": [
+    "malware relationship evidence",
+    "source claim substitution"
+  ],
+  "notice_required": true,
+  "trust_notes": "Useful for CTI relationship vocabulary and semantic alignment. Standards define representation, not specific malware relationships."
+}

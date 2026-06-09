@@ -1,0 +1,25 @@
+{
+  "id": "edge_cheerscrypt_babuk_001",
+  "from": "malware:cheerscrypt",
+  "to": "malware:babuk",
+  "type": "derived_from",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_cheerscrypt",
+      "claim": "MITRE ATT&CK states that Cheerscrypt was derived from leaked Babuk source code.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Modeled as derived_from because the canonical source uses explicit derivation language.",
+  "confidence_reason": "MITRE provides a direct derived-from claim and references public Cheerscrypt research.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

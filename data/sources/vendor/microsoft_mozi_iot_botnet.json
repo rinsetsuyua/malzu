@@ -1,0 +1,35 @@
+{
+  "id": "source:microsoft_mozi_iot_botnet",
+  "title": "How to proactively defend against Mozi IoT botnet",
+  "publisher": "Microsoft Security",
+  "authors": [
+    "David Atch",
+    "Gil Regev",
+    "Ross Bevington"
+  ],
+  "url": "https://www.microsoft.com/en-us/security/blog/2021/08/19/how-to-proactively-defend-against-mozi-iot-botnet/",
+  "published_at": "2021-08-19",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor source for Mozi P2P IoT botnet behavior and persistence research."
+}

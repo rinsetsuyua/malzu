@@ -1,0 +1,36 @@
+{
+  "id": "source:mandiant_formbook_distribution_2017",
+  "title": "Significant FormBook Distribution Campaigns Impacting the U.S. and South Korea",
+  "publisher": "Mandiant",
+  "authors": [
+    "Nart Villeneuve",
+    "Randi Eitzman",
+    "Sandor Nemes",
+    "Tyler Dean"
+  ],
+  "url": "https://cloud.google.com/blog/topics/threat-intelligence/formbook-malware-distribution-campaigns",
+  "published_at": "2017-10-05",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Early public technical reporting on FormBook as an information stealer and form grabber advertised in underground forums since early 2016."
+}

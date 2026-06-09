@@ -1,0 +1,25 @@
+{
+  "id": "edge_shadowpad_plugx_001",
+  "from": "malware:shadowpad",
+  "to": "malware:plugx",
+  "type": "derived_from",
+  "direction": "directed",
+  "confidence": "medium",
+  "evidence_type": "vendor_report",
+  "status": "tentative",
+  "sources": [
+    {
+      "source": "source:sentinelone_shadowpad_plugx",
+      "claim": "SentinelLabs describes ShadowPad as an iterative successor to PlugX and says ShadowPad emerged in 2015 as the successor to PlugX.",
+      "claim_scope": "family",
+      "locator": "overview"
+    }
+  ],
+  "curator_note": "Tentative because the source strongly describes successor status, but the current public excerpt frames it as ecosystem/software lineage rather than a direct code-fork proof.",
+  "confidence_reason": "Explicit successor wording from vendor research, with cautious interpretation.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "unknown",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

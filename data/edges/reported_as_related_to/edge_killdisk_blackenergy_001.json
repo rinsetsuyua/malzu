@@ -1,0 +1,31 @@
+{
+  "id": "edge_killdisk_blackenergy_001",
+  "from": "malware:killdisk",
+  "to": "malware:blackenergy",
+  "type": "reported_as_related_to",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "primary_research",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_killdisk",
+      "claim": "MITRE ATT&CK says KillDisk was first observed as a component of BlackEnergy malware during 2015 Ukraine attacks.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:mitre_attack_ukraine_2015_power",
+      "claim": "MITRE ATT&CK says the 2015 Ukraine Electric Power Attack used BlackEnergy3 and KillDisk.",
+      "claim_scope": "campaign",
+      "locator": "campaign description"
+    }
+  ],
+  "curator_note": "Relationship is component/campaign co-use, not standalone code ancestry.",
+  "confidence_reason": "Direct MITRE statements support the relationship.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "campaign",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

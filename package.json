@@ -1,0 +1,30 @@
+{
+  "name": "malzu",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:atlas": "node scripts/build-atlas.mjs",
+    "predev": "node scripts/build-atlas.mjs",
+    "dev": "vite --host 127.0.0.1",
+    "prebuild": "node scripts/build-atlas.mjs",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "audit:licensing": "node scripts/audit-licensing.mjs",
+    "audit:release": "node scripts/audit-release.mjs",
+    "check:baseline": "npm run validate && npm run audit:licensing && npm run audit:release && npm run build",
+    "hunt:data": "node scripts/hunt-data.mjs",
+    "validate": "node scripts/validate.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}

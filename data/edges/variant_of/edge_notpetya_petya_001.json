@@ -1,0 +1,31 @@
+{
+  "id": "edge_notpetya_petya_001",
+  "from": "malware:notpetya",
+  "to": "malware:petya",
+  "type": "variant_of",
+  "direction": "directed",
+  "confidence": "medium",
+  "evidence_type": "vendor_report",
+  "status": "tentative",
+  "sources": [
+    {
+      "source": "source:cloudflare_petya_notpetya",
+      "claim": "Cloudflare describes NotPetya as malware that had many similarities to Petya but behaved differently.",
+      "claim_scope": "family",
+      "locator": "overview"
+    },
+    {
+      "source": "source:mitre_attack_notpetya",
+      "claim": "MITRE ATT&CK lists GoldenEye and Petrwrap among NotPetya associated software names and classifies NotPetya as destructive wiper-like malware.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Tentative because the relationship is similarity/variant-family context, while the behavior materially diverges into destructive wiper behavior.",
+  "confidence_reason": "The relation is historically common and source-supported, but the exact lineage should stay cautious until backed by deeper reverse-engineering citations.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "behavior",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

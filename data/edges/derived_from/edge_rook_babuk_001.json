@@ -1,0 +1,29 @@
+{
+  "id": "edge_rook_babuk_001",
+  "from": "malware:rook",
+  "to": "malware:babuk",
+  "type": "derived_from",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:sentinelone_rook_babuk_2021",
+      "claim": "SentinelLABS reports multiple code similarities between Rook and Babuk and concludes Rook capitalizes on Babuk source-code availability.",
+      "claim_scope": "family",
+      "locator": "Babuk Overlaps"
+    }
+  ],
+  "curator_note": "Modeled as derived_from because the source makes an explicit source-code reuse claim and lists concrete code-behavior overlaps.",
+  "confidence_reason": "SentinelLABS provides direct reverse-engineering evidence and explicit Babuk source-code reuse language.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

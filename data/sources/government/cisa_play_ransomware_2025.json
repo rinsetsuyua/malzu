@@ -1,0 +1,25 @@
+{
+  "id": "source:cisa_play_ransomware_2025",
+  "title": "#StopRansomware: Play Ransomware",
+  "publisher": "FBI / CISA / ASD ACSC",
+  "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-352a",
+  "published_at": "2025-06-04",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Joint advisory source for Play ransomware identity, Playcrypt alias context, activity timing, and recent TTP updates."
+}

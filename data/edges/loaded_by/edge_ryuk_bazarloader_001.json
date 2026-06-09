@@ -1,0 +1,31 @@
+{
+  "id": "edge_ryuk_bazarloader_001",
+  "from": "malware:ryuk",
+  "to": "malware:bazarloader",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:trendmicro_ryuk_trickbot_bazarloader",
+      "claim": "Trend Micro reports Ryuk ransomware distribution via TrickBot and BazarLoader.",
+      "claim_scope": "campaign",
+      "locator": "report title and body"
+    },
+    {
+      "source": "source:proofpoint_initial_access_ransomware_2021",
+      "claim": "Proofpoint says TA800 BazaLoader implants were reported as leveraged to distribute Ryuk ransomware.",
+      "claim_scope": "campaign",
+      "locator": "TA800 section"
+    }
+  ],
+  "curator_note": "Modeled from the payload perspective: Ryuk was delivered through BazarLoader in documented ransomware initial-access activity.",
+  "confidence_reason": "Trend Micro directly reports Ryuk distribution via BazarLoader, and Proofpoint corroborates BazaLoader use in Ryuk delivery context.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

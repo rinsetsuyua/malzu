@@ -1,0 +1,31 @@
+{
+  "id": "edge_p2p_zeus_zeus_001",
+  "from": "malware:p2p_zeus",
+  "to": "malware:zeus",
+  "type": "forked_from",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_p2p_zeus",
+      "claim": "MITRE ATT&CK identifies P2P ZeuS as a closed-source fork of leaked ZeuS botnet code.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:fbi_gameover_zeus_bank_accounts",
+      "claim": "The FBI describes Gameover as a newer variant of Zeus malware.",
+      "claim_scope": "family",
+      "locator": "story body"
+    }
+  ],
+  "curator_note": "Modeled as forked_from because MITRE explicitly describes P2P ZeuS as a fork of leaked ZeuS botnet code, with FBI variant language as corroboration.",
+  "confidence_reason": "MITRE provides direct fork language and the FBI corroborates Gameover/P2P ZeuS as a Zeus variant.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

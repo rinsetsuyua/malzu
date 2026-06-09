@@ -1,0 +1,31 @@
+{
+  "id": "edge_icedid_emotet_001",
+  "from": "malware:icedid",
+  "to": "malware:emotet",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "primary_research",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_icedid",
+      "claim": "MITRE ATT&CK says IcedID has been downloaded by Emotet in multiple campaigns.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:mitre_attack_emotet",
+      "claim": "MITRE ATT&CK says Emotet is primarily used as a downloader for malware variants such as TrickBot and IcedID.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Modeled from the payload perspective: IcedID is loaded by Emotet.",
+  "confidence_reason": "Direct statements in ATT&CK from both family pages.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "source:doj_ryzhenkov_bitpaymer_2024",
+  "title": "Russian National Indicted for Series of Ransomware Attacks",
+  "publisher": "U.S. Department of Justice",
+  "url": "https://www.justice.gov/archives/opa/pr/russian-national-indicted-series-ransomware-attacks",
+  "published_at": "2024-10-01",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Law-enforcement source alleging BitPaymer ransomware use in U.S. victim attacks beginning in at least 2017."
+}

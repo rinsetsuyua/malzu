@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://malware-lineage-atlas.local/schema/edge.schema.json",
+  "title": "Malware Lineage Atlas Edge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "from",
+    "to",
+    "type",
+    "direction",
+    "confidence",
+    "evidence_type",
+    "status",
+    "sources",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^edge_[a-z0-9][a-z0-9_]*$"
+    },
+    "from": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z0-9][a-z0-9_.-]*$"
+    },
+    "to": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:[a-z0-9][a-z0-9_.-]*$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "derived_from",
+        "forked_from",
+        "variant_of",
+        "inspired_by",
+        "shares_code_with",
+        "shares_behavior_with",
+        "shares_creator_with",
+        "shares_operator_with",
+        "shares_seller_with",
+        "uses_loader",
+        "loaded_by",
+        "distributed_with",
+        "uses_infrastructure",
+        "shares_infrastructure_with",
+        "targets_same_ecosystem_as",
+        "alias_of",
+        "reported_as_related_to",
+        "disputed_relationship"
+      ]
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "directed",
+        "undirected"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "evidence_type": {
+      "type": "string",
+      "enum": [
+        "primary_research",
+        "vendor_report",
+        "malware_repository",
+        "code_similarity",
+        "behavior_similarity",
+        "infrastructure_overlap",
+        "operator_claim",
+        "marketplace_claim",
+        "community_report",
+        "uncorroborated"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "tentative",
+        "disputed",
+        "deprecated"
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source_evidence"
+      }
+    },
+    "curator_note": {
+      "type": "string"
+    },
+    "confidence_reason": {
+      "type": "string"
+    },
+    "review_state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "needs_review",
+        "reviewed",
+        "blocked"
+      ]
+    },
+    "relation_qualifier": {
+      "type": "string",
+      "enum": [
+        "explicit_claim",
+        "inferred_from_code_similarity",
+        "inferred_from_behavior_similarity",
+        "inferred_from_infrastructure_overlap",
+        "marketplace_claim",
+        "operator_claim",
+        "law_enforcement_claim",
+        "unknown"
+      ]
+    },
+    "shared_artifact_type": {
+      "type": "string",
+      "enum": [
+        "code",
+        "config",
+        "builder",
+        "panel",
+        "loader",
+        "c2_infrastructure",
+        "campaign",
+        "seller",
+        "creator",
+        "operator",
+        "marketplace",
+        "behavior",
+        "sample_cluster",
+        "unknown"
+      ]
+    },
+    "similarity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "tlsh",
+            "ssdeep",
+            "imphash",
+            "telfhash",
+            "gimphash",
+            "yara",
+            "manual_reverse_engineering",
+            "sandbox_behavior",
+            "unknown"
+          ]
+        },
+        "score": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "family",
+            "variant",
+            "sample",
+            "function",
+            "config",
+            "behavior",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "disputed_by": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_evidence"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "updated_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    }
+  },
+  "$defs": {
+    "source_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "claim"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "pattern": "^source:[a-z0-9][a-z0-9_.-]*$"
+        },
+        "claim": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim_scope": {
+          "type": "string",
+          "enum": [
+            "family",
+            "variant",
+            "sample",
+            "campaign",
+            "operator",
+            "infrastructure",
+            "market",
+            "unknown"
+          ]
+        },
+        "locator": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

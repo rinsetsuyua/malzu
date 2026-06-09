@@ -1,0 +1,37 @@
+{
+  "id": "edge_locky_necurs_001",
+  "from": "malware:locky",
+  "to": "malware:necurs",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:proofpoint_necurs_outage_locky_dridex_2016",
+      "claim": "Proofpoint says Necurs was used to distribute massive Locky email campaigns.",
+      "claim_scope": "family",
+      "locator": "overview and conclusion"
+    },
+    {
+      "source": "source:cisco_locky_necurs_2017",
+      "claim": "Cisco Talos attributes a large Locky distribution wave to the Necurs botnet.",
+      "claim_scope": "family",
+      "locator": "article body"
+    },
+    {
+      "source": "source:nhs_necurs_botnet_2018",
+      "claim": "NHS Digital says Necurs delivered Locky and other malware.",
+      "claim_scope": "family",
+      "locator": "summary"
+    }
+  ],
+  "curator_note": "Modeled from the ransomware payload perspective: Locky was delivered through Necurs spam-botnet infrastructure. This is not code lineage.",
+  "confidence_reason": "Multiple public sources explicitly identify Necurs as Locky distribution infrastructure.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_delivery_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

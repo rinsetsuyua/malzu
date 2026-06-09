@@ -1,0 +1,31 @@
+{
+  "id": "edge_wannacry_notpetya_001",
+  "from": "malware:wannacry",
+  "to": "malware:notpetya",
+  "type": "shares_behavior_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "behavior_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_wannacry",
+      "claim": "MITRE ATT&CK says WannaCry contains worm-like features to spread using the SMBv1 EternalBlue exploit.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:mitre_attack_notpetya",
+      "claim": "MITRE ATT&CK says NotPetya contains worm-like features to spread through SMBv1 exploits EternalBlue and EternalRomance.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "This is a shared propagation-behavior edge, not a lineage or authorship claim.",
+  "confidence_reason": "Both behaviors are directly documented in ATT&CK.",
+  "review_state": "reviewed",
+  "relation_qualifier": "inferred_from_behavior_similarity",
+  "shared_artifact_type": "behavior",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

@@ -1,0 +1,25 @@
+{
+  "id": "source:mitre_attack_emotet",
+  "title": "MITRE ATT&CK: Emotet",
+  "publisher": "MITRE",
+  "url": "https://attack.mitre.org/software/S0367/",
+  "source_type": "cti_knowledge_base",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "attribution_required",
+  "redistribution_policy": "allowed_with_mitre_notice_no_endorsement",
+  "allowed_uses": [
+    "identity normalization",
+    "alias normalization",
+    "technique and platform context",
+    "explicitly stated relationship claims"
+  ],
+  "blocked_uses": [
+    "implied MITRE endorsement",
+    "copied ATT&CK material without required notice",
+    "lineage inferred from technique overlap alone"
+  ],
+  "notice_required": true,
+  "trust_notes": "Stable CTI knowledge-base source for Emotet identity and downloader relationship to TrickBot and IcedID."
+}

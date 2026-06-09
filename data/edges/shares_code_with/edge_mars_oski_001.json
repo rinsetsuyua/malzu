@@ -1,0 +1,25 @@
+{
+  "id": "edge_mars_oski_001",
+  "from": "malware:mars_stealer",
+  "to": "malware:oski_stealer",
+  "type": "shares_code_with",
+  "direction": "undirected",
+  "confidence": "medium",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:sekoia_mars_red_hot",
+      "claim": "Sekoia reports that Mars Stealer shares code with Arkei, Oski, and Vidar.",
+      "claim_scope": "family",
+      "locator": "introductory summary"
+    }
+  ],
+  "curator_note": "Accepted as code sharing. Do not model as derived_from without direct source-code lineage evidence.",
+  "confidence_reason": "Sekoia gives explicit code-sharing language. The edge avoids stronger ancestry wording.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "created_at": "2026-06-06",
+  "updated_at": "2026-06-06"
+}

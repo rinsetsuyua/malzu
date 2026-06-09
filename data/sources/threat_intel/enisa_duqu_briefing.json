@@ -1,0 +1,25 @@
+{
+  "id": "source:enisa_duqu_briefing",
+  "title": "DuQu: Briefing Note",
+  "publisher": "ENISA",
+  "url": "https://www.enisa.europa.eu/sites/default/files/all_files/DuQu_new.pdf",
+  "source_type": "threat_intel_report",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "reuse_with_source_acknowledgement",
+  "redistribution_policy": "cite_and_summarize_with_source_acknowledgement",
+  "allowed_uses": [
+    "public briefing claims",
+    "relationship claims when explicit",
+    "historical context"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "misleading reuse",
+    "logo_or_mark_use",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": true,
+  "trust_notes": "Public briefing note summarizing Duqu and Stuxnet code-similarity reporting."
+}

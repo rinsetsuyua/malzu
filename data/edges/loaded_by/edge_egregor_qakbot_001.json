@@ -1,0 +1,37 @@
+{
+  "id": "edge_egregor_qakbot_001",
+  "from": "malware:egregor",
+  "to": "malware:qakbot",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:nhs_egregor_2020",
+      "claim": "NHS Digital reports that most observed Egregor infections used remote access trojan delivery, notably Qbot.",
+      "claim_scope": "family",
+      "locator": "delivery section"
+    },
+    {
+      "source": "source:sophos_egregor_maze_heir_2020",
+      "claim": "Sophos reports some tracked Egregor attacks were linked with Qbot activity.",
+      "claim_scope": "campaign",
+      "locator": "delivery discussion"
+    },
+    {
+      "source": "source:mitre_attack_qakbot",
+      "claim": "MITRE ATT&CK says QakBot evolved into a delivery agent for ransomware, notably including Egregor.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Modeled from the ransomware payload perspective: Egregor delivery is associated with QakBot/Qbot activity, not ancestry.",
+  "confidence_reason": "NHS and MITRE provide direct delivery claims, and Sophos provides supporting campaign context.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

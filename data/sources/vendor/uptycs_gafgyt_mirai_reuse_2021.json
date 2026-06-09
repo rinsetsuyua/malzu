@@ -1,0 +1,33 @@
+{
+  "id": "source:uptycs_gafgyt_mirai_reuse_2021",
+  "title": "Code Reuse: Mirai's Influence on Gafgyt Malware",
+  "publisher": "Uptycs",
+  "authors": [
+    "Siddharth Sharma"
+  ],
+  "url": "https://www.uptycs.com/blog/threat-research-report-team/mirai-code-re-use-in-gafgyt",
+  "published_at": "2021-04-15",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor reverse-engineering source for Gafgyt variants reusing Mirai modules, including flooding and Telnet brute-force functionality."
+}

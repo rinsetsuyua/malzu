@@ -1,0 +1,26 @@
+{
+  "id": "source:urlhaus_api",
+  "title": "URLhaus API",
+  "publisher": "abuse.ch",
+  "url": "https://urlhaus.abuse.ch/api/",
+  "source_type": "infrastructure_feed",
+  "retrieved_at": "2026-06-06",
+  "access_level": "free_api_key",
+  "public_citability": "medium",
+  "license_posture": "terms_limited_metadata_only",
+  "redistribution_policy": "infrastructure_metadata_only_no_bulk_mirror",
+  "allowed_uses": [
+    "malware URL observations",
+    "infrastructure leads",
+    "campaign context"
+  ],
+  "blocked_uses": [
+    "payload_downloads",
+    "bulk_feed_mirroring",
+    "code_lineage_from_shared_infrastructure_alone",
+    "operator_lineage_from_shared_infrastructure_alone"
+  ],
+  "notice_required": false,
+  "access_notes": "API access and usage restrictions should be reviewed before automation.",
+  "trust_notes": "Useful for malware URL and infrastructure observations. Shared infrastructure is not code lineage."
+}

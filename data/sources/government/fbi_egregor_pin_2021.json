@@ -1,0 +1,26 @@
+{
+  "id": "source:fbi_egregor_pin_2021",
+  "title": "Egregor Ransomware Targets Businesses Worldwide, Attempting to Extort Businesses by Publicly Releasing Exfiltrated Data",
+  "publisher": "Federal Bureau of Investigation",
+  "url": "https://www.cisa.gov/sites/default/files/Egregor%20PIN.pdf",
+  "published_at": "2021-01-08",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review",
+    "copied_ioc_dumps"
+  ],
+  "notice_required": false,
+  "trust_notes": "FBI PIN coordinated with DHS-CISA describing Egregor as a RaaS threat first observed in September 2020."
+}

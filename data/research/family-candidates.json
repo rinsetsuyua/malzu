@@ -1,0 +1,493 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-06-08",
+  "purpose": "Research queue for families and malware-like tool clusters that should be considered for Malware Lineage Atlas coverage.",
+  "priority_legend": {
+    "P0": "Core iconic or structurally important family. Add before broad long tail.",
+    "P1": "High-value family with strong public source availability.",
+    "P2": "Useful breadth or active relevance. Add after category spine is stronger.",
+    "P3": "Long-tail candidate or source-dependent candidate."
+  },
+  "items": [
+    {
+      "name": "GameOver ZeuS",
+      "aliases": ["GOZ", "P2P GameOver Zeus"],
+      "category_hint": "banker",
+      "priority": "P0",
+      "reason": "Major ZeuS descendant and public law-enforcement case. Good bridge between banking malware, botnet operations, and CryptoLocker distribution.",
+      "source_leads": ["FBI", "DOJ", "MITRE ATT&CK", "Malpedia"],
+      "relationship_targets": ["ZeuS", "CryptoLocker"]
+    },
+    {
+      "name": "Ursnif",
+      "aliases": ["Gozi", "ISFB", "Dreambot"],
+      "category_hint": "banker",
+      "priority": "P0",
+      "reason": "Long-running banking malware with public lineage and alias complexity. Good test case for alias and fork discipline.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "IBM X-Force", "Proofpoint"],
+      "relationship_targets": ["Gozi", "ISFB"]
+    },
+    {
+      "name": "Zloader",
+      "aliases": ["Terdot", "DELoader"],
+      "category_hint": "banker",
+      "priority": "P0",
+      "reason": "Frequently described in relation to ZeuS lineage. Needs careful typing as fork, derivative, or related family depending on source wording.",
+      "source_leads": ["MITRE ATT&CK", "Microsoft", "Proofpoint", "Malpedia"],
+      "relationship_targets": ["ZeuS"]
+    },
+    {
+      "name": "Locky",
+      "category_hint": "ransomware",
+      "priority": "P0",
+      "reason": "Iconic ransomware family tied to major botnet and downloader ecosystems.",
+      "source_leads": ["MITRE ATT&CK", "Proofpoint", "Microsoft", "Malpedia"],
+      "relationship_targets": ["Dridex", "Necurs"]
+    },
+    {
+      "name": "Necurs",
+      "category_hint": "botnet",
+      "priority": "P0",
+      "reason": "Major spam/distribution botnet for Locky, Dridex, and related campaigns.",
+      "source_leads": ["Microsoft", "MITRE ATT&CK", "DOJ", "Malpedia"],
+      "relationship_targets": ["Locky", "Dridex"]
+    },
+    {
+      "name": "Hermes",
+      "category_hint": "ransomware",
+      "priority": "P0",
+      "reason": "Commonly discussed in Ryuk lineage context. Needs reverse-engineering evidence before promoting to derivation.",
+      "source_leads": ["Check Point", "CrowdStrike", "MITRE ATT&CK", "Malpedia"],
+      "relationship_targets": ["Ryuk"]
+    },
+    {
+      "name": "Maze",
+      "category_hint": "ransomware",
+      "priority": "P0",
+      "reason": "Important ransomware ecosystem predecessor for double extortion and later rebrand/operator-continuity claims.",
+      "source_leads": ["CISA", "Mandiant", "Sophos", "Malpedia"],
+      "relationship_targets": ["Egregor", "Sekhmet"]
+    },
+    {
+      "name": "Egregor",
+      "category_hint": "ransomware",
+      "priority": "P0",
+      "reason": "High-value Maze successor/rebrand lead with public reporting.",
+      "source_leads": ["CISA", "Sophos", "Mandiant", "Malpedia"],
+      "relationship_targets": ["Maze"]
+    },
+    {
+      "name": "BitPaymer",
+      "aliases": ["FriedEx"],
+      "category_hint": "ransomware",
+      "priority": "P0",
+      "reason": "Key Evil Corp ransomware family with links to Dridex ecosystem.",
+      "source_leads": ["CrowdStrike", "ESET", "MITRE ATT&CK", "Treasury", "Malpedia"],
+      "relationship_targets": ["Dridex", "DoppelPaymer", "WastedLocker"]
+    },
+    {
+      "name": "DoppelPaymer",
+      "category_hint": "ransomware",
+      "priority": "P0",
+      "reason": "Often discussed as related to BitPaymer and Evil Corp operations.",
+      "source_leads": ["FBI", "Europol", "CrowdStrike", "Malpedia"],
+      "relationship_targets": ["BitPaymer", "Dridex"]
+    },
+    {
+      "name": "WastedLocker",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Evil Corp ransomware with useful operator/ecosystem edges.",
+      "source_leads": ["NCC Group", "Evil Corp sanctions reporting", "MITRE ATT&CK", "Malpedia"],
+      "relationship_targets": ["Dridex", "BitPaymer"]
+    },
+    {
+      "name": "RansomHub",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Current high-activity ransomware ecosystem. Good active-coverage candidate, but lineage claims need caution.",
+      "source_leads": ["CISA", "Ransomware.live", "Sophos", "Malpedia"],
+      "relationship_targets": ["Knight"]
+    },
+    {
+      "name": "Hive",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Major RaaS with public takedown and operator/ecosystem reporting.",
+      "source_leads": ["FBI", "CISA", "DOJ", "Malpedia"],
+      "relationship_targets": ["BlackCat"]
+    },
+    {
+      "name": "Royal",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Important Conti-adjacent operator continuity candidate. Needs careful split between Royal and BlackSuit.",
+      "source_leads": ["CISA", "HHS HC3", "Trend Micro", "Malpedia"],
+      "relationship_targets": ["Conti", "BlackSuit"]
+    },
+    {
+      "name": "BlackSuit",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Royal/BlackSuit relationship is a strong candidate for tentative code or rebrand modeling.",
+      "source_leads": ["CISA", "Trend Micro", "Sophos", "Malpedia"],
+      "relationship_targets": ["Royal"]
+    },
+    {
+      "name": "Akira",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Current ransomware family with public advisories and possible Conti ecosystem leads.",
+      "source_leads": ["CISA", "Arctic Wolf", "SentinelOne", "Ransomware.live"],
+      "relationship_targets": ["Conti"]
+    },
+    {
+      "name": "Play",
+      "aliases": ["PlayCrypt"],
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Current high-volume ransomware family with public advisories.",
+      "source_leads": ["CISA", "Ransomware.live", "Trend Micro", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Babuk",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Source leak influenced later ESXi/Linux lockers. Good case for code reuse vs builder reuse.",
+      "source_leads": ["Cisco Talos", "SentinelOne", "Malpedia", "MITRE ATT&CK"],
+      "relationship_targets": ["ESXiArgs", "Rook", "Cheerscrypt"]
+    },
+    {
+      "name": "Cerber",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Iconic RaaS era family. Helps historical coverage.",
+      "source_leads": ["MITRE ATT&CK", "Microsoft", "Trend Micro", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Dharma",
+      "aliases": ["Crysis"],
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Long-running family with variant and alias complexity.",
+      "source_leads": ["CISA", "Malpedia", "Trend Micro", "Kaspersky"],
+      "relationship_targets": ["Crysis"]
+    },
+    {
+      "name": "Phobos",
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Often discussed in relation to Dharma/Crysis ecosystem. Needs exact public evidence.",
+      "source_leads": ["CISA", "FBI", "Malpedia", "Sophos"],
+      "relationship_targets": ["Dharma"]
+    },
+    {
+      "name": "STOP",
+      "aliases": ["Djvu"],
+      "category_hint": "ransomware",
+      "priority": "P1",
+      "reason": "Mass-market ransomware with many variants. Useful for variant/taxonomy modeling.",
+      "source_leads": ["Emsisoft", "Malpedia", "Microsoft"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Bumblebee",
+      "category_hint": "loader",
+      "priority": "P1",
+      "reason": "Loader that appeared in crimeware ecosystem after BazarLoader disruption. Good replacement-vs-lineage test.",
+      "source_leads": ["Proofpoint", "Google TAG", "Secureworks", "Malpedia"],
+      "relationship_targets": ["BazarLoader", "TrickBot"]
+    },
+    {
+      "name": "BazarLoader",
+      "aliases": ["BazarBackdoor"],
+      "category_hint": "loader",
+      "priority": "P1",
+      "reason": "TrickBot/Conti ecosystem loader with public reporting.",
+      "source_leads": ["MITRE ATT&CK", "Microsoft", "Proofpoint", "Malpedia"],
+      "relationship_targets": ["TrickBot", "Conti"]
+    },
+    {
+      "name": "SmokeLoader",
+      "category_hint": "loader",
+      "priority": "P1",
+      "reason": "Long-running loader with public Operation Endgame context.",
+      "source_leads": ["Europol", "DOJ", "Proofpoint", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "GootLoader",
+      "category_hint": "loader",
+      "priority": "P1",
+      "reason": "Important initial access loader with public reporting.",
+      "source_leads": ["Sophos", "Mandiant", "Malpedia"],
+      "relationship_targets": ["GootKit"]
+    },
+    {
+      "name": "Latrodectus",
+      "category_hint": "loader",
+      "priority": "P1",
+      "reason": "Current loader with public links to IcedID operators or replacement narratives.",
+      "source_leads": ["Proofpoint", "Team Cymru", "Malpedia"],
+      "relationship_targets": ["IcedID"]
+    },
+    {
+      "name": "DarkGate",
+      "category_hint": "loader",
+      "priority": "P1",
+      "reason": "Current loader/RAT-adjacent malware with broad public reporting.",
+      "source_leads": ["Trellix", "Proofpoint", "Malpedia", "MITRE ATT&CK"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Agent Tesla",
+      "category_hint": "infostealer",
+      "priority": "P1",
+      "reason": "Iconic commodity stealer with broad public coverage.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "Check Point", "Zscaler"],
+      "relationship_targets": []
+    },
+    {
+      "name": "FormBook",
+      "category_hint": "infostealer",
+      "priority": "P1",
+      "reason": "Commodity stealer with XLoader lineage/continuity claims.",
+      "source_leads": ["Check Point", "Malpedia", "MITRE ATT&CK"],
+      "relationship_targets": ["XLoader"]
+    },
+    {
+      "name": "XLoader",
+      "category_hint": "infostealer",
+      "priority": "P1",
+      "reason": "Frequently reported as FormBook successor/cross-platform variant. Needs careful typing.",
+      "source_leads": ["Check Point", "Malpedia", "MITRE ATT&CK"],
+      "relationship_targets": ["FormBook"]
+    },
+    {
+      "name": "Snake Keylogger",
+      "category_hint": "infostealer",
+      "priority": "P2",
+      "reason": "Common commodity infostealer with public reporting.",
+      "source_leads": ["Fortinet", "Check Point", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "DarkComet",
+      "category_hint": "rat",
+      "priority": "P1",
+      "reason": "Iconic public RAT. Useful for historical RAT cluster coverage.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "Recorded Future"],
+      "relationship_targets": []
+    },
+    {
+      "name": "njRAT",
+      "aliases": ["Bladabindi"],
+      "category_hint": "rat",
+      "priority": "P1",
+      "reason": "Iconic commodity RAT with many variants and public reporting.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "Microsoft"],
+      "relationship_targets": []
+    },
+    {
+      "name": "AsyncRAT",
+      "category_hint": "rat",
+      "priority": "P1",
+      "reason": "Open-source RAT frequently reused. Good for codebase/tooling distinction.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "Microsoft"],
+      "relationship_targets": ["QuasarRAT"]
+    },
+    {
+      "name": "QuasarRAT",
+      "category_hint": "rat",
+      "priority": "P1",
+      "reason": "Open-source RAT base for multiple variants. Good for fork and derivative modeling.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "GitHub source context"],
+      "relationship_targets": []
+    },
+    {
+      "name": "NanoCore",
+      "category_hint": "rat",
+      "priority": "P1",
+      "reason": "Commodity RAT with public law-enforcement and research coverage.",
+      "source_leads": ["DOJ", "Malpedia", "MITRE ATT&CK"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Gh0st RAT",
+      "category_hint": "rat",
+      "priority": "P1",
+      "reason": "Historic RAT with source leak/derivative ecosystem. Good code-family cluster candidate.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "Trend Micro"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Poison Ivy",
+      "category_hint": "rat",
+      "priority": "P1",
+      "reason": "Historic RAT heavily used in APT reporting.",
+      "source_leads": ["MITRE ATT&CK", "FireEye", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Ramnit",
+      "category_hint": "botnet",
+      "priority": "P1",
+      "reason": "Historic botnet/banker with public takedown and lineage context.",
+      "source_leads": ["Europol", "Microsoft", "Malpedia", "MITRE ATT&CK"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Gamarue",
+      "aliases": ["Andromeda"],
+      "category_hint": "botnet",
+      "priority": "P1",
+      "reason": "Major botnet with public takedown and wide distribution ecosystem.",
+      "source_leads": ["Microsoft", "Europol", "MITRE ATT&CK", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Kelihos",
+      "category_hint": "botnet",
+      "priority": "P2",
+      "reason": "Historic botnet with public takedown. Useful for botnet category depth.",
+      "source_leads": ["DOJ", "Microsoft", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Sality",
+      "category_hint": "botnet",
+      "priority": "P2",
+      "reason": "Long-running malware/botnet family. Useful historical coverage.",
+      "source_leads": ["Microsoft", "Malpedia", "MITRE ATT&CK"],
+      "relationship_targets": []
+    },
+    {
+      "name": "ZeroAccess",
+      "aliases": ["Sirefef"],
+      "category_hint": "rootkit",
+      "priority": "P1",
+      "reason": "Iconic rootkit/botnet family. Helps sparse rootkit coverage.",
+      "source_leads": ["Microsoft", "Sophos", "Malpedia"],
+      "relationship_targets": []
+    },
+    {
+      "name": "TDSS",
+      "aliases": ["Alureon", "TDL4"],
+      "category_hint": "rootkit",
+      "priority": "P1",
+      "reason": "Major bootkit/rootkit family with lineage and variant complexity.",
+      "source_leads": ["Kaspersky", "Microsoft", "Malpedia"],
+      "relationship_targets": ["TDL4"]
+    },
+    {
+      "name": "Necurs rootkit",
+      "category_hint": "rootkit",
+      "priority": "P2",
+      "reason": "Could model Necurs rootkit/botnet capabilities carefully if source wording supports it.",
+      "source_leads": ["Microsoft", "Malpedia"],
+      "relationship_targets": ["Necurs"]
+    },
+    {
+      "name": "Flame",
+      "aliases": ["Flamer", "Skywiper"],
+      "category_hint": "backdoor",
+      "priority": "P0",
+      "reason": "Iconic espionage platform with public research links to Stuxnet ecosystem.",
+      "source_leads": ["Kaspersky", "CrySyS Lab", "MITRE ATT&CK", "Malpedia"],
+      "relationship_targets": ["Stuxnet", "Gauss"]
+    },
+    {
+      "name": "Gauss",
+      "category_hint": "backdoor",
+      "priority": "P1",
+      "reason": "Flame-linked espionage malware. Useful for high-confidence historical cluster.",
+      "source_leads": ["Kaspersky", "MITRE ATT&CK", "Malpedia"],
+      "relationship_targets": ["Flame"]
+    },
+    {
+      "name": "Triton",
+      "aliases": ["Trisis", "HatMan"],
+      "category_hint": "ics_sabotage",
+      "priority": "P0",
+      "reason": "Iconic ICS-targeting malware for safety-system manipulation and disruption.",
+      "source_leads": ["Dragos", "FireEye", "CISA", "MITRE ATT&CK for ICS"],
+      "relationship_targets": []
+    },
+    {
+      "name": "Industroyer2",
+      "category_hint": "ics_sabotage",
+      "priority": "P0",
+      "reason": "Directly relevant successor/variant candidate for Industroyer.",
+      "source_leads": ["ESET", "CERT-UA", "MITRE ATT&CK for ICS"],
+      "relationship_targets": ["Industroyer"]
+    },
+    {
+      "name": "HermeticWiper",
+      "category_hint": "wiper",
+      "priority": "P0",
+      "reason": "Major Ukraine destructive malware. Useful wiper category spine.",
+      "source_leads": ["ESET", "Microsoft", "CISA", "Malpedia"],
+      "relationship_targets": ["CaddyWiper", "WhisperGate"]
+    },
+    {
+      "name": "CaddyWiper",
+      "category_hint": "wiper",
+      "priority": "P0",
+      "reason": "Ukraine destructive malware with public technical reporting.",
+      "source_leads": ["ESET", "Microsoft", "CISA", "Malpedia"],
+      "relationship_targets": ["HermeticWiper"]
+    },
+    {
+      "name": "WhisperGate",
+      "category_hint": "wiper",
+      "priority": "P0",
+      "reason": "Ukraine destructive malware with public reporting. Keep behavior/ecosystem separate from code lineage.",
+      "source_leads": ["Microsoft", "CISA", "Malpedia"],
+      "relationship_targets": ["HermeticWiper"]
+    },
+    {
+      "name": "AcidRain",
+      "category_hint": "wiper",
+      "priority": "P1",
+      "reason": "Viasat-related wiper with public research and possible VPNFilter relationship leads.",
+      "source_leads": ["SentinelOne", "Viasat context", "Malpedia"],
+      "relationship_targets": ["VPNFilter"]
+    },
+    {
+      "name": "VPNFilter",
+      "category_hint": "botnet",
+      "priority": "P1",
+      "reason": "Router malware with public government and vendor research. Potential links to BlackEnergy/Sandworm context need caution.",
+      "source_leads": ["Cisco Talos", "FBI", "CISA", "Malpedia"],
+      "relationship_targets": ["BlackEnergy"]
+    },
+    {
+      "name": "Gafgyt",
+      "aliases": ["BASHLITE"],
+      "ambiguous_aliases": ["Qbot"],
+      "category_hint": "botnet",
+      "priority": "P1",
+      "reason": "Major IoT botnet family. Complements Mirai/Satori/Mozi.",
+      "source_leads": ["MITRE ATT&CK", "Malpedia", "Akamai"],
+      "relationship_targets": ["Mirai"]
+    },
+    {
+      "name": "Hajime",
+      "category_hint": "botnet",
+      "priority": "P2",
+      "reason": "IoT botnet frequently compared with Mirai. Good behavior/ecosystem edge candidate.",
+      "source_leads": ["Kaspersky", "Rapidity Networks", "Malpedia"],
+      "relationship_targets": ["Mirai"]
+    },
+    {
+      "name": "Emotet Epochs",
+      "category_hint": "loader",
+      "priority": "P2",
+      "reason": "Could be modeled later as campaigns or infrastructure epochs rather than separate families.",
+      "source_leads": ["Cryptolaemus", "Malpedia", "Proofpoint"],
+      "relationship_targets": ["Emotet"]
+    }
+  ]
+}

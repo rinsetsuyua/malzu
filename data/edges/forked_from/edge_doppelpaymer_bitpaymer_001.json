@@ -1,0 +1,35 @@
+{
+  "id": "edge_doppelpaymer_bitpaymer_001",
+  "from": "malware:doppelpaymer",
+  "to": "malware:bitpaymer",
+  "type": "forked_from",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:crowdstrike_doppelpaymer_bitpaymer_dridex_2019",
+      "claim": "CrowdStrike describes DoppelPaymer as sharing most of its code with BitPaymer and as a fork of the BitPaymer code base.",
+      "claim_scope": "family",
+      "locator": "overview and conclusion"
+    },
+    {
+      "source": "source:nhs_doppelpaymer_2019",
+      "claim": "NHS Digital describes DoppelPaymer as based on older BitPaymer malware.",
+      "claim_scope": "family",
+      "locator": "summary"
+    }
+  ],
+  "curator_note": "Modeled as a directed fork because one source explicitly uses code-fork language and a second public alert describes DoppelPaymer as based on BitPaymer.",
+  "confidence_reason": "Two public sources support the direction from DoppelPaymer back to BitPaymer, with CrowdStrike providing the stronger code-level basis.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

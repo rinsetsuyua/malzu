@@ -1,0 +1,36 @@
+{
+  "id": "source:proofpoint_darkgate_battleroyal_2023",
+  "title": "BattleRoyal, DarkGate Cluster Spreads via Email and Fake Browser Updates",
+  "publisher": "Proofpoint",
+  "authors": [
+    "Axel F",
+    "Dusty Miller",
+    "Tommy Madjar",
+    "Selena Larson"
+  ],
+  "url": "https://www.proofpoint.com/us/blog/threat-insight/battleroyal-darkgate-cluster-spreads-email-and-fake-browser-updates",
+  "published_at": "2023-12-21",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor research source for DarkGate delivery by the BattleRoyal cluster and DarkGate's loader/RAT role in 2023 cybercrime campaigns."
+}

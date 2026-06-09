@@ -1,0 +1,31 @@
+{
+  "id": "edge_mozi_mirai_001",
+  "from": "malware:mozi",
+  "to": "malware:mirai",
+  "type": "reported_as_related_to",
+  "direction": "undirected",
+  "confidence": "medium",
+  "evidence_type": "community_report",
+  "status": "tentative",
+  "sources": [
+    {
+      "source": "source:mirai_descendants_mozi",
+      "claim": "The academic measurement paper frames Mozi as one of the Mirai descendants it measures.",
+      "claim_scope": "family",
+      "locator": "abstract"
+    },
+    {
+      "source": "source:microsoft_mozi_iot_botnet",
+      "claim": "Microsoft describes Mozi as a peer-to-peer IoT botnet using DHT-like communication.",
+      "claim_scope": "family",
+      "locator": "overview"
+    }
+  ],
+  "curator_note": "Tentative because the Mirai relationship is stronger as ecosystem/descendant context than as a direct code-fork claim in the current sources.",
+  "confidence_reason": "Academic source frames Mozi as a Mirai descendant; stronger code-level source would be needed for variant_of.",
+  "review_state": "reviewed",
+  "relation_qualifier": "unknown",
+  "shared_artifact_type": "sample_cluster",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

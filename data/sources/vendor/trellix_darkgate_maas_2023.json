@@ -1,0 +1,30 @@
+{
+  "id": "source:trellix_darkgate_maas_2023",
+  "title": "The Continued Evolution of the DarkGate Malware-as-a-Service",
+  "publisher": "Trellix Advanced Research Center",
+  "url": "https://www.trellix.com/en-gb/blogs/research/the-continued-evolution-of-the-darkgate-malware-as-a-service/",
+  "published_at": "2023-11-21",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor reverse-engineering source for DarkGate's malware-as-a-service model, multistage loader chain, modular payload, and 2023 feature evolution."
+}

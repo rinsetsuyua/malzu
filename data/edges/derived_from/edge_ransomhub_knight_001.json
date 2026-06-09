@@ -1,0 +1,35 @@
+{
+  "id": "edge_ransomhub_knight_001",
+  "from": "malware:ransomhub",
+  "to": "malware:knight",
+  "type": "derived_from",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:symantec_ransomhub_knight_2024",
+      "claim": "Symantec reports RansomHub is very likely an updated and rebranded Knight line with significant code overlap.",
+      "claim_scope": "family",
+      "locator": "article summary and comparison sections"
+    },
+    {
+      "source": "source:mitre_attack_ransomhub",
+      "claim": "MITRE says RansomHub operators may have purchased and rebranded Knight/Cyclops resources that share infrastructure, feature, and code overlaps.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Modeled as derived_from through source-code and resource continuity, not shared operators; Symantec explicitly cautions against assuming Knight's creators run RansomHub.",
+  "confidence_reason": "Symantec provides direct reverse-engineering comparison and MITRE corroborates the Knight/Cyclops overlap as a CTI knowledge-base claim.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

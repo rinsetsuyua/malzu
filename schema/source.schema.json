@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://malware-lineage-atlas.local/schema/source.schema.json",
+  "title": "Malware Lineage Atlas Source",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "publisher",
+    "url",
+    "source_type",
+    "retrieved_at",
+    "license_posture",
+    "redistribution_policy",
+    "allowed_uses",
+    "blocked_uses",
+    "notice_required"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^source:[a-z0-9][a-z0-9_.-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publisher": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "archive_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "api_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "published_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}(-[0-9]{2}){0,2}$"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "misp_galaxy",
+        "vendor_blog",
+        "academic_paper",
+        "repository",
+        "sandbox_report",
+        "news_article",
+        "community_post",
+        "threat_intel_report",
+        "government_advisory",
+        "sample_repository",
+        "marketplace_claim",
+        "cti_knowledge_base",
+        "standard",
+        "infrastructure_feed"
+      ]
+    },
+    "license_posture": {
+      "type": "string",
+      "enum": [
+        "attribution_required",
+        "permissive_cc0_or_bsd_2_clause",
+        "standard_citation_notice",
+        "terms_limited_metadata_only",
+        "us_government_public_domain_low_friction",
+        "open_government_attribution_required",
+        "reuse_with_source_acknowledgement",
+        "mixed_academic_citation_only",
+        "copyrighted_citation_only"
+      ]
+    },
+    "redistribution_policy": {
+      "type": "string",
+      "enum": [
+        "allowed_with_mitre_notice_no_endorsement",
+        "allowed_with_misp_license_notice",
+        "cite_standard_do_not_represent_standard_as_evidence",
+        "metadata_only_no_samples_no_bulk_mirror",
+        "infrastructure_metadata_only_no_bulk_mirror",
+        "cite_and_summarize_no_marks_no_endorsement",
+        "cite_and_summarize_with_attribution",
+        "cite_and_summarize_with_source_acknowledgement",
+        "metadata_and_short_curator_summary_only",
+        "cite_link_and_original_curator_summary_only"
+      ]
+    },
+    "allowed_uses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "blocked_uses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "notice_required": {
+      "type": "boolean"
+    },
+    "trust_notes": {
+      "type": "string"
+    },
+    "access_notes": {
+      "type": "string"
+    },
+    "access_level": {
+      "type": "string",
+      "enum": [
+        "public",
+        "free_api_key",
+        "account_required",
+        "invite_only",
+        "paid",
+        "unknown"
+      ]
+    },
+    "license_note": {
+      "type": "string"
+    },
+    "public_citability": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "unknown"
+      ]
+    }
+  }
+}

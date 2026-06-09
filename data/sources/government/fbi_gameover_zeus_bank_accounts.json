@@ -1,0 +1,25 @@
+{
+  "id": "source:fbi_gameover_zeus_bank_accounts",
+  "title": "Malware Targets Bank Accounts",
+  "publisher": "Federal Bureau of Investigation",
+  "url": "https://www.fbi.gov/news/stories/malware-targets-bank-accounts",
+  "published_at": "2012-01-06",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Government source for Gameover as a Zeus variant and banking-credential theft context."
+}

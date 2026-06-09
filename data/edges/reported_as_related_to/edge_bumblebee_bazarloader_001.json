@@ -1,0 +1,31 @@
+{
+  "id": "edge_bumblebee_bazarloader_001",
+  "from": "malware:bumblebee",
+  "to": "malware:bazarloader",
+  "type": "reported_as_related_to",
+  "direction": "undirected",
+  "confidence": "medium",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:proofpoint_bumblebee_2022",
+      "claim": "Proofpoint reports several threat actors that typically used BazaLoader transitioned to Bumblebee, while BazaLoader had not appeared in Proofpoint data since February 2022.",
+      "claim_scope": "campaign",
+      "locator": "key findings and relationship to other malware"
+    },
+    {
+      "source": "source:mitre_attack_bumblebee",
+      "claim": "MITRE ATT&CK describes Bumblebee as a loader linked to ransomware operations and cites Proofpoint's reporting on BazaLoader transition context.",
+      "claim_scope": "campaign",
+      "locator": "software description and references"
+    }
+  ],
+  "curator_note": "Replacement in delivery ecosystems is not lineage. This edge captures a campaign/ecosystem transition only.",
+  "confidence_reason": "Proofpoint explicitly reports the transition from BazaLoader-using actors to Bumblebee, with MITRE normalizing Bumblebee as a loader in the same ransomware-access context.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "campaign",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

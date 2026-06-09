@@ -1,0 +1,36 @@
+{
+  "id": "source:trendmicro_blacksuit_royal_2023",
+  "title": "Investigating BlackSuit Ransomware's Similarities to Royal",
+  "publisher": "Trend Micro Research",
+  "authors": [
+    "Katherine Casona",
+    "Ivan Nicole Chavez",
+    "Ieriz Nicolle Gonzalez",
+    "Jeffrey Francis Bonaobra"
+  ],
+  "url": "https://www.trendmicro.com/en_us/research/23/e/investigating-blacksuit-ransomwares-similarities-to-royal.html",
+  "published_at": "2023-05-31",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Reverse-engineering source for high binary similarity between BlackSuit and Royal across Linux and Windows samples."
+}

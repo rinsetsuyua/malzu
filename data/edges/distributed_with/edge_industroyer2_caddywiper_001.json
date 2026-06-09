@@ -1,0 +1,25 @@
+{
+  "id": "edge_industroyer2_caddywiper_001",
+  "from": "malware:industroyer2",
+  "to": "malware:caddywiper",
+  "type": "distributed_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:eset_industroyer2_2022",
+      "claim": "ESET reports CaddyWiper was deployed in coordination with Industroyer2 in the Ukrainian energy-provider incident.",
+      "claim_scope": "campaign",
+      "locator": "timeline and CaddyWiper section"
+    }
+  ],
+  "curator_note": "Campaign co-deployment only. This edge does not imply shared code or family ancestry.",
+  "confidence_reason": "ESET directly reports coordinated deployment of Industroyer2 and CaddyWiper in the same incident.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "campaign",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

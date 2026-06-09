@@ -1,0 +1,25 @@
+{
+  "id": "source:doj_blackcat_disruption_2023",
+  "title": "Justice Department Disrupts Prolific ALPHV/Blackcat Ransomware Variant",
+  "publisher": "U.S. Department of Justice",
+  "url": "https://www.justice.gov/opa/pr/justice-department-disrupts-prolific-alphvblackcat-ransomware-variant",
+  "published_at": "2023-12-19",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Law-enforcement source for BlackCat/ALPHV disruption and ransomware identity."
+}

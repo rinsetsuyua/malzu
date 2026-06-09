@@ -1,0 +1,30 @@
+{
+  "id": "source:microsoft_zloader_dismantling_2022",
+  "title": "Dismantling ZLoader: How malicious ads led to disabled security tools and ransomware",
+  "publisher": "Microsoft Threat Intelligence",
+  "url": "https://www.microsoft.com/en-us/security/blog/2022/04/13/dismantling-zloader-how-malicious-ads-led-to-disabled-security-tools-and-ransomware/",
+  "published_at": "2022-04-13",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor research source explicitly describing ZLoader as derived from the ZeuS banking trojan and documenting its evolution into access and ransomware delivery activity."
+}

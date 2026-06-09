@@ -1,0 +1,25 @@
+{
+  "id": "source:mitre_attack_notpetya",
+  "title": "MITRE ATT&CK: NotPetya",
+  "publisher": "MITRE",
+  "url": "https://attack.mitre.org/software/S0368/",
+  "source_type": "cti_knowledge_base",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "attribution_required",
+  "redistribution_policy": "allowed_with_mitre_notice_no_endorsement",
+  "allowed_uses": [
+    "identity normalization",
+    "alias normalization",
+    "technique and platform context",
+    "explicitly stated relationship claims"
+  ],
+  "blocked_uses": [
+    "implied MITRE endorsement",
+    "copied ATT&CK material without required notice",
+    "lineage inferred from technique overlap alone"
+  ],
+  "notice_required": true,
+  "trust_notes": "Stable CTI knowledge-base source for NotPetya identity, Sandworm association, 2017 timing, and wiper classification."
+}

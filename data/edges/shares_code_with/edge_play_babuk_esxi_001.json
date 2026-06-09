@@ -1,0 +1,29 @@
+{
+  "id": "edge_play_babuk_esxi_001",
+  "from": "malware:play",
+  "to": "malware:babuk",
+  "type": "shares_code_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:sentinelone_babuk_esxi_lockers_2023",
+      "claim": "SentinelLABS reports that a Play ESXi variant contains the same file-searching functionality as baseline Babuk and implements the same encryption approach.",
+      "claim_scope": "variant",
+      "locator": "Play section"
+    }
+  ],
+  "curator_note": "Variant-scoped edge only. This does not assert that all Play ransomware descends from Babuk.",
+  "confidence_reason": "SentinelLABS provides direct reverse-engineering evidence for the ESXi locker variant, but the relationship is intentionally scoped to that variant.",
+  "review_state": "reviewed",
+  "relation_qualifier": "inferred_from_code_similarity",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "variant"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

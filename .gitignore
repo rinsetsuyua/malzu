@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# Internal curation notes — kept local, not part of the public atlas
+internal/
+
+# Generated public projection — built from data/ by scripts/build-atlas.mjs
+public/atlas.json
+
+# Restricted source material that must not enter the public atlas
+data/research/restricted/

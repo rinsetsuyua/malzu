@@ -1,0 +1,41 @@
+{
+  "id": "edge_zloader_zeus_001",
+  "from": "malware:zloader",
+  "to": "malware:zeus",
+  "type": "derived_from",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:microsoft_zloader_dismantling_2022",
+      "claim": "Microsoft reports ZLoader is derived from the ZeuS banking trojan.",
+      "claim_scope": "family",
+      "locator": "introduction"
+    },
+    {
+      "source": "source:microsoft_zloader_threat_description",
+      "claim": "Microsoft Security Intelligence says ZLoader was derived from the ZeuS banking trojan.",
+      "claim_scope": "family",
+      "locator": "summary"
+    },
+    {
+      "source": "source:zscaler_zloader_old_tricks_2024",
+      "claim": "Zscaler describes Zloader as based on leaked ZeuS source code and compares recent anti-analysis behavior with ZeuS 2.x.",
+      "claim_scope": "family",
+      "locator": "introduction and key takeaways"
+    }
+  ],
+  "curator_note": "Modeled as derived_from because multiple public sources explicitly describe ZLoader as derived from, or based on, ZeuS source code. This does not imply shared operators with original ZeuS crews.",
+  "confidence_reason": "Two Microsoft sources use direct derivation language, and Zscaler supplies source-code lineage and technical comparison context.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

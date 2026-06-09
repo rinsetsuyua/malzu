@@ -1,0 +1,31 @@
+{
+  "id": "edge_redline_metastealer_001",
+  "from": "malware:redline_stealer",
+  "to": "malware:metastealer",
+  "type": "shares_creator_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "primary_research",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:eset_redline_backend",
+      "claim": "ESET reports determining from source code and backend samples that RedLine Stealer and META Stealer share the same creator.",
+      "claim_scope": "family",
+      "locator": "key points"
+    },
+    {
+      "source": "source:doj_redline_meta_operation_magnus",
+      "claim": "DOJ describes META Infostealer as closely related to RedLine Infostealer in Operation Magnus.",
+      "claim_scope": "family",
+      "locator": "press release"
+    }
+  ],
+  "curator_note": "Modeled as shared creator, not aliasing. RedLine and MetaStealer stay separate malware-family nodes.",
+  "confidence_reason": "ESET reports source-code/backend-sample analysis supporting a same-creator conclusion, and DOJ independently frames META as closely related to RedLine.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "creator",
+  "created_at": "2026-06-06",
+  "updated_at": "2026-06-06"
+}

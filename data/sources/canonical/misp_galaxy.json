@@ -1,0 +1,24 @@
+{
+  "id": "source:misp_galaxy",
+  "title": "MISP Galaxy",
+  "publisher": "MISP Project",
+  "url": "https://github.com/MISP/misp-galaxy",
+  "source_type": "cti_knowledge_base",
+  "retrieved_at": "2026-06-06",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "permissive_cc0_or_bsd_2_clause",
+  "redistribution_policy": "allowed_with_misp_license_notice",
+  "allowed_uses": [
+    "taxonomy discovery",
+    "alias hints",
+    "cross-vocabulary matching"
+  ],
+  "blocked_uses": [
+    "accepted lineage from taxonomy membership alone",
+    "operator continuity inferred from cluster membership alone"
+  ],
+  "notice_required": true,
+  "license_note": "Repository licensing should be checked before reuse in generated artifacts.",
+  "trust_notes": "Useful taxonomy and cluster substrate. Not lineage evidence by itself."
+}

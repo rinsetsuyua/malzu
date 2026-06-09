@@ -1,0 +1,35 @@
+{
+  "id": "source:sekoia_stealc_part_2",
+  "title": "Stealc: a copycat of Vidar and Raccoon infostealers gaining in popularity - Part 2",
+  "publisher": "Sekoia.io",
+  "authors": [
+    "Pierre Le Bourhis",
+    "Quentin Bourgue",
+    "Sekoia TDR"
+  ],
+  "url": "https://blog.sekoia.io/stealc-a-copycat-of-vidar-and-raccoon-infostealers-gaining-in-popularity-part-2/",
+  "published_at": "2023-02-27",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-06",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Useful technical reverse-engineering source for Stealc similarities with Vidar, Raccoon, and Mars. Similarity claims should remain distinct from strict derivation."
+}

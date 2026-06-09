@@ -1,0 +1,31 @@
+{
+  "id": "edge_conti_trickbot_001",
+  "from": "malware:conti",
+  "to": "malware:trickbot",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "primary_research",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_conti",
+      "claim": "MITRE ATT&CK says Conti has been deployed via TrickBot.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:doj_trickbot_conti_2023",
+      "claim": "DOJ says TrickBot was used to support ransomware variants including Conti.",
+      "claim_scope": "family",
+      "locator": "press release"
+    }
+  ],
+  "curator_note": "Modeled from the ransomware payload perspective: Conti is loaded or enabled through TrickBot intrusion tooling.",
+  "confidence_reason": "Direct statements from MITRE ATT&CK and DOJ.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

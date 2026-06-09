@@ -1,0 +1,25 @@
+{
+  "id": "edge_wastedlocker_hades_001",
+  "from": "malware:wastedlocker",
+  "to": "malware:hades",
+  "type": "shares_creator_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "vendor_report",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:crowdstrike_indrik_spider",
+      "claim": "CrowdStrike identifies Indrik Spider as behind the core development of WastedLocker and Hades.",
+      "claim_scope": "operator",
+      "locator": "adversary description"
+    }
+  ],
+  "curator_note": "Creator/operator ecosystem edge only. This does not assert code derivation between WastedLocker and Hades.",
+  "confidence_reason": "CrowdStrike directly attributes both families to the same named adversary profile.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "creator",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

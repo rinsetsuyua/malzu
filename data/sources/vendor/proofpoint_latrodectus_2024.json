@@ -1,0 +1,34 @@
+{
+  "id": "source:proofpoint_latrodectus_2024",
+  "title": "Latrodectus: This Spider Bytes Like Ice",
+  "publisher": "Proofpoint and Team Cymru",
+  "authors": [
+    "Proofpoint Threat Research",
+    "Team Cymru S2 Threat Research"
+  ],
+  "url": "https://www.proofpoint.com/us/blog/threat-insight/latrodectus-spider-bytes-ice",
+  "published_at": "2024-04-04",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Joint vendor research source for Latrodectus identity, downloader behavior, first-observed timing, and IcedID developer/infrastructure relationships."
+}

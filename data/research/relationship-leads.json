@@ -1,0 +1,458 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-06-08",
+  "purpose": "Relationship hypotheses that need source hunting before promotion into data/edges.",
+  "statuses": {
+    "lead": "Unverified candidate relationship.",
+    "source_found": "At least one source found, but edge type/status not curated.",
+    "blocked": "Insufficient public evidence or ambiguous claim language.",
+    "ready_for_edge": "Enough evidence exists to create a conservative edge record.",
+    "promoted": "Curated into data/edges with source-backed scope and guardrails."
+  },
+  "items": [
+    {
+      "id": "lead_gameover_zeus_zeus",
+      "from_hint": "GameOver ZeuS",
+      "to_hint": "ZeuS",
+      "candidate_types": ["forked_from", "variant_of", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_p2p_zeus_zeus_001",
+      "source_ids": [
+        "source:mitre_attack_p2p_zeus",
+        "source:fbi_gameover_zeus_bank_accounts"
+      ],
+      "evidence_needed": ["explicit public claim that GameOver ZeuS is a ZeuS variant, fork, or successor"],
+      "source_queries": ["GameOver ZeuS Zeus variant FBI", "GameOver Zeus Zeus source code fork"],
+      "promotion_guardrail": "Promoted because MITRE provides explicit fork language and FBI provides variant corroboration."
+    },
+    {
+      "id": "lead_gameover_cryptolocker_distribution",
+      "from_hint": "CryptoLocker",
+      "to_hint": "GameOver ZeuS",
+      "candidate_types": ["loaded_by", "distributed_with"],
+      "status": "lead",
+      "evidence_needed": ["public law-enforcement or technical report tying CryptoLocker distribution to GameOver ZeuS"],
+      "source_queries": ["CryptoLocker GameOver Zeus distributed by FBI", "CryptoLocker GameOver Zeus botnet"],
+      "promotion_guardrail": "Prefer delivery-chain typing over ancestry."
+    },
+    {
+      "id": "lead_zloader_zeus",
+      "from_hint": "Zloader",
+      "to_hint": "ZeuS",
+      "candidate_types": ["derived_from", "forked_from", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_zloader_zeus_001",
+      "source_ids": [
+        "source:microsoft_zloader_dismantling_2022",
+        "source:microsoft_zloader_threat_description",
+        "source:zscaler_zloader_old_tricks_2024"
+      ],
+      "evidence_needed": ["reverse-engineering report or vendor report explicitly describing ZeuS codebase lineage"],
+      "source_queries": ["Zloader Zeus fork", "Zloader derived from Zeus banking malware"],
+      "promotion_guardrail": "If source only says ZeuS-like banking malware, use reported_as_related_to or no edge."
+    },
+    {
+      "id": "lead_locky_necurs",
+      "from_hint": "Locky",
+      "to_hint": "Necurs",
+      "candidate_types": ["loaded_by", "distributed_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_locky_necurs_001",
+      "source_ids": [
+        "source:proofpoint_necurs_outage_locky_dridex_2016",
+        "source:cisco_locky_necurs_2017",
+        "source:nhs_necurs_botnet_2018"
+      ],
+      "evidence_needed": ["public reporting that Necurs distributed Locky"],
+      "source_queries": ["Necurs distributed Locky ransomware", "Locky Necurs botnet"],
+      "promotion_guardrail": "Delivery is not lineage."
+    },
+    {
+      "id": "lead_locky_dridex",
+      "from_hint": "Locky",
+      "to_hint": "Dridex",
+      "candidate_types": ["reported_as_related_to", "shares_operator_with", "distributed_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_locky_dridex_001",
+      "source_ids": [
+        "source:proofpoint_locky_dridex_2016",
+        "source:proofpoint_necurs_outage_locky_dridex_2016"
+      ],
+      "evidence_needed": ["explicit report on Dridex actors or infrastructure using Locky"],
+      "source_queries": ["Locky Dridex relationship", "Dridex Locky operators"],
+      "promotion_guardrail": "Avoid shares_operator_with unless operator continuity is explicit."
+    },
+    {
+      "id": "lead_ryuk_hermes",
+      "from_hint": "Ryuk",
+      "to_hint": "Hermes",
+      "candidate_types": ["derived_from", "shares_code_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_ryuk_hermes_001",
+      "source_ids": [
+        "source:mitre_attack_ryuk",
+        "source:checkpoint_ryuk_hermes_2018",
+        "source:mcafee_ryuk_attribution_2019",
+        "source:certfr_ryuk_2021"
+      ],
+      "evidence_needed": ["technical report identifying shared code or derivation"],
+      "source_queries": ["Ryuk Hermes code similarity", "Ryuk derived from Hermes ransomware"],
+      "promotion_guardrail": "Keep as shares_code_with if derivation direction is not explicit."
+    },
+    {
+      "id": "lead_egregor_maze",
+      "from_hint": "Egregor",
+      "to_hint": "Maze",
+      "candidate_types": ["shares_operator_with", "reported_as_related_to", "shares_behavior_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_egregor_maze_001",
+      "source_ids": [
+        "source:nhs_egregor_2020",
+        "source:sophos_egregor_maze_heir_2020",
+        "source:mitre_attack_egregor"
+      ],
+      "evidence_needed": ["public report describing Maze affiliate/operator transition or direct technical overlap"],
+      "source_queries": ["Egregor Maze successor", "Egregor Maze operators"],
+      "promotion_guardrail": "Rebrand/operator edges must not imply code ancestry."
+    },
+    {
+      "id": "lead_bitpaymer_dridex",
+      "from_hint": "BitPaymer",
+      "to_hint": "Dridex",
+      "candidate_types": ["shares_operator_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_bitpaymer_dridex_001",
+      "source_ids": [
+        "source:eset_friedex_bitpaymer_dridex_2018",
+        "source:nhs_friedex_bitpaymer_2018"
+      ],
+      "evidence_needed": ["public report tying BitPaymer to Dridex/Evil Corp operations"],
+      "source_queries": ["BitPaymer Dridex Evil Corp", "FriedEx Dridex"],
+      "promotion_guardrail": "Use operator/ecosystem edge unless source claims code sharing."
+    },
+    {
+      "id": "lead_doppelpaymer_bitpaymer",
+      "from_hint": "DoppelPaymer",
+      "to_hint": "BitPaymer",
+      "candidate_types": ["shares_code_with", "reported_as_related_to", "shares_operator_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_doppelpaymer_bitpaymer_001",
+      "source_ids": [
+        "source:crowdstrike_doppelpaymer_bitpaymer_dridex_2019",
+        "source:nhs_doppelpaymer_2019"
+      ],
+      "evidence_needed": ["technical report describing relationship between DoppelPaymer and BitPaymer"],
+      "source_queries": ["DoppelPaymer BitPaymer code", "DoppelPaymer derived from BitPaymer"],
+      "promotion_guardrail": "Keep code and operator evidence separate."
+    },
+    {
+      "id": "lead_bazarloader_trickbot",
+      "from_hint": "BazarLoader",
+      "to_hint": "TrickBot",
+      "candidate_types": ["shares_operator_with", "reported_as_related_to", "loaded_by"],
+      "status": "promoted",
+      "promoted_edge": "edge_bazarloader_trickbot_001",
+      "source_ids": [
+        "source:mitre_attack_bazar",
+        "source:google_tag_exotic_lily_2022",
+        "source:proofpoint_initial_access_ransomware_2021"
+      ],
+      "evidence_needed": ["public report connecting BazarLoader to TrickBot/Conti operations"],
+      "source_queries": ["BazarLoader TrickBot relationship", "BazarBackdoor TrickBot Conti"],
+      "promotion_guardrail": "Do not model BazarLoader as derived from TrickBot unless code evidence exists."
+    },
+    {
+      "id": "lead_bumblebee_bazarloader",
+      "from_hint": "Bumblebee",
+      "to_hint": "BazarLoader",
+      "candidate_types": ["reported_as_related_to", "shares_operator_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_bumblebee_bazarloader_001",
+      "source_ids": [
+        "source:proofpoint_bumblebee_2022",
+        "source:mitre_attack_bumblebee"
+      ],
+      "evidence_needed": ["report describing replacement, operator overlap, or delivery ecosystem transition"],
+      "source_queries": ["Bumblebee BazarLoader replacement", "Bumblebee TrickBot operators"],
+      "promotion_guardrail": "Replacement in ecosystem is not derivation."
+    },
+    {
+      "id": "lead_latrodectus_icedid",
+      "from_hint": "Latrodectus",
+      "to_hint": "IcedID",
+      "candidate_types": ["reported_as_related_to", "shares_operator_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_latrodectus_icedid_001",
+      "source_ids": ["source:proofpoint_latrodectus_2024"],
+      "evidence_needed": ["public report connecting Latrodectus to IcedID operators or infrastructure"],
+      "source_queries": ["Latrodectus IcedID relationship", "Latrodectus IcedID operators"],
+      "promotion_guardrail": "Prefer tentative reported_as_related_to unless operator evidence is direct."
+    },
+    {
+      "id": "lead_gootkit_gootloader",
+      "from_hint": "GootKit",
+      "to_hint": "GootLoader",
+      "candidate_types": ["loaded_by", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_gootkit_gootloader_001",
+      "source_ids": [
+        "source:mitre_attack_gootloader",
+        "source:sophos_gootloader_payload_delivery_2021"
+      ],
+      "evidence_needed": ["public report distinguishing GootKit payload from GootLoader delivery framework"],
+      "source_queries": ["GootLoader GootKit delivery framework", "GootLoader GootKit relationship"],
+      "promotion_guardrail": "Delivery framework is not code lineage."
+    },
+    {
+      "id": "lead_formbook_xloader",
+      "from_hint": "XLoader",
+      "to_hint": "FormBook",
+      "candidate_types": ["derived_from", "variant_of", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_xloader_formbook_001",
+      "source_ids": [
+        "source:checkpoint_formbook_xloader_macos_2021",
+        "source:zscaler_xloader_obfuscation_2023",
+        "source:mitre_attack_xloader"
+      ],
+      "evidence_needed": ["public report describing XLoader as FormBook successor or variant"],
+      "source_queries": ["XLoader FormBook successor", "XLoader FormBook variant"],
+      "promotion_guardrail": "Use derived_from for the reviewed edge; preserve MITRE's alias/associated-name treatment without collapsing historical nodes."
+    },
+    {
+      "id": "lead_industroyer2_industroyer",
+      "from_hint": "Industroyer2",
+      "to_hint": "Industroyer",
+      "candidate_types": ["variant_of", "derived_from", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_industroyer2_industroyer_001",
+      "source_ids": ["source:eset_industroyer2_2022", "source:mitre_attack_industroyer2"],
+      "evidence_needed": ["ESET/CERT-UA report describing direct relationship and technical basis"],
+      "source_queries": ["Industroyer2 Industroyer relationship ESET", "Industroyer2 variant of Industroyer"],
+      "promotion_guardrail": "Use variant_of only if source wording supports it."
+    },
+    {
+      "id": "lead_flame_stuxnet",
+      "from_hint": "Flame",
+      "to_hint": "Stuxnet",
+      "candidate_types": ["shares_code_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_flame_stuxnet_001",
+      "source_ids": [
+        "source:kaspersky_back_to_stuxnet_2012",
+        "source:kaspersky_gauss_abnormal_distribution_2012"
+      ],
+      "evidence_needed": ["technical report showing shared module/code or platform relationship"],
+      "source_queries": ["Flame Stuxnet shared code", "Kaspersky Flame Stuxnet module"],
+      "promotion_guardrail": "Use shares_code_with only for direct technical evidence."
+    },
+    {
+      "id": "lead_gauss_flame",
+      "from_hint": "Gauss",
+      "to_hint": "Flame",
+      "candidate_types": ["shares_code_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_gauss_flame_001",
+      "source_ids": [
+        "source:kaspersky_gauss_securelist_2012",
+        "source:kaspersky_gauss_abnormal_distribution_2012"
+      ],
+      "evidence_needed": ["technical report connecting Gauss and Flame platform/code"],
+      "source_queries": ["Gauss Flame malware relationship", "Gauss Flame platform Kaspersky"],
+      "promotion_guardrail": "Keep espionage-platform cluster separate from derivation unless explicit."
+    },
+    {
+      "id": "lead_acidrain_vpnfilter",
+      "from_hint": "AcidRain",
+      "to_hint": "VPNFilter",
+      "candidate_types": ["shares_behavior_with", "reported_as_related_to"],
+      "status": "lead",
+      "evidence_needed": ["technical report identifying behavioral or code overlap"],
+      "source_queries": ["AcidRain VPNFilter relationship", "AcidRain VPNFilter SentinelOne"],
+      "promotion_guardrail": "Use behavior edge unless code evidence is direct."
+    },
+    {
+      "id": "lead_mirai_gafgyt",
+      "from_hint": "Gafgyt",
+      "to_hint": "Mirai",
+      "candidate_types": ["shares_code_with", "shares_behavior_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_gafgyt_mirai_001",
+      "source_ids": [
+        "source:uptycs_gafgyt_mirai_reuse_2021",
+        "source:trendmicro_gafgyt_threat_encyclopedia",
+        "source:bashlite_mirai_evolution_2018"
+      ],
+      "evidence_needed": ["source comparing IoT botnet behavior, codebase, or ecosystem"],
+      "source_queries": ["Gafgyt Mirai relationship", "BASHLITE Mirai code"],
+      "promotion_guardrail": "Promoted as undirected code sharing, not direct ancestry; the evidence is reciprocal across Mirai and later Gafgyt variants."
+    },
+    {
+      "id": "lead_royal_conti",
+      "from_hint": "Royal",
+      "to_hint": "Conti",
+      "candidate_types": ["shares_operator_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_royal_conti_001",
+      "source_ids": [
+        "source:unit42_royal_ransomware_2023",
+        "source:trendmicro_royal_spotlight_2023"
+      ],
+      "evidence_needed": ["public advisory or research tying Royal operators to former Conti members"],
+      "source_queries": ["Royal ransomware Conti operators", "Royal ransomware former Conti members CISA"],
+      "promotion_guardrail": "Promoted only as operator continuity. This is not malware code lineage."
+    },
+    {
+      "id": "lead_royal_blacksuit",
+      "from_hint": "BlackSuit",
+      "to_hint": "Royal",
+      "candidate_types": ["derived_from", "shares_code_with", "variant_of", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_blacksuit_royal_001",
+      "source_ids": [
+        "source:ic3_cisa_blacksuit_royal_2024",
+        "source:trendmicro_blacksuit_royal_2023"
+      ],
+      "evidence_needed": ["technical report on Royal and BlackSuit code similarity"],
+      "source_queries": ["BlackSuit Royal ransomware code similarity", "BlackSuit Royal variant"],
+      "promotion_guardrail": "Promoted as derived_from because FBI/CISA provide explicit evolution language and Trend Micro provides code-similarity support."
+    },
+    {
+      "id": "lead_ransomhub_knight",
+      "from_hint": "RansomHub",
+      "to_hint": "Knight",
+      "candidate_types": ["derived_from", "shares_code_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_ransomhub_knight_001",
+      "source_ids": [
+        "source:symantec_ransomhub_knight_2024",
+        "source:mitre_attack_ransomhub"
+      ],
+      "evidence_needed": ["technical report describing RansomHub/Knight relationship"],
+      "source_queries": ["RansomHub Knight ransomware code", "RansomHub derived from Knight"],
+      "promotion_guardrail": "Promoted as source-code/resource continuity, not shared operators."
+    },
+    {
+      "id": "lead_rook_babuk",
+      "from_hint": "Rook",
+      "to_hint": "Babuk",
+      "candidate_types": ["derived_from", "shares_code_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_rook_babuk_001",
+      "source_ids": ["source:sentinelone_rook_babuk_2021"],
+      "evidence_needed": ["reverse-engineering source describing Rook and Babuk source-code overlap"],
+      "source_queries": ["Rook Babuk source code relationship SentinelOne"],
+      "promotion_guardrail": "Promoted as source-code reuse; no operator continuity is implied."
+    },
+    {
+      "id": "lead_cheerscrypt_babuk",
+      "from_hint": "Cheerscrypt",
+      "to_hint": "Babuk",
+      "candidate_types": ["derived_from", "shares_code_with"],
+      "status": "promoted",
+      "promoted_edge": "edge_cheerscrypt_babuk_001",
+      "source_ids": ["source:mitre_attack_cheerscrypt"],
+      "evidence_needed": ["canonical or technical source stating Cheerscrypt derives from Babuk source code"],
+      "source_queries": ["Cheerscrypt Babuk source code MITRE Trend Micro"],
+      "promotion_guardrail": "Promoted only because the canonical source uses explicit derived-from language."
+    },
+    {
+      "id": "lead_play_babuk_esxi",
+      "from_hint": "Play",
+      "to_hint": "Babuk",
+      "candidate_types": ["shares_code_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_play_babuk_esxi_001",
+      "source_ids": ["source:sentinelone_babuk_esxi_lockers_2023"],
+      "evidence_needed": ["technical source comparing Play ESXi variant with Babuk"],
+      "source_queries": ["Play ESXi Babuk source code SentinelOne"],
+      "promotion_guardrail": "Promoted as variant-scoped code sharing only; do not model whole Play family as derived from Babuk."
+    },
+    {
+      "id": "lead_esxiargs_babuk",
+      "from_hint": "ESXiArgs",
+      "to_hint": "Babuk",
+      "candidate_types": ["shares_code_with", "reported_as_related_to"],
+      "status": "lead",
+      "source_ids": ["source:sentinelone_babuk_esxi_lockers_2023"],
+      "evidence_needed": ["independent technical report proving more than shared open-source cryptographic library use"],
+      "source_queries": ["ESXiArgs Babuk attribution contested", "ESXiArgs Babuk source code SentinelOne"],
+      "promotion_guardrail": "Do not promote without stronger evidence; SentinelLABS cautions the Babuk attribution is likely overstated."
+    },
+    {
+      "id": "lead_wastedlocker_dridex",
+      "from_hint": "WastedLocker",
+      "to_hint": "Dridex",
+      "candidate_types": ["shares_creator_with", "shares_operator_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_wastedlocker_dridex_001",
+      "source_ids": ["source:crowdstrike_indrik_spider"],
+      "evidence_needed": ["public source tying both malware families to the same developer/operator group"],
+      "source_queries": ["WastedLocker Dridex Evil Corp Indrik Spider"],
+      "promotion_guardrail": "Promoted as shared creator/operator ecosystem only; no code lineage is implied."
+    },
+    {
+      "id": "lead_wastedlocker_bitpaymer",
+      "from_hint": "WastedLocker",
+      "to_hint": "BitPaymer",
+      "candidate_types": ["shares_creator_with", "shares_operator_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_wastedlocker_bitpaymer_001",
+      "source_ids": ["source:crowdstrike_indrik_spider"],
+      "evidence_needed": ["public source tying both ransomware families to the same developer/operator group"],
+      "source_queries": ["WastedLocker BitPaymer Evil Corp Indrik Spider"],
+      "promotion_guardrail": "Promoted as shared creator/operator ecosystem only; no code lineage is implied."
+    },
+    {
+      "id": "lead_wastedlocker_hades",
+      "from_hint": "WastedLocker",
+      "to_hint": "Hades",
+      "candidate_types": ["shares_creator_with", "shares_operator_with", "reported_as_related_to"],
+      "status": "promoted",
+      "promoted_edge": "edge_wastedlocker_hades_001",
+      "source_ids": ["source:crowdstrike_indrik_spider"],
+      "evidence_needed": ["public source tying both ransomware families to the same developer/operator group"],
+      "source_queries": ["WastedLocker Hades Evil Corp Indrik Spider"],
+      "promotion_guardrail": "Promoted as shared creator/operator ecosystem only; no code lineage is implied."
+    },
+    {
+      "id": "lead_phobos_dharma",
+      "from_hint": "Phobos",
+      "to_hint": "Dharma",
+      "candidate_types": ["reported_as_related_to", "shares_code_with", "derived_from"],
+      "status": "promoted",
+      "promoted_edge": "edge_phobos_dharma_001",
+      "source_ids": ["source:hhs_hc3_phobos_2021"],
+      "evidence_needed": ["government or technical source connecting Phobos with Dharma/CrySiS"],
+      "source_queries": ["Phobos Dharma Crysis relationship HHS HC3"],
+      "promotion_guardrail": "Promoted as related_to, not derived_from, because direct lineage mechanism remains qualified."
+    },
+    {
+      "id": "lead_asyncrat_quasarrat",
+      "from_hint": "AsyncRAT",
+      "to_hint": "QuasarRAT",
+      "candidate_types": ["shares_code_with", "forked_from", "reported_as_related_to"],
+      "status": "lead",
+      "source_ids": [
+        "source:eset_asyncrat_forks_2025",
+        "source:mitre_attack_asyncrat",
+        "source:mitre_attack_quasarrat"
+      ],
+      "evidence_needed": ["source-code relationship source distinguishing fork from copy"],
+      "source_queries": ["AsyncRAT QuasarRAT fork ESET"],
+      "promotion_guardrail": "Do not promote yet; ESET provides foundation/fork-like language but also says AsyncRAT appears substantially rewritten."
+    },
+    {
+      "id": "lead_tdl4_tdss",
+      "from_hint": "TDL-4",
+      "to_hint": "TDSS",
+      "candidate_types": ["variant_of"],
+      "status": "promoted",
+      "promoted_edge": "edge_tdl4_tdss_001",
+      "source_ids": ["source:securelist_tdss_tdl4_2010"],
+      "evidence_needed": ["technical source identifying TDL-4 as TDSS variant"],
+      "source_queries": ["TDSS TDL-4 variant Securelist"],
+      "promotion_guardrail": "Promoted as a variant edge; do not merge TDL-4 into the TDSS node because variant-specific behavior is useful."
+    }
+  ]
+}

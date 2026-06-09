@@ -1,0 +1,47 @@
+{
+  "id": "edge_ryuk_hermes_001",
+  "from": "malware:ryuk",
+  "to": "malware:hermes",
+  "type": "shares_code_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_ryuk",
+      "claim": "MITRE ATT&CK says Ryuk shares code similarities with Hermes ransomware.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:checkpoint_ryuk_hermes_2018",
+      "claim": "Check Point reports Ryuk's encryption logic and inner workings connect it to Hermes and suggest access to Hermes source code or code reuse.",
+      "claim_scope": "family",
+      "locator": "malware comparison and conclusion"
+    },
+    {
+      "source": "source:mcafee_ryuk_attribution_2019",
+      "claim": "McAfee Labs agrees Ryuk actors had access to Hermes source code and describes Ryuk as likely an altered Hermes 2.1 version.",
+      "claim_scope": "family",
+      "locator": "technical indicators"
+    },
+    {
+      "source": "source:certfr_ryuk_2021",
+      "claim": "CERT-FR/ANSSI describes Ryuk as a Hermes 2.1 variant while noting remaining uncertainty about Ryuk's exact origins.",
+      "claim_scope": "family",
+      "locator": "origins section"
+    }
+  ],
+  "curator_note": "Modeled as code sharing instead of direct derivation because sources strongly support Hermes/Ryuk code continuity, but exact actor ownership and development path remain partly uncertain.",
+  "confidence_reason": "MITRE, Check Point, McAfee, and CERT-FR/ANSSI independently support code or source-code continuity between Ryuk and Hermes.",
+  "review_state": "reviewed",
+  "relation_qualifier": "inferred_from_code_similarity",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

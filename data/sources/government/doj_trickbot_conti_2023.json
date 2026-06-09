@@ -1,0 +1,25 @@
+{
+  "id": "source:doj_trickbot_conti_2023",
+  "title": "Multiple Foreign Nationals Charged in Connection with Trickbot Malware and Conti Ransomware Conspiracies",
+  "publisher": "U.S. Department of Justice",
+  "url": "https://www.justice.gov/archives/opa/pr/multiple-foreign-nationals-charged-connection-trickbot-malware-and-conti-ransomware",
+  "published_at": "2023-09-07",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Law-enforcement source for TrickBot facilitation of ransomware installation and support of Conti."
+}

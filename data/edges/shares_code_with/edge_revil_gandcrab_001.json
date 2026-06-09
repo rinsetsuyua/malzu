@@ -1,0 +1,35 @@
+{
+  "id": "edge_revil_gandcrab_001",
+  "from": "malware:revil",
+  "to": "malware:gandcrab",
+  "type": "shares_code_with",
+  "direction": "undirected",
+  "confidence": "high",
+  "evidence_type": "code_similarity",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:mitre_attack_revil",
+      "claim": "MITRE ATT&CK says REvil shares code similarities with GandCrab RaaS.",
+      "claim_scope": "family",
+      "locator": "software description"
+    },
+    {
+      "source": "source:mcafee_sodinokibi_gandcrab",
+      "claim": "McAfee reports code similarities between Sodinokibi/REvil and GandCrab and says the Sodinokibi developer likely had access to GandCrab source code and improvements.",
+      "claim_scope": "family",
+      "locator": "code comparison"
+    }
+  ],
+  "curator_note": "Modeled as code sharing rather than direct fork because the cited evidence supports similarity/source-code access more strongly than a single proven ancestry path.",
+  "confidence_reason": "MITRE and vendor reverse-engineering evidence both support code similarity.",
+  "review_state": "reviewed",
+  "relation_qualifier": "inferred_from_code_similarity",
+  "shared_artifact_type": "code",
+  "similarity": {
+    "method": "manual_reverse_engineering",
+    "scope": "family"
+  },
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

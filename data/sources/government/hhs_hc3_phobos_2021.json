@@ -1,0 +1,25 @@
+{
+  "id": "source:hhs_hc3_phobos_2021",
+  "title": "Overview of Phobos Ransomware",
+  "publisher": "HHS HC3",
+  "url": "https://www.hhs.gov/sites/default/files/overview-phobos-ransomware.pdf",
+  "published_at": "2021-07-07",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "law enforcement relationship context",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Government health-sector analyst note source for Phobos identity, first-surfaced timing, and explicit Dharma/CrySiS relationship context."
+}

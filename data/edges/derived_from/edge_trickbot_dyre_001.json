@@ -1,0 +1,25 @@
+{
+  "id": "edge_trickbot_dyre_001",
+  "from": "malware:trickbot",
+  "to": "malware:dyre",
+  "type": "derived_from",
+  "direction": "directed",
+  "confidence": "medium",
+  "evidence_type": "primary_research",
+  "status": "tentative",
+  "sources": [
+    {
+      "source": "source:mitre_attack_trickbot",
+      "claim": "MITRE ATT&CK says TrickBot first emerged in September 2016 as a possible successor to Dyre.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Tentative because MITRE's wording is 'possible successor', not a proven fork or direct code inheritance claim.",
+  "confidence_reason": "The relationship is explicit in ATT&CK, but qualified.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "unknown",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "source:sophos_gootloader_payload_delivery_2021",
+  "title": "Gootloader expands its payload delivery options",
+  "publisher": "Sophos",
+  "authors": [
+    "Gabor Szappanos",
+    "Andrew Brandt"
+  ],
+  "url": "https://www.sophos.com/en-us/blog/gootloader-expands-its-payload-delivery-options",
+  "published_at": "2021-03-01",
+  "source_type": "vendor_blog",
+  "retrieved_at": "2026-06-08",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "copyrighted_citation_only",
+  "redistribution_policy": "cite_link_and_original_curator_summary_only",
+  "allowed_uses": [
+    "report metadata",
+    "short curator-written claim summaries",
+    "relationship claims when explicit",
+    "source links"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_tables",
+    "copied_diagrams",
+    "screenshots",
+    "logos",
+    "copied_ioc_dumps",
+    "copied_detection_rules"
+  ],
+  "notice_required": false,
+  "trust_notes": "Vendor research source for the separation between Gootkit as a payload family and Gootloader as a multi-payload JavaScript delivery framework."
+}

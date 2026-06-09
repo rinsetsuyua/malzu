@@ -1,0 +1,25 @@
+{
+  "id": "edge_cryptolocker_p2p_zeus_001",
+  "from": "malware:cryptolocker",
+  "to": "malware:p2p_zeus",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "high",
+  "evidence_type": "primary_research",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:fbi_gameover_cryptolocker",
+      "claim": "The FBI disrupted the GameOver Zeus botnet and CryptoLocker ransomware together and describes the operation as targeting both connected threats.",
+      "claim_scope": "family",
+      "locator": "press release"
+    }
+  ],
+  "curator_note": "Modeled as a delivery/ecosystem edge from CryptoLocker to GameOver/P2P ZeuS based on law-enforcement disruption context.",
+  "confidence_reason": "The FBI source explicitly links GameOver Zeus and CryptoLocker in the same criminal operation; the edge is delivery-context rather than code lineage.",
+  "review_state": "reviewed",
+  "relation_qualifier": "law_enforcement_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-08",
+  "updated_at": "2026-06-08"
+}
