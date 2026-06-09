@@ -2,10 +2,11 @@
   "id": "edge_notpetya_petya_001",
   "from": "malware:notpetya",
   "to": "malware:petya",
-  "type": "variant_of",
+  "type": "reported_as_related_to",
   "direction": "directed",
-  "confidence": "medium",
+  "confidence": "low",
   "evidence_type": "vendor_report",
+  "relation_scope": "reporting",
   "status": "tentative",
   "sources": [
     {
@@ -21,11 +22,11 @@
       "locator": "software description"
     }
   ],
-  "curator_note": "Tentative because the relationship is similarity/variant-family context, while the behavior materially diverges into destructive wiper behavior.",
-  "confidence_reason": "The relation is historically common and source-supported, but the exact lineage should stay cautious until backed by deeper reverse-engineering citations.",
+  "curator_note": "Downgraded from variant_of because current public receipts support Petya/NotPetya similarity and naming context, not direct ancestry.",
+  "confidence_reason": "Current citations support a reported relationship and surface resemblance, while NotPetya's destructive behavior and historical naming convention make strict variant language too strong.",
   "review_state": "reviewed",
   "relation_qualifier": "explicit_claim",
   "shared_artifact_type": "behavior",
   "created_at": "2026-06-08",
-  "updated_at": "2026-06-08"
+  "updated_at": "2026-06-10"
 }

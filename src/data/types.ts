@@ -22,9 +22,31 @@ export type MalwareCategory =
   | "rootkit"
   | "other";
 
+export type IdentityBasis =
+  | "code_lineage"
+  | "operator_continuity"
+  | "brand_or_alias"
+  | "public_name_bucket"
+  | "campaign_or_incident";
+
+export type RelationScope =
+  | "code"
+  | "operator"
+  | "brand"
+  | "infrastructure"
+  | "distribution"
+  | "behavior"
+  | "campaign"
+  | "targeting"
+  | "ecosystem"
+  | "design"
+  | "reporting"
+  | "unknown";
+
 export type MalwareNode = {
   id: string;
   type: "malware_family";
+  identity_basis: IdentityBasis;
   name: string;
   category?: MalwareCategory;
   aliases?: string[];
@@ -49,6 +71,7 @@ export type AtlasEdge = {
   direction: "directed" | "undirected";
   confidence: Confidence;
   evidence_type: string;
+  relation_scope: RelationScope;
   status: EdgeStatus;
   sources: SourceEvidence[];
   curator_note?: string;

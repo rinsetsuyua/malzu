@@ -1,0 +1,32 @@
+{
+  "id": "edge_black_basta_qakbot_001",
+  "from": "malware:black_basta",
+  "to": "malware:qakbot",
+  "type": "loaded_by",
+  "direction": "directed",
+  "confidence": "medium",
+  "evidence_type": "primary_research",
+  "relation_scope": "distribution",
+  "status": "accepted",
+  "sources": [
+    {
+      "source": "source:cisa_black_basta_2024",
+      "claim": "CISA and partners report that Black Basta affiliates have used QakBot during initial access.",
+      "claim_scope": "campaign",
+      "locator": "Initial Access"
+    },
+    {
+      "source": "source:mitre_attack_qakbot",
+      "claim": "MITRE ATT&CK describes QakBot as a malware family that evolved into a delivery agent for ransomware operations.",
+      "claim_scope": "family",
+      "locator": "software description"
+    }
+  ],
+  "curator_note": "Modeled from the ransomware-campaign perspective: Black Basta affiliates used QakBot during initial access. This is not code lineage or operator continuity.",
+  "confidence_reason": "The CISA advisory provides the direct Black Basta/QakBot campaign claim; MITRE supports QakBot's broader ransomware-delivery role.",
+  "review_state": "reviewed",
+  "relation_qualifier": "explicit_claim",
+  "shared_artifact_type": "loader",
+  "created_at": "2026-06-10",
+  "updated_at": "2026-06-10"
+}

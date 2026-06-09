@@ -6,6 +6,7 @@
   "direction": "directed",
   "confidence": "high",
   "evidence_type": "primary_research",
+  "relation_scope": "distribution",
   "status": "accepted",
   "sources": [
     {

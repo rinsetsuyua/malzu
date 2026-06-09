@@ -6,6 +6,7 @@
   "direction": "undirected",
   "confidence": "medium",
   "evidence_type": "code_similarity",
+  "relation_scope": "code",
   "status": "accepted",
   "sources": [
     {

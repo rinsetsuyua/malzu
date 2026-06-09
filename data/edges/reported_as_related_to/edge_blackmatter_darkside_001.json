@@ -6,6 +6,7 @@
   "direction": "undirected",
   "confidence": "medium",
   "evidence_type": "primary_research",
+  "relation_scope": "reporting",
   "status": "tentative",
   "sources": [
     {

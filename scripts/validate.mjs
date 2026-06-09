@@ -99,6 +99,48 @@ const redistributionPolicies = new Set([
 const confidenceValues = new Set(["low", "medium", "high"]);
 const edgeStatuses = new Set(["accepted", "tentative", "disputed", "deprecated"]);
 const nodeStatuses = new Set(["active", "historical", "unknown", "tentative", "disputed", "deprecated"]);
+const identityBases = new Set([
+  "code_lineage",
+  "operator_continuity",
+  "brand_or_alias",
+  "public_name_bucket",
+  "campaign_or_incident",
+]);
+const relationScopes = new Set([
+  "code",
+  "operator",
+  "brand",
+  "infrastructure",
+  "distribution",
+  "behavior",
+  "campaign",
+  "targeting",
+  "ecosystem",
+  "design",
+  "reporting",
+  "unknown",
+]);
+
+const expectedScopeByType = new Map([
+  ["derived_from", new Set(["code"])],
+  ["forked_from", new Set(["code"])],
+  ["variant_of", new Set(["code", "brand"])],
+  ["inspired_by", new Set(["design", "code", "brand"])],
+  ["shares_code_with", new Set(["code"])],
+  ["shares_behavior_with", new Set(["behavior"])],
+  ["shares_creator_with", new Set(["operator"])],
+  ["shares_operator_with", new Set(["operator"])],
+  ["shares_seller_with", new Set(["operator"])],
+  ["uses_loader", new Set(["distribution"])],
+  ["loaded_by", new Set(["distribution"])],
+  ["distributed_with", new Set(["distribution", "campaign"])],
+  ["uses_infrastructure", new Set(["infrastructure"])],
+  ["shares_infrastructure_with", new Set(["infrastructure"])],
+  ["targets_same_ecosystem_as", new Set(["targeting", "ecosystem"])],
+  ["alias_of", new Set(["brand"])],
+  ["reported_as_related_to", new Set(["reporting", "ecosystem", "campaign", "behavior"])],
+  ["disputed_relationship", new Set(["reporting", "unknown"])],
+]);
 
 const nodeIdPattern = /^[a-z][a-z0-9_]*:[a-z0-9][a-z0-9_.-]*$/;
 const sourceIdPattern = /^source:[a-z0-9][a-z0-9_.-]*$/;
@@ -268,6 +310,10 @@ function validateNodes(records, sourceIds) {
       fail(file, `invalid node type "${record.type}"`);
     }
 
+    if (!identityBases.has(record.identity_basis)) {
+      fail(file, `invalid identity_basis "${record.identity_basis}"`);
+    }
+
     if (!nodeStatuses.has(record.status)) {
       fail(file, `invalid node status "${record.status}"`);
     }
@@ -325,6 +371,18 @@ function validateEdges(records, nodeIds, sourceIds) {
 
     if (!evidenceTypes.has(record.evidence_type)) {
       fail(file, `invalid evidence_type "${record.evidence_type}"`);
+    }
+
+    if (!relationScopes.has(record.relation_scope)) {
+      fail(file, `invalid relation_scope "${record.relation_scope}"`);
+    }
+
+    const expectedScopes = expectedScopeByType.get(record.type);
+    if (expectedScopes && record.relation_scope && !expectedScopes.has(record.relation_scope)) {
+      fail(
+        file,
+        `${record.type} edges cannot use relation_scope "${record.relation_scope}"`,
+      );
     }
 
     if (!edgeStatuses.has(record.status)) {

@@ -12,6 +12,7 @@
     "direction",
     "confidence",
     "evidence_type",
+    "relation_scope",
     "status",
     "sources",
     "created_at",
@@ -81,6 +82,23 @@
         "marketplace_claim",
         "community_report",
         "uncorroborated"
+      ]
+    },
+    "relation_scope": {
+      "type": "string",
+      "enum": [
+        "code",
+        "operator",
+        "brand",
+        "infrastructure",
+        "distribution",
+        "behavior",
+        "campaign",
+        "targeting",
+        "ecosystem",
+        "design",
+        "reporting",
+        "unknown"
       ]
     },
     "status": {

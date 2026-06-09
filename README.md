@@ -8,6 +8,12 @@ The graph is a view over validated records.
 
 The graph is not the source of truth.
 
+Every node declares an `identity_basis`.
+
+Every edge declares a `relation_scope`.
+
+This keeps public names, code lineage, operator continuity, brand aliases, campaigns, and reporting claims from collapsing into one flat idea of "related."
+
 ## What This Is
 
 - a public, source-available, non-commercial research atlas
@@ -29,6 +35,8 @@ The graph is not the source of truth.
 
 - no uncited relationships
 - no automatic claim becomes truth
+- every node must declare why it exists as its own entity
+- every edge must declare the scope of continuity it claims
 - strict lineage terms only when evidence supports lineage
 - influence, shared code, shared behavior, shared infrastructure, and shared operators stay separate
 - weak or ambiguous claims stay as leads
@@ -49,6 +57,23 @@ Short version:
 - `shares_operator_with`: operator continuity, not malware lineage
 - `loaded_by` / `distributed_with`: delivery or campaign relationship, not ancestry
 - `reported_as_related_to`: public relatedness claim where the mechanism is unclear
+
+Identity basis:
+
+- `code_lineage`: node exists because code lineage or fork/variant evidence makes it distinct
+- `operator_continuity`: node exists primarily through continuity of operators or crew identity
+- `brand_or_alias`: node exists because a public brand, alias, version, or market name is useful to inspect separately
+- `public_name_bucket`: node tracks a stable public name without claiming one deeper identity criterion
+- `campaign_or_incident`: node is shaped by a specific event, campaign, or incident name
+
+Relation scope:
+
+- `code`: implementation or source-code continuity
+- `operator`: creator, operator, affiliate, seller, or crew continuity
+- `brand`: alias, version, rebrand, or naming continuity
+- `distribution`: loader, delivery, or initial-access relationship
+- `behavior`: shared behavior without code proof
+- `reporting`: public relatedness claim where the mechanism is unclear
 
 ## Data And Build
 

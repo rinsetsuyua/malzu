@@ -6,6 +6,7 @@
   "direction": "undirected",
   "confidence": "high",
   "evidence_type": "primary_research",
+  "relation_scope": "reporting",
   "status": "accepted",
   "sources": [
     {

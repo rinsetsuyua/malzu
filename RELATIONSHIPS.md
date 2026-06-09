@@ -8,6 +8,57 @@ Accepted edges require explicit, reviewable evidence.
 
 Tentative edges remain visible when useful, but their uncertainty is part of the data.
 
+## Entity Identity
+
+Every node must declare an `identity_basis`.
+
+This answers "what kind of thing is this node?" before any edge tries to connect it.
+
+Accepted values:
+
+`code_lineage`
+
+- node is separated because code lineage, fork, variant, or implementation evidence makes it meaningfully distinct
+
+`operator_continuity`
+
+- node is separated because the useful continuity is human/operator continuity rather than malware implementation
+
+`brand_or_alias`
+
+- node is separated because a public brand, alias, version, market name, or rebrand is useful to inspect separately
+
+`public_name_bucket`
+
+- node tracks a stable public malware name without asserting one deeper identity criterion
+
+`campaign_or_incident`
+
+- node identity is shaped by a specific event, campaign, intrusion set, or incident name
+
+## Relationship Scope
+
+Every edge must declare a `relation_scope`.
+
+This is separate from edge type.
+
+It records what kind of continuity the edge claims.
+
+Accepted values:
+
+- `code`
+- `operator`
+- `brand`
+- `infrastructure`
+- `distribution`
+- `behavior`
+- `campaign`
+- `targeting`
+- `ecosystem`
+- `design`
+- `reporting`
+- `unknown`
+
 ## Strict Lineage
 
 Use these only when the source supports ancestry or variant direction.
@@ -29,6 +80,8 @@ Use these only when the source supports ancestry or variant direction.
 - child is a named variant inside a family line
 - direction: variant -> family
 - use for variant-level records that should stay inspectable
+- use `relation_scope: code` only when code evidence supports it
+- use `relation_scope: brand` for version/name continuity without code proof
 
 ## Shared Traits
 
@@ -83,6 +136,7 @@ These are not malware-family ancestry.
 
 - source says related, connected, linked, or associated, but the mechanism is unclear
 - use this instead of forcing lineage
+- common destination for claims that resemble lineage but only prove public reporting, discourse, behavior, or surface similarity
 
 `disputed_relationship`
 

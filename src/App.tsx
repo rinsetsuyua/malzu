@@ -71,6 +71,7 @@ const statusTone = {
 
 const relationLabels: Record<string, string> = {
   derived_from: "derived from",
+  distributed_with: "distributed with",
   forked_from: "forked from",
   inspired_by: "inspired by",
   loaded_by: "loaded by",
@@ -78,12 +79,15 @@ const relationLabels: Record<string, string> = {
   shares_behavior_with: "shares behavior",
   shares_code_with: "shares code",
   shares_creator_with: "shares creator",
+  shares_operator_with: "shares operator",
   uses_loader: "uses loader",
+  targets_same_ecosystem_as: "targets same ecosystem",
   variant_of: "variant of",
 };
 
 const relationAbbrev: Record<string, string> = {
   derived_from: "DRV",
+  distributed_with: "DIST",
   forked_from: "FRK",
   inspired_by: "INS",
   loaded_by: "LOAD",
@@ -91,6 +95,8 @@ const relationAbbrev: Record<string, string> = {
   shares_behavior_with: "BEH",
   shares_code_with: "CODE",
   shares_creator_with: "OPER",
+  shares_operator_with: "OPR",
+  targets_same_ecosystem_as: "TGT",
   uses_loader: "LDR",
   variant_of: "VAR",
 };
@@ -98,6 +104,8 @@ const relationAbbrev: Record<string, string> = {
 const compactName = (node?: MalwareNode) => node?.name.replace(" Stealer", "") ?? "Unknown";
 
 const edgeLabel = (edge: AtlasEdge) => relationLabels[edge.type] ?? edge.type.replaceAll("_", " ");
+
+const readableToken = (value?: string) => value?.replaceAll("_", " ") ?? "unknown";
 
 const sourceHost = (source?: AtlasSource) => {
   if (!source?.url) return "";
@@ -132,14 +140,17 @@ export function App() {
       const to = atlas.nodeById.get(edge.to);
       const haystack = [
         edge.type,
+        edge.relation_scope,
         edge.status,
         edge.confidence,
         from?.name,
         from?.aliases?.join(" "),
+        from?.identity_basis,
         from?.summary,
         from?.tags?.join(" "),
         to?.name,
         to?.aliases?.join(" "),
+        to?.identity_basis,
         to?.summary,
         to?.tags?.join(" "),
         edge.sources.map((source) => source.claim).join(" "),
@@ -868,7 +879,8 @@ function EdgeInspector({ edge }: { edge: AtlasEdge }) {
       <CollapsibleSection title="Curation">
         <Metadata label="Status" value={edge.status} tone={statusTone[edge.status]} />
         <Metadata label="Review" value={edge.review_state ?? "draft"} />
-        <Metadata label="Evidence" value={edge.evidence_type.replaceAll("_", " ")} />
+        <Metadata label="Scope" value={readableToken(edge.relation_scope)} />
+        <Metadata label="Evidence" value={readableToken(edge.evidence_type)} />
         <Metadata label="Updated" value={edge.updated_at} />
       </CollapsibleSection>
     </aside>
@@ -905,6 +917,7 @@ function NodeInspector({ node }: { node: MalwareNode }) {
       <CollapsibleSection title="Known Data">
         <Metadata label="First seen" value={node.first_seen?.value ?? "unknown"} />
         <Metadata label="Scope" value={node.first_seen?.scope ?? "unknown"} />
+        <Metadata label="Identity" value={readableToken(node.identity_basis)} />
         <Metadata label="Relationships" value={String(connectedEdges.length)} />
         <Metadata label="Sources" value={String(nodeSources.length)} />
       </CollapsibleSection>
@@ -1031,8 +1044,8 @@ function AboutInspector() {
 
       <CollapsibleSection title="How to read it">
         <p>
-          Each node is a malware family or variant; each edge is a typed claim. Select any node or edge
-          to focus the graph and open its sources in this panel.
+          Each node declares its identity basis; each edge declares its relationship scope. Select any
+          node or edge to focus the graph and open its sources in this panel.
         </p>
       </CollapsibleSection>
 
@@ -1048,7 +1061,8 @@ function AboutInspector() {
         <p>
           Every relationship cites public sources. <strong>Accepted</strong> edges are well-corroborated;{" "}
           <strong>tentative</strong> ones rest on a single or weaker claim and are marked so you can judge
-          them yourself.
+          them yourself. Scope separates code, operator, brand, distribution, behavior, and reporting
+          claims so relatedness is not silently upgraded into lineage.
         </p>
       </CollapsibleSection>
     </aside>

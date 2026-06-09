@@ -6,6 +6,7 @@
   "direction": "directed",
   "confidence": "high",
   "evidence_type": "vendor_report",
+  "relation_scope": "distribution",
   "status": "accepted",
   "sources": [
     {

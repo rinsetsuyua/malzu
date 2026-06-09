@@ -44,6 +44,7 @@ const projectNode = (n) =>
   compact({
     id: n.id,
     type: n.type,
+    identity_basis: n.identity_basis,
     name: n.name,
     category: n.category,
     aliases: n.aliases,
@@ -70,6 +71,7 @@ const projectEdge = (e) =>
     direction: e.direction,
     confidence: e.confidence,
     evidence_type: e.evidence_type,
+    relation_scope: e.relation_scope,
     status: e.status,
     sources: (e.sources ?? []).map(projectEvidence),
     curator_note: e.curator_note,

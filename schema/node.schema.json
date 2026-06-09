@@ -7,6 +7,7 @@
   "required": [
     "id",
     "type",
+    "identity_basis",
     "name",
     "status",
     "sources"
@@ -31,6 +32,16 @@
         "source",
         "report",
         "tooling"
+      ]
+    },
+    "identity_basis": {
+      "type": "string",
+      "enum": [
+        "code_lineage",
+        "operator_continuity",
+        "brand_or_alias",
+        "public_name_bucket",
+        "campaign_or_incident"
       ]
     },
     "name": {

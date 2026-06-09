@@ -6,6 +6,7 @@
   "direction": "directed",
   "confidence": "medium",
   "evidence_type": "primary_research",
+  "relation_scope": "code",
   "status": "tentative",
   "sources": [
     {
