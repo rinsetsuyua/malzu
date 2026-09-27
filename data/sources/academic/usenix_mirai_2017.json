@@ -1,0 +1,49 @@
+{
+  "id": "source:usenix_mirai_2017",
+  "title": "Understanding the Mirai Botnet",
+  "publisher": "USENIX Security Symposium",
+  "authors": [
+    "Manos Antonakakis",
+    "Tim April",
+    "Michael Bailey",
+    "Matt Bernhard",
+    "Elie Bursztein",
+    "Jaime Cochran",
+    "Zakir Durumeric",
+    "J. Alex Halderman",
+    "Luca Invernizzi",
+    "Michalis Kallitsis",
+    "Deepak Kumar",
+    "Chaz Lever",
+    "Zane Ma",
+    "Joshua Mason",
+    "Damian Menscher",
+    "Chad Seaman",
+    "Nick Sullivan",
+    "Kurt Thomas",
+    "Yi Zhou"
+  ],
+  "url": "https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/antonakakis",
+  "published_at": "2017-08",
+  "source_type": "academic_paper",
+  "retrieved_at": "2026-09-27",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "mixed_academic_citation_only",
+  "redistribution_policy": "metadata_and_short_curator_summary_only",
+  "allowed_uses": [
+    "paper metadata",
+    "short claim summaries",
+    "first-seen chronology",
+    "methodology context"
+  ],
+  "blocked_uses": [
+    "copied_prose",
+    "copied_figures",
+    "copied_tables",
+    "large_excerpts",
+    "license_assumption_without_review"
+  ],
+  "notice_required": false,
+  "trust_notes": "Measurement study of Mirai's emergence and growth using network-telescope, honeypot, and DNS data."
+}

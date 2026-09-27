@@ -1,0 +1,26 @@
+{
+  "id": "source:cisa_ta17_117a_2017",
+  "title": "Intrusions Affecting Multiple Victims Across Multiple Sectors (Alert TA17-117A)",
+  "publisher": "Cybersecurity and Infrastructure Security Agency (US-CERT)",
+  "url": "https://www.cisa.gov/news-events/alerts/2017/04/27/intrusions-affecting-multiple-victims-across-multiple-sectors",
+  "published_at": "2017-04-27",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-09-27",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "first-seen chronology",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review",
+    "copied_ioc_dumps"
+  ],
+  "notice_required": false,
+  "trust_notes": "Government alert with a PlugX section that dates the tool's operation."
+}

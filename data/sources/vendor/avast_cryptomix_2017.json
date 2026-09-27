@@ -1,14 +1,12 @@
 {
-  "id": "source:sekoia_mars_red_hot",
-  "title": "Mars, a red-hot information stealer",
-  "publisher": "Sekoia.io",
+  "id": "source:avast_cryptomix_2017",
+  "title": "CryptoMix: Avast adds a new free decryption tool to its collection",
+  "publisher": "Avast",
   "authors": [
-    "Pierre Le Bourhis",
-    "Quentin Bourgue",
-    "Sekoia TDR"
+    "Jakub Křoustek"
   ],
-  "url": "https://www.sekoia.com/blog/mars-a-red-hot-information-stealer",
-  "published_at": "2022-04-07",
+  "url": "https://blog.avast.com/cryptomix-avast-adds-a-new-free-decryption-tool-to-its-collection",
+  "published_at": "2017-02-21",
   "source_type": "vendor_blog",
   "retrieved_at": "2026-09-27",
   "access_level": "public",
@@ -18,7 +16,7 @@
   "allowed_uses": [
     "report metadata",
     "short curator-written claim summaries",
-    "relationship claims when explicit",
+    "first-seen chronology",
     "source links"
   ],
   "blocked_uses": [
@@ -31,5 +29,5 @@
     "copied_detection_rules"
   ],
   "notice_required": false,
-  "trust_notes": "Useful technical source for Mars Stealer market context and explicit code-sharing claims involving Arkei, Oski, and Vidar."
+  "trust_notes": "Vendor decryptor announcement that dates CryptoMix's first sighting."
 }

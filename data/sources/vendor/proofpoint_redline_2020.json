@@ -1,14 +1,9 @@
 {
-  "id": "source:sekoia_mars_red_hot",
-  "title": "Mars, a red-hot information stealer",
-  "publisher": "Sekoia.io",
-  "authors": [
-    "Pierre Le Bourhis",
-    "Quentin Bourgue",
-    "Sekoia TDR"
-  ],
-  "url": "https://www.sekoia.com/blog/mars-a-red-hot-information-stealer",
-  "published_at": "2022-04-07",
+  "id": "source:proofpoint_redline_2020",
+  "title": "New Redline Password Stealer Malware",
+  "publisher": "Proofpoint",
+  "url": "https://www.proofpoint.com/us/blog/threat-insight/new-redline-stealer-distributed-using-coronavirus-themed-email-campaign",
+  "published_at": "2020-03-16",
   "source_type": "vendor_blog",
   "retrieved_at": "2026-09-27",
   "access_level": "public",
@@ -18,7 +13,7 @@
   "allowed_uses": [
     "report metadata",
     "short curator-written claim summaries",
-    "relationship claims when explicit",
+    "first-seen chronology",
     "source links"
   ],
   "blocked_uses": [
@@ -31,5 +26,5 @@
     "copied_detection_rules"
   ],
   "notice_required": false,
-  "trust_notes": "Useful technical source for Mars Stealer market context and explicit code-sharing claims involving Arkei, Oski, and Vidar."
+  "trust_notes": "First public analysis of RedLine Stealer, including its earliest forum sale advertisements; the primary reference behind MITRE ATT&CK S1240."
 }

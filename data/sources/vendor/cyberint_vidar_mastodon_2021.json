@@ -1,16 +1,11 @@
 {
-  "id": "source:sekoia_mars_red_hot",
-  "title": "Mars, a red-hot information stealer",
-  "publisher": "Sekoia.io",
-  "authors": [
-    "Pierre Le Bourhis",
-    "Quentin Bourgue",
-    "Sekoia TDR"
-  ],
-  "url": "https://www.sekoia.com/blog/mars-a-red-hot-information-stealer",
-  "published_at": "2022-04-07",
+  "id": "source:cyberint_vidar_mastodon_2021",
+  "title": "Vidar Stealer Abuses Mastadon Social Network",
+  "publisher": "Cyberint",
+  "url": "https://cyberint.com/blog/research/vidar-stealer-abuses-mastadon-social-network/",
+  "published_at": "2021-10-13",
   "source_type": "vendor_blog",
-  "retrieved_at": "2026-09-27",
+  "retrieved_at": "2026-09-28",
   "access_level": "public",
   "public_citability": "high",
   "license_posture": "copyrighted_citation_only",
@@ -18,7 +13,7 @@
   "allowed_uses": [
     "report metadata",
     "short curator-written claim summaries",
-    "relationship claims when explicit",
+    "first-seen chronology",
     "source links"
   ],
   "blocked_uses": [
@@ -31,5 +26,5 @@
     "copied_detection_rules"
   ],
   "notice_required": false,
-  "trust_notes": "Useful technical source for Mars Stealer market context and explicit code-sharing claims involving Arkei, Oski, and Vidar."
+  "trust_notes": "Vendor research on Vidar's use of Mastodon for C2, dating its first sighting. The page blocks automated fetches; the date was confirmed by the maintainer in a browser."
 }

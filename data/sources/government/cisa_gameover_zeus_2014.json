@@ -1,0 +1,26 @@
+{
+  "id": "source:cisa_gameover_zeus_2014",
+  "title": "GameOver Zeus P2P Malware (Alert TA14-150A)",
+  "publisher": "Cybersecurity and Infrastructure Security Agency (US-CERT)",
+  "url": "https://www.cisa.gov/news-events/alerts/2014/06/02/gameover-zeus-p2p-malware",
+  "published_at": "2014-06-02",
+  "source_type": "government_advisory",
+  "retrieved_at": "2026-09-27",
+  "access_level": "public",
+  "public_citability": "high",
+  "license_posture": "us_government_public_domain_low_friction",
+  "redistribution_policy": "cite_and_summarize_no_marks_no_endorsement",
+  "allowed_uses": [
+    "government advisory claims",
+    "first-seen chronology",
+    "incident and disruption chronology"
+  ],
+  "blocked_uses": [
+    "agency_logo_or_seal_use",
+    "implied_government_endorsement",
+    "third_party_embedded_material_without_review",
+    "copied_ioc_dumps"
+  ],
+  "notice_required": false,
+  "trust_notes": "Government alert identifying GameOver Zeus as a peer-to-peer ZeuS variant and dating its identification."
+}

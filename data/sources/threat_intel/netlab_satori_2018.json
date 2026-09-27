@@ -1,15 +1,10 @@
 {
-  "id": "source:sekoia_mars_red_hot",
-  "title": "Mars, a red-hot information stealer",
-  "publisher": "Sekoia.io",
-  "authors": [
-    "Pierre Le Bourhis",
-    "Quentin Bourgue",
-    "Sekoia TDR"
-  ],
-  "url": "https://www.sekoia.com/blog/mars-a-red-hot-information-stealer",
-  "published_at": "2022-04-07",
-  "source_type": "vendor_blog",
+  "id": "source:netlab_satori_2018",
+  "title": "Botnets never Die, Satori REFUSES to Fade Away",
+  "publisher": "360 Netlab",
+  "url": "https://blog.netlab.360.com/botnets-never-die-satori-refuses-to-fade-away-en/",
+  "published_at": "2018-06-15",
+  "source_type": "threat_intel_report",
   "retrieved_at": "2026-09-27",
   "access_level": "public",
   "public_citability": "high",
@@ -18,7 +13,7 @@
   "allowed_uses": [
     "report metadata",
     "short curator-written claim summaries",
-    "relationship claims when explicit",
+    "first-seen chronology",
     "source links"
   ],
   "blocked_uses": [
@@ -31,5 +26,5 @@
     "copied_detection_rules"
   ],
   "notice_required": false,
-  "trust_notes": "Useful technical source for Mars Stealer market context and explicit code-sharing claims involving Arkei, Oski, and Vidar."
+  "trust_notes": "Primary tracking of the Satori Mirai variant by the team that first detected it."
 }
