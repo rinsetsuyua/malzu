@@ -1,7 +1,6 @@
 import {
   BarChart3,
   BookOpen,
-  CheckCircle2,
   ChevronDown,
   ChevronUp,
   Clock3,
@@ -20,7 +19,7 @@ import {
   Spline,
   Tags,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { atlas } from "./data/atlas";
 import type { AtlasEdge, AtlasSource, MalwareNode } from "./data/types";
 import {
@@ -173,8 +172,11 @@ export function App() {
     });
   }, [categoryFilter, query, relationshipFilter, statusFilter]);
 
-  const visibleNodeIds = new Set(visibleEdges.flatMap((edge) => [edge.from, edge.to]));
-  const visibleNodes = atlas.nodes.filter((node) => visibleNodeIds.has(node.id));
+  // memoized so selection clicks don't rebuild the layout (or reset the camera)
+  const visibleNodes = useMemo(() => {
+    const visibleNodeIds = new Set(visibleEdges.flatMap((edge) => [edge.from, edge.to]));
+    return atlas.nodes.filter((node) => visibleNodeIds.has(node.id));
+  }, [visibleEdges]);
   const layout = useMemo(
     () => buildLayout(layoutMode, visibleNodes, visibleEdges),
     [layoutMode, visibleEdges, visibleNodes],
@@ -244,7 +246,6 @@ export function App() {
               bounds={layout.bounds}
               edges={layout.edges}
               isCompact={isCompact}
-              layoutMode={layoutMode}
               nodes={layout.nodes}
               selectedEdgeId={selection.type === "edge" ? selection.id : undefined}
               selectedNodeId={selection.type === "node" ? selection.id : undefined}
@@ -404,13 +405,6 @@ function TopBar({
           <dt>{atlas.edges.length}</dt>
           <dd>edges</dd>
         </div>
-        <div className="validated">
-          <dt>
-            <CheckCircle2 size={15} strokeWidth={1.8} />
-            validated
-          </dt>
-          <dd>local</dd>
-        </div>
       </dl>
 
       <label className="search" aria-label="Search atlas records">
@@ -569,6 +563,54 @@ function fitView(bounds: GraphBounds): View {
   return { x: cx - w / 2, y: cy - h / 2 - topBias, w, h };
 }
 
+type Point = { x: number; y: number };
+
+/** The selected node, or the midpoint of the selected edge, in svg units. */
+function selectionAnchor(
+  nodes: PositionedNode[],
+  edges: PositionedEdge[],
+  selectedNodeId?: string,
+  selectedEdgeId?: string,
+): Point | undefined {
+  const node = selectedNodeId ? nodes.find((candidate) => candidate.id === selectedNodeId) : undefined;
+  if (node) return { x: node.x * X_SCALE, y: node.y * Y_SCALE };
+
+  const edge = selectedEdgeId ? edges.find((candidate) => candidate.id === selectedEdgeId) : undefined;
+  if (edge) {
+    return {
+      x: ((edge.fromNode.x + edge.toNode.x) / 2) * X_SCALE,
+      y: ((edge.fromNode.y + edge.toNode.y) / 2) * Y_SCALE,
+    };
+  }
+
+  return undefined;
+}
+
+/**
+ * The part of the canvas the floating controls and open panels leave visible,
+ * in client pixels. A panel in the right half docks right; one in the lower
+ * half docks bottom (this also covers the phone bottom sheets).
+ */
+function uncoveredRect(svg: SVGSVGElement, rect: DOMRect) {
+  const region = svg.closest(".canvas-region");
+  const midX = rect.left + rect.width / 2;
+  const midY = rect.top + rect.height / 2;
+  let { left, right, top, bottom } = rect;
+
+  const controls = region?.querySelector(".graph-controls")?.getBoundingClientRect();
+  if (controls) top = Math.max(top, controls.bottom);
+
+  region?.querySelectorAll(".overlay-panel.open").forEach((panel) => {
+    const panelRect = panel.getBoundingClientRect();
+    if (panelRect.left > midX) right = Math.min(right, panelRect.left);
+    else if (panelRect.top > midY) bottom = Math.min(bottom, panelRect.top);
+  });
+
+  // if the overlays leave almost nothing, frame against the whole canvas instead
+  if (right - left < rect.width * 0.3 || bottom - top < rect.height * 0.3) return rect;
+  return { left, right, top, bottom };
+}
+
 function GraphCanvas({
   nodes,
   edges,
@@ -576,7 +618,6 @@ function GraphCanvas({
   activatedNodeIds,
   bounds,
   isCompact,
-  layoutMode,
   selectedEdgeId,
   selectedNodeId,
   showEdgeLabels,
@@ -589,7 +630,6 @@ function GraphCanvas({
   activatedNodeIds: Set<string>;
   bounds: GraphBounds;
   isCompact: boolean;
-  layoutMode: LayoutMode;
   selectedEdgeId?: string;
   selectedNodeId?: string;
   showEdgeLabels: boolean;
@@ -602,10 +642,31 @@ function GraphCanvas({
   const [isPanning, setIsPanning] = useState(false);
   const drag = useRef<{ pointerId: number; startX: number; startY: number; origin: View; moved: boolean } | null>(null);
 
-  // re-fit when the content changes shape (data, filters, or layout mode)
-  useEffect(() => {
-    setView(home);
-  }, [home, layoutMode]);
+  // Frame the selection (or the content centre) inside the uncovered canvas, so
+  // the opening view shows what the inspector describes.
+  const framedView = (): View => {
+    const svg = svgRef.current;
+    const rect = svg?.getBoundingClientRect();
+    if (!svg || !rect || rect.width === 0) return home;
+
+    const anchor = selectionAnchor(nodes, edges, selectedNodeId, selectedEdgeId) ?? {
+      x: ((bounds.minX + bounds.maxX) / 2) * X_SCALE,
+      y: ((bounds.minY + bounds.maxY) / 2) * Y_SCALE,
+    };
+    const free = uncoveredRect(svg, rect);
+    // the viewBox is fitted with "meet": one svg unit = `scale` px, centred in the element
+    const scale = Math.min(rect.width / home.w, rect.height / home.h);
+    const dx = ((free.left + free.right) / 2 - (rect.left + rect.width / 2)) / scale;
+    const dy = ((free.top + free.bottom) / 2 - (rect.top + rect.height / 2)) / scale;
+    return { ...home, x: anchor.x - dx - home.w / 2, y: anchor.y - dy - home.h / 2 };
+  };
+
+  // Re-frame only when the content changes shape (data, filters, layout mode).
+  // Selection is deliberately not a dependency: clicking a family must keep the
+  // reader's pan and zoom. Layout effect, so the first paint is already framed.
+  useLayoutEffect(() => {
+    setView(framedView());
+  }, [home]);
 
   const pxToSvg = () => {
     const rect = svgRef.current?.getBoundingClientRect();
@@ -667,7 +728,7 @@ function GraphCanvas({
       <svg
         className={isPanning ? "graph-canvas panning" : "graph-canvas"}
         ref={svgRef}
-        role="img"
+        role="group"
         aria-label="Malware relationship graph"
         viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`}
         onPointerDown={onPointerDown}
@@ -724,7 +785,7 @@ function GraphCanvas({
         <button onClick={() => zoomAround(1 / 1.25)} title="Zoom out" type="button">
           <Minus size={16} strokeWidth={2} />
         </button>
-        <button onClick={() => setView(home)} title="Reset view" type="button">
+        <button onClick={() => setView(framedView())} title="Reset view" type="button">
           <Crosshair size={15} strokeWidth={1.8} />
         </button>
       </div>

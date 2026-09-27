@@ -4,13 +4,9 @@ import { App } from "./App";
 import { loadAtlas } from "./data/atlas";
 import "./styles.css";
 
+// index.html ships a static boot state inside #root (title + one-line
+// description) that stays up while atlas.json loads; the first render replaces it.
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
-
-root.render(
-  <div className="boot" role="status" aria-label="Loading atlas">
-    <span className="boot-mark" aria-hidden="true" />
-  </div>,
-);
 
 loadAtlas()
   .then(() => {

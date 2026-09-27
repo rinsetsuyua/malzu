@@ -5,9 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <title>Malzu</title>
+    <meta
+      name="description"
+      content="Malzu — a citation-first map of how malware families relate: forks, shared code, shared operators, loader chains. Force-directed (Fruchterman–Reingold)."
+    />
+    <!-- hub is canonical; the github.io copy of the same build points here -->
+    <link rel="canonical" href="https://hub.rinsetsuyua.com/malzu/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Malzu" />
+    <meta
+      property="og:description"
+      content="A citation-first map of how malware families relate: forks, shared code, shared operators, loader chains. Force-directed (Fruchterman–Reingold)."
+    />
+    <meta property="og:url" content="https://hub.rinsetsuyua.com/malzu/" />
+    <meta name="twitter:card" content="summary" />
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Static first paint: what crawlers, link fetchers, and no-JS readers see.
+         React replaces it on mount; until then it doubles as the loading state. -->
+    <div id="root">
+      <div class="boot" role="status">
+        <span class="boot-mark" aria-hidden="true"></span>
+        <h1 class="boot-title">Malzu</h1>
+        <p class="boot-line">
+          A citation-first map of how malware families relate: forks, shared code, shared operators, loader chains.
+          Force-directed (Fruchterman–Reingold).
+        </p>
+        <noscript>
+          <style>.boot-mark { display: none; }</style>
+          <p class="boot-note">The interactive graph needs JavaScript.</p>
+        </noscript>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
