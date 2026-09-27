@@ -93,7 +93,7 @@ Colour marks state only: the selected family or relationship, and what it touche
 
 Web view lays out each connected cluster with a seeded Fruchterman–Reingold simulation, then packs clusters largest first.
 
-Lineage view shows ancestry trees only, ancestors on the left.
+Lineage view places ancestry on a first-seen timeline: each family sits at the year it was first seen, one band per ancestry tree.
 
 Filters and search fade what doesn't match; positions never move.
 

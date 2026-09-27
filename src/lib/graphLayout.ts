@@ -4,10 +4,11 @@ import { NAME_GAP, NAME_HEIGHT, compactName, nodeMark } from "./nodeLabel";
 /**
  * Layout — positions are derived from the edges, never pinned to node ids.
  *
- * Both modes work cluster by cluster: each connected cluster is laid out on its
- * own, then the clusters are shelf-packed largest first, so the page reads as
- * "one large web, a few mid-sized clusters, then small lineages" instead of
- * sixteen clusters scattered around a shared centre. Everything is seeded from
+ * The web view works cluster by cluster: each connected cluster is laid out on
+ * its own, then the clusters are shelf-packed largest first, so the page reads
+ * as "one large web, a few mid-sized clusters, then small lineages" instead of
+ * sixteen clusters scattered around a shared centre. The lineage view puts
+ * ancestry trees on a first-seen timeline. Everything is seeded from
  * node ids, so the result is stable across renders and filters (no jitter), and
  * adding or re-wiring families re-arranges the graph on its own.
  *
@@ -33,10 +34,20 @@ export type PositionedEdge = AtlasEdge & {
 
 export type GraphBounds = { minX: number; minY: number; maxX: number; maxY: number };
 
+/** The lineage view's year axis: gridlines at year starts, labels mid-year. */
+export type TimeAxis = {
+  years: Array<{ year: number; start: number; middle: number }>;
+  top: number;
+  bottom: number;
+  /** x of the column for families without a first-seen date, if any */
+  undatedX?: number;
+};
+
 export type GraphLayout = {
   nodes: PositionedNode[];
   edges: PositionedEdge[];
   bounds: GraphBounds;
+  axis?: TimeAxis;
 };
 
 export type LayoutMode = "web" | "lineage";
@@ -53,8 +64,10 @@ const FORCE_ITERATIONS = 500;
 const CLEARANCE = 10; // px between footprints after separation
 const CLUSTER_SPACING = 64; // px between packed clusters
 const PACK_ASPECT = 1.7; // target width:height of the packed page
-const LINEAGE_COLUMN = 150; // px between generations
-const LINEAGE_ROW = 56; // px between families in a generation
+const YEAR_WIDTH = 120; // px per year on the lineage timeline
+const LANE_ROW = 50; // px between rows inside one lineage band
+const BAND_GAP = 30; // px between lineage bands
+const AXIS_ROOM = 44; // px above the first band for the year labels
 
 // stable pseudo-random in [0, 1) from a string — deterministic seeding
 function hashUnit(seed: string): number {
@@ -240,43 +253,92 @@ function forceCluster(ids: string[], edges: AtlasEdge[]): Map<string, Vec> {
   return pos;
 }
 
+/** A family's place in time: mid-month when the month is known, else mid-year. */
+function firstSeenYear(node?: MalwareNode): number | undefined {
+  const value = node?.first_seen?.value;
+  if (!value) return undefined;
+  const [year, month] = value.split("-").map(Number);
+  return month ? year + (month - 0.5) / 12 : year + 0.5;
+}
+
 /**
- * Lineage: ancestors on the left, descendants to the right by generation (the
- * longest ancestry chain to a root). Ties order by first-seen date, then id.
- * Once first-seen dates are complete, x can become the year instead.
+ * Lineage on a first-seen timeline: x is the year a family was first seen, so
+ * ancestors sit left of their descendants by date rather than by rank. Each
+ * ancestry tree gets its own band, bands ordered by their earliest family.
+ * Inside a band, each family takes the row nearest its already-placed
+ * relatives that its name doesn't collide on. Families without a date wait in
+ * an "undated" column after the last year.
  */
-function lineageCluster(ids: string[], edges: AtlasEdge[], nodeById: Map<string, MalwareNode>): Map<string, Vec> {
-  const parents = new Map(ids.map((id) => [id, new Set<string>()]));
-  for (const edge of edges) parents.get(edge.from)!.add(edge.to);
+function timeline(
+  groups: string[][],
+  edges: AtlasEdge[],
+  nodeById: Map<string, MalwareNode>,
+  boxes: Map<string, Box>,
+): { pos: Map<string, Vec>; axis: TimeAxis } {
+  const when = new Map(groups.flat().map((id) => [id, firstSeenYear(nodeById.get(id))]));
+  const dated = [...when.values()].filter((value): value is number => value !== undefined);
+  const first = dated.length ? Math.floor(Math.min(...dated)) : 2000;
+  const last = dated.length ? Math.floor(Math.max(...dated)) : 2000;
+  const xOf = (year: number) => (year - first) * YEAR_WIDTH;
+  const hasUndated = dated.length < when.size;
+  const undatedX = xOf(last + 1) + YEAR_WIDTH * 0.6;
 
-  const generation = new Map<string, number>();
-  const resolve = (id: string, stack: Set<string>): number => {
-    if (generation.has(id)) return generation.get(id)!;
-    if (stack.has(id)) return 0; // cycle: treat as a root
-    stack.add(id);
-    let depth = 0;
-    for (const parent of parents.get(id) ?? []) depth = Math.max(depth, resolve(parent, stack) + 1);
-    stack.delete(id);
-    generation.set(id, depth);
-    return depth;
-  };
-  for (const id of ids) resolve(id, new Set());
+  const earliest = (members: string[]) => Math.min(...members.map((id) => when.get(id) ?? Infinity));
+  const bands = [...groups].sort((a, b) => earliest(a) - earliest(b) || a[0].localeCompare(b[0]));
 
-  const columns = new Map<number, string[]>();
-  for (const id of ids) {
-    const g = generation.get(id)!;
-    if (!columns.has(g)) columns.set(g, []);
-    columns.get(g)!.push(id);
-  }
-  const dateKey = (id: string) => nodeById.get(id)?.first_seen?.value ?? "9999";
   const pos = new Map<string, Vec>();
-  for (const [g, members] of columns) {
-    members.sort((a, b) => dateKey(a).localeCompare(dateKey(b)) || a.localeCompare(b));
-    members.forEach((id, index) => {
-      pos.set(id, { x: g * LINEAGE_COLUMN, y: (index - (members.length - 1) / 2) * LINEAGE_ROW });
-    });
+  let bandTop = 0;
+  for (const members of bands) {
+    const memberSet = new Set(members);
+    const bandEdges = edges.filter((edge) => memberSet.has(edge.from) && memberSet.has(edge.to));
+    const order = [...members].sort((a, b) => (when.get(a) ?? Infinity) - (when.get(b) ?? Infinity) || a.localeCompare(b));
+    const rows = new Map<string, number>();
+    const x = (id: string) => (when.get(id) !== undefined ? xOf(when.get(id)!) : undatedX);
+
+    for (const id of order) {
+      const relatives = bandEdges
+        .filter((edge) => edge.from === id || edge.to === id)
+        .map((edge) => (edge.from === id ? edge.to : edge.from))
+        .filter((other) => rows.has(other));
+      // a new root starts its own row; a descendant sits near its relatives
+      const preferred = relatives.length
+        ? Math.round(relatives.reduce((sum, other) => sum + rows.get(other)!, 0) / relatives.length)
+        : rows.size
+          ? Math.max(...rows.values()) + 1
+          : 0;
+      const between = (value: number, a: number, b: number) =>
+        value > Math.min(a, b) + 1 && value < Math.max(a, b) - 1;
+      const fits = (row: number) =>
+        [...rows].every(
+          ([other, otherRow]) =>
+            otherRow !== row ||
+            Math.abs(x(other) - x(id)) >= boxes.get(other)!.halfWidth + boxes.get(id)!.halfWidth + CLEARANCE,
+        ) &&
+        // a line to a relative on the same row must not run through another family
+        relatives.every(
+          (relative) =>
+            rows.get(relative) !== row ||
+            [...rows].every(
+              ([other, otherRow]) => other === relative || otherRow !== row || !between(x(other), x(relative), x(id)),
+            ),
+        );
+      let row = preferred;
+      for (let step = 1; !fits(row); step += 1) row = preferred + (step % 2 ? Math.ceil(step / 2) : -step / 2);
+      rows.set(id, row);
+    }
+
+    const minRow = Math.min(...rows.values());
+    const maxRow = Math.max(...rows.values());
+    for (const id of members) pos.set(id, { x: x(id), y: bandTop + (rows.get(id)! - minRow) * LANE_ROW });
+    bandTop += (maxRow - minRow + 1) * LANE_ROW + BAND_GAP;
   }
-  return pos;
+
+  const years = [];
+  for (let year = first; year <= last; year += 1) years.push({ year, start: xOf(year), middle: xOf(year + 0.5) });
+  return {
+    pos,
+    axis: { years, top: -AXIS_ROOM, bottom: bandTop - BAND_GAP, undatedX: hasUndated ? undatedX : undefined },
+  };
 }
 
 /** Shelf-packs laid-out clusters: left to right, wrapping rows, largest first. */
@@ -359,14 +421,20 @@ export function buildLayout(mode: LayoutMode, nodes: MalwareNode[], edges: Atlas
   );
   const names = new Map(ids.map((id) => [id, compactName(nodeById.get(id))]));
 
-  const groups = clusters(ids, layoutEdges, names).map((members) => {
-    const memberSet = new Set(members);
-    const clusterEdges = layoutEdges.filter((edge) => memberSet.has(edge.from));
-    const pos = mode === "lineage" ? lineageCluster(members, clusterEdges, nodeById) : forceCluster(members, clusterEdges);
-    separate(members, pos, boxes);
-    return { ids: members, pos };
-  });
-  const pos = pack(groups, boxes);
+  const groups = clusters(ids, layoutEdges, names);
+  let pos: Map<string, Vec>;
+  let axis: TimeAxis | undefined;
+  if (mode === "lineage") {
+    ({ pos, axis } = timeline(groups, layoutEdges, nodeById, boxes));
+  } else {
+    const laidOut = groups.map((members) => {
+      const memberSet = new Set(members);
+      const cluster = forceCluster(members, layoutEdges.filter((edge) => memberSet.has(edge.from)));
+      separate(members, cluster, boxes);
+      return { ids: members, pos: cluster };
+    });
+    pos = pack(laidOut, boxes);
+  }
 
   let minX = Infinity;
   let minY = Infinity;
@@ -400,9 +468,12 @@ export function buildLayout(mode: LayoutMode, nodes: MalwareNode[], edges: Atlas
     toNode: positioned.get(edge.to)!,
   }));
 
+  if (axis) minY = Math.min(minY, axis.top);
+
   return {
     nodes: [...positioned.values()],
     edges: positionedEdges,
     bounds: ids.length ? { minX, minY, maxX, maxY } : { minX: 0, minY: 0, maxX: 1000, maxY: 700 },
+    axis,
   };
 }

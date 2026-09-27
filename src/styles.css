@@ -672,6 +672,22 @@ button { cursor: pointer; }
 
 .graph-node:focus-visible .dot { stroke: var(--blue); stroke-width: 2; }
 
+/* lineage timeline */
+.axis-ruler { fill: var(--veil); }
+.axis-year { stroke: var(--line-soft); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.axis-label {
+  fill: var(--ink-muted);
+  paint-order: stroke;
+  stroke: var(--ground);
+  stroke-linejoin: round;
+  stroke-width: 4px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 560;
+  letter-spacing: 0.02em;
+  text-anchor: middle;
+}
+
 .canvas-empty {
   color: var(--ink-muted);
   font-size: 13px;

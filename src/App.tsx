@@ -28,6 +28,7 @@ import {
   type LayoutMode,
   type PositionedEdge,
   type PositionedNode,
+  type TimeAxis,
 } from "./lib/graphLayout";
 import { NAME_GAP, NAME_HEIGHT, compactName, dotRadius, relationLabelWidth } from "./lib/nodeLabel";
 
@@ -246,6 +247,7 @@ export function App() {
             <GraphCanvas
               activatedEdgeIds={activatedEdgeIds}
               activatedNodeIds={activatedNodeIds}
+              axis={layout.axis}
               bounds={layout.bounds}
               edges={layout.edges}
               filtering={filtering}
@@ -470,7 +472,7 @@ function GraphControls({
             aria-pressed={layoutMode === "lineage"}
             className={layoutMode === "lineage" ? "tool-button active" : "tool-button"}
             onClick={() => onLayoutModeChange("lineage")}
-            title="Lineage view — ancestry trees, ancestors on the left"
+            title="Lineage view — ancestry on a first-seen timeline"
             type="button"
           >
             <GitBranch size={17} strokeWidth={1.7} />
@@ -755,6 +757,7 @@ function GraphCanvas({
   edges,
   activatedEdgeIds,
   activatedNodeIds,
+  axis,
   bounds,
   filtering,
   matchEdgeIds,
@@ -769,6 +772,7 @@ function GraphCanvas({
   edges: PositionedEdge[];
   activatedEdgeIds: Set<string>;
   activatedNodeIds: Set<string>;
+  axis?: TimeAxis;
   bounds: GraphBounds;
   filtering: boolean;
   matchEdgeIds: Set<string>;
@@ -780,18 +784,24 @@ function GraphCanvas({
   onSelectNode: (nodeId: string) => void;
 }) {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  // the canvas's size in client px; `measured` flips once the element has laid out
-  const [size, setSize] = useState({ w: 1000, h: 700, measured: false });
+  // the canvas's size in client px; `measured` flips once the element has laid out.
+  // `controlsInset` is how far the floating controls reach down into it.
+  const [size, setSize] = useState({ w: 1000, h: 700, measured: false, controlsInset: 0 });
   useLayoutEffect(() => {
     const svg = svgRef.current;
     if (!svg) return;
     const measure = () => {
       const rect = svg.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
+      const controls = svg.closest(".canvas-region")?.querySelector(".graph-controls")?.getBoundingClientRect();
+      const controlsInset = controls ? Math.max(0, controls.bottom - rect.top) : 0;
       setSize((current) =>
-        current.measured && Math.abs(current.w - rect.width) < 1 && Math.abs(current.h - rect.height) < 1
+        current.measured &&
+        Math.abs(current.w - rect.width) < 1 &&
+        Math.abs(current.h - rect.height) < 1 &&
+        Math.abs(current.controlsInset - controlsInset) < 1
           ? current
-          : { w: rect.width, h: rect.height, measured: true },
+          : { w: rect.width, h: rect.height, measured: true, controlsInset },
       );
     };
     measure();
@@ -951,6 +961,11 @@ function GraphCanvas({
   const allNames = zoom >= NAME_ZOOM_FLOOR;
   // counter-scales emphasised text when zoomed out, so it stays ~10px on screen
   const textScale = allNames ? 1 : READABLE_ZOOM / zoom;
+  // year labels ride just under the floating controls while the timeline pans
+  const unitsPerPx = view.w / size.w;
+  const yearLabelY = axis
+    ? Math.min(Math.max(axis.top + 12, view.y + (size.controlsInset + 18) * unitsPerPx), axis.bottom)
+    : 0;
   const hasSelection = Boolean(selectedEdgeId || selectedNodeId);
 
   return (
@@ -974,6 +989,15 @@ function GraphCanvas({
             <stop offset="100%" style={{ stopColor: "var(--cloud-edge)" }} />
           </radialGradient>
         </defs>
+
+        {/* lineage view: faint year gridlines behind everything */}
+        {axis && (
+          <g className="time-axis" aria-hidden="true">
+            {axis.years.map(({ year, start }) => (
+              <line className="axis-year" key={year} x1={start} x2={start} y1={axis.top + 18} y2={axis.bottom + 24} />
+            ))}
+          </g>
+        )}
 
         <g className="edge-layer">
           {edges.map((edge) => (
@@ -1011,6 +1035,41 @@ function GraphCanvas({
             );
           })}
         </g>
+
+        {/* lineage view: the year ruler rides above the bands, pinned under the controls */}
+        {axis && (
+          <g className="time-axis-labels" aria-hidden="true">
+            {/* a thin ruler under the controls, so year labels never sit on a band's line */}
+            <rect
+              className="axis-ruler"
+              height={22 * Math.max(textScale, 1) * unitsPerPx}
+              width={view.w}
+              x={view.x}
+              y={yearLabelY - 15 * Math.max(textScale, 1) * unitsPerPx}
+            />
+            {axis.years.map(({ year, middle }) => (
+              <text
+                className="axis-label"
+                key={year}
+                style={textScale > 1 ? { fontSize: 11 * textScale } : undefined}
+                x={middle}
+                y={yearLabelY}
+              >
+                {year}
+              </text>
+            ))}
+            {axis.undatedX !== undefined && (
+              <text
+                className="axis-label"
+                style={textScale > 1 ? { fontSize: 11 * textScale } : undefined}
+                x={axis.undatedX}
+                y={yearLabelY}
+              >
+                undated
+              </text>
+            )}
+          </g>
+        )}
 
         {/* relation labels ride above the nodes, so a dot or name never covers them */}
         <g className="edge-label-layer" aria-hidden="true">
