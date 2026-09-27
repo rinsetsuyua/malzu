@@ -106,11 +106,22 @@ async function main() {
   const byStatusThenType = (a, b) =>
     `${a.status}:${a.type}:${a.id}`.localeCompare(`${b.status}:${b.type}:${b.id}`);
 
+  // The graph shows a family through its relationships, so the payload carries
+  // only families with at least one edge, and only the sources the shipped
+  // records cite. Unlinked families stay in data/ until a cited edge lands —
+  // this keeps every count in the UI equal to what the graph can draw.
+  const linked = new Set(edges.flatMap((e) => [e.from, e.to]));
+  const shownNodes = nodes.filter((n) => linked.has(n.id));
+  const citedIds = (record) =>
+    [...(record.sources ?? []), ...(record.first_seen?.sources ?? [])].map((evidence) => evidence.source);
+  const cited = new Set([...edges, ...shownNodes].flatMap(citedIds));
+  const shownSources = sources.filter((s) => cited.has(s.id));
+
   const atlas = {
     generated_at: new Date().toISOString().slice(0, 10),
-    nodes: nodes.map(projectNode).sort(byName),
+    nodes: shownNodes.map(projectNode).sort(byName),
     edges: edges.map(projectEdge).sort(byStatusThenType),
-    sources: sources.map(projectSource).sort(byName),
+    sources: shownSources.map(projectSource).sort(byName),
   };
 
   await mkdir(path.dirname(outFile), { recursive: true });
@@ -118,8 +129,9 @@ async function main() {
 
   const bytes = Buffer.byteLength(JSON.stringify(atlas));
   console.log(
-    `Wrote public/atlas.json — ${atlas.nodes.length} nodes, ${atlas.edges.length} edges, ` +
-      `${atlas.sources.length} sources (${(bytes / 1024).toFixed(0)} kB).`,
+    `Wrote public/atlas.json — ${atlas.nodes.length} nodes (${nodes.length - shownNodes.length} unlinked held back), ` +
+      `${atlas.edges.length} edges, ${atlas.sources.length} sources ` +
+      `(${sources.length - shownSources.length} not cited by the graph) (${(bytes / 1024).toFixed(0)} kB).`,
   );
 }
 

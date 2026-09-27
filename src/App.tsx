@@ -29,6 +29,7 @@ import {
   type PositionedEdge,
   type PositionedNode,
 } from "./lib/graphLayout";
+import { compactName, LABEL_LINE_HEIGHT, relationLabelWidth } from "./lib/nodeLabel";
 
 type ViewMode = "graph" | "timeline" | "sources" | "curation" | "about";
 type DockMode = "timeline" | "matrix" | "coverage" | "lens";
@@ -99,8 +100,6 @@ const relationAbbrev: Record<string, string> = {
   uses_loader: "LDR",
   variant_of: "VAR",
 };
-
-const compactName = (node?: MalwareNode) => node?.name.replace(" Stealer", "") ?? "Unknown";
 
 const edgeLabel = (edge: AtlasEdge) => relationLabels[edge.type] ?? edge.type.replaceAll("_", " ");
 
@@ -611,6 +610,134 @@ function uncoveredRect(svg: SVGSVGElement, rect: DOMRect) {
   return { left, right, top, bottom };
 }
 
+/** An edge's visible run: rim to rim, leaving room for the arrowhead. */
+type Segment = { x1: number; y1: number; x2: number; y2: number; visible: boolean; head?: string };
+
+const RIM_GAP = 3; // air between a rim and the line (or arrow tip)
+const HEAD_LENGTH = 9;
+const HEAD_HALF_WIDTH = 3.6;
+
+function edgeSegment(edge: PositionedEdge): Segment {
+  const x1 = edge.fromNode.x * X_SCALE;
+  const y1 = edge.fromNode.y * Y_SCALE;
+  const x2 = edge.toNode.x * X_SCALE;
+  const y2 = edge.toNode.y * Y_SCALE;
+  const length = Math.hypot(x2 - x1, y2 - y1) || 1;
+  const ux = (x2 - x1) / length;
+  const uy = (y2 - y1) / length;
+  const directed = edge.direction === "directed";
+  const start = edge.fromNode.radius + RIM_GAP;
+  const tip = edge.toNode.radius + RIM_GAP;
+  const end = tip + (directed ? HEAD_LENGTH : 0);
+
+  // only directed claims (descendant -> ancestor, loaded -> loader) get a head;
+  // drawn as geometry so it takes the edge's own colour and stays one size
+  let head: string | undefined;
+  if (directed) {
+    const tipX = x2 - ux * tip;
+    const tipY = y2 - uy * tip;
+    const baseX = tipX - ux * HEAD_LENGTH;
+    const baseY = tipY - uy * HEAD_LENGTH;
+    head = [
+      [tipX, tipY],
+      [baseX - uy * HEAD_HALF_WIDTH, baseY + ux * HEAD_HALF_WIDTH],
+      [baseX + uy * HEAD_HALF_WIDTH, baseY - ux * HEAD_HALF_WIDTH],
+    ]
+      .map(([px, py]) => `${px.toFixed(1)},${py.toFixed(1)}`)
+      .join(" ");
+  }
+
+  return {
+    x1: x1 + ux * start,
+    y1: y1 + uy * start,
+    x2: x2 - ux * end,
+    y2: y2 - uy * end,
+    visible: length > start + end,
+    head,
+  };
+}
+
+type Box = { left: number; right: number; top: number; bottom: number };
+
+// candidate label centres: along the run (t), then either side of the line
+// at growing distances (d, px along the line's normal)
+const LABEL_SPOTS = [0.5, 0.35, 0.65, 0.2, 0.8].flatMap((t) =>
+  [-9, 9, -18, 18, -28, 28].map((d) => ({ t, d })),
+);
+const RELATION_HALF_HEIGHT = 7; // 11px text
+
+const boxesOverlap = (a: Box, b: Box) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
+
+/** Gap between a label box and a circle's rim (negative = the box cuts into it). */
+function rimClearance(box: Box, node: PositionedNode) {
+  const cx = node.x * X_SCALE;
+  const cy = node.y * Y_SCALE;
+  const dx = Math.max(box.left - cx, 0, cx - box.right);
+  const dy = Math.max(box.top - cy, 0, cy - box.bottom);
+  return Math.hypot(dx, dy) - node.radius;
+}
+
+function nameBox(node: PositionedNode): Box {
+  const cx = node.x * X_SCALE;
+  const cy = node.y * Y_SCALE;
+  return {
+    left: cx - node.labelHalfWidth,
+    right: cx + node.labelHalfWidth,
+    top: cy - node.labelHalfHeight - 3,
+    bottom: cy + node.labelHalfHeight + 3,
+  };
+}
+
+/**
+ * Relation label positions, placed greedily in edge order (stable across
+ * selections). Each takes the spot near its line that avoids, in order of
+ * cost: labels already placed, family names, then circle rims. The label layer
+ * renders above the nodes, so a crowded label can overlap but is never hidden.
+ */
+function placeEdgeLabels(
+  edges: PositionedEdge[],
+  segments: Map<string, Segment>,
+  nodes: PositionedNode[],
+): Map<string, Point> {
+  const names = nodes.map(nameBox);
+  const placed: Box[] = [];
+  const points = new Map<string, Point>();
+
+  for (const edge of edges) {
+    const segment = segments.get(edge.id)!;
+    const length = Math.hypot(segment.x2 - segment.x1, segment.y2 - segment.y1) || 1;
+    const nx = -(segment.y2 - segment.y1) / length;
+    const ny = (segment.x2 - segment.x1) / length;
+    const halfWidth = relationLabelWidth(edgeLabel(edge)) / 2 + 3;
+    let best: { point: Point; box: Box; score: number } | undefined;
+
+    for (const { t, d } of LABEL_SPOTS) {
+      const cx = segment.x1 + (segment.x2 - segment.x1) * t + nx * d;
+      const cy = segment.y1 + (segment.y2 - segment.y1) * t + ny * d;
+      const box = {
+        left: cx - halfWidth,
+        right: cx + halfWidth,
+        top: cy - RELATION_HALF_HEIGHT,
+        bottom: cy + RELATION_HALF_HEIGHT,
+      };
+      const clearance = Math.min(...nodes.map((node) => rimClearance(box, node)));
+      const score =
+        (placed.some((other) => boxesOverlap(other, box)) ? -1000 : 0) -
+        names.filter((name) => boxesOverlap(name, box)).length * 400 +
+        Math.min(clearance, 6) * 5 -
+        Math.abs(t - 0.5) * 20 -
+        Math.abs(d) * 0.4;
+      // text-anchor middle; the alphabetic baseline sits ~4px below the centre
+      if (!best || score > best.score) best = { point: { x: cx, y: cy + 4 }, box, score };
+    }
+
+    placed.push(best!.box);
+    points.set(edge.id, best!.point);
+  }
+
+  return points;
+}
+
 function GraphCanvas({
   nodes,
   edges,
@@ -637,6 +764,14 @@ function GraphCanvas({
   onSelectNode: (nodeId: string) => void;
 }) {
   const home = useMemo(() => fitView(bounds), [bounds]);
+  const segments = useMemo(() => new Map(edges.map((edge) => [edge.id, edgeSegment(edge)])), [edges]);
+  const labelPoints = useMemo(() => placeEdgeLabels(edges, segments, nodes), [edges, nodes, segments]);
+  // selected and activated labels paint last, so they win any overlap
+  const labelOrder = [...edges].sort(
+    (a, b) =>
+      Number(a.id === selectedEdgeId || activatedEdgeIds.has(a.id)) -
+      Number(b.id === selectedEdgeId || activatedEdgeIds.has(b.id)),
+  );
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [view, setView] = useState<View>(home);
   const [isPanning, setIsPanning] = useState(false);
@@ -737,20 +872,6 @@ function GraphCanvas({
         onPointerCancel={endPan}
         onWheel={onWheel}
       >
-        <defs>
-          <marker
-            id="arrow"
-            markerHeight="7"
-            markerWidth="7"
-            orient="auto"
-            refX="6"
-            refY="3.5"
-            viewBox="0 0 7 7"
-          >
-            <path d="M0,0 L7,3.5 L0,7 Z" fill="currentColor" />
-          </marker>
-        </defs>
-
         <g className="edge-layer">
           {edges.map((edge) => (
             <GraphEdge
@@ -758,7 +879,7 @@ function GraphCanvas({
               isActivated={activatedEdgeIds.has(edge.id)}
               isSelected={edge.id === selectedEdgeId}
               key={edge.id}
-              showLabel={showEdgeLabels}
+              segment={segments.get(edge.id)!}
               onSelect={onSelectEdge}
             />
           ))}
@@ -774,6 +895,27 @@ function GraphCanvas({
               onSelect={onSelectNode}
             />
           ))}
+        </g>
+
+        {/* relation labels ride above the nodes, so a circle can never cover them */}
+        <g className="edge-label-layer" aria-hidden="true">
+          {labelOrder.map((edge) => {
+            const point = labelPoints.get(edge.id)!;
+            const className = [
+              "graph-edge-label",
+              edge.id === selectedEdgeId ? "selected" : "",
+              activatedEdgeIds.has(edge.id) ? "activated" : "",
+              showEdgeLabels ? "force-label" : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
+
+            return (
+              <text className={className} key={edge.id} x={point.x} y={point.y}>
+                {edgeLabel(edge)}
+              </text>
+            );
+          })}
         </g>
       </svg>
 
@@ -797,28 +939,25 @@ function GraphEdge({
   edge,
   isActivated,
   isSelected,
-  showLabel,
+  segment,
   onSelect,
 }: {
   edge: PositionedEdge;
   isActivated: boolean;
   isSelected: boolean;
-  showLabel: boolean;
+  segment: Segment;
   onSelect: (edgeId: string) => void;
 }) {
-  const x1 = edge.fromNode.x * 10;
-  const y1 = edge.fromNode.y * 7;
-  const x2 = edge.toNode.x * 10;
-  const y2 = edge.toNode.y * 7;
-  const midX = (x1 + x2) / 2;
-  const midY = (y1 + y2) / 2;
+  const { x1, y1, x2, y2 } = segment;
   const dashed = edge.type.startsWith("shares_");
+
+  if (!segment.visible) return null;
 
   return (
     <g
       className={`graph-edge rel-${edge.type} ${isSelected ? "selected" : ""} ${
         isActivated ? "activated" : ""
-      } ${dashed ? "dashed" : ""} ${showLabel ? "force-label" : ""}`}
+      } ${dashed ? "dashed" : ""}`}
       onClick={() => onSelect(edge.id)}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -829,10 +968,8 @@ function GraphEdge({
       role="button"
       tabIndex={0}
     >
-      <line markerEnd="url(#arrow)" x1={x1} x2={x2} y1={y1} y2={y2} />
-      <text x={midX} y={midY - 8}>
-        {edgeLabel(edge)}
-      </text>
+      <line x1={x1} x2={x2} y1={y1} y2={y2} />
+      {segment.head && <polygon className="edge-head" points={segment.head} />}
       <line className="edge-hitbox" x1={x1} x2={x2} y1={y1} y2={y2} />
     </g>
   );
@@ -875,15 +1012,18 @@ function GraphNode({
       tabIndex={0}
       transform={`translate(${node.x * 10} ${node.y * 7})`}
     >
-      <circle r={node.layer === "focus" ? 38 : 34} />
+      <circle r={node.radius} />
+      {/* lines centred on the node: the first rises by half the block */}
       <text>
-        {compactName(node)
-          .split(" ")
-          .map((word, index) => (
-            <tspan dy={index === 0 ? 0 : 14} key={word} x="0">
-              {word}
-            </tspan>
-          ))}
+        {node.lines.map((line, index) => (
+          <tspan
+            dy={index === 0 ? -((node.lines.length - 1) * LABEL_LINE_HEIGHT) / 2 : LABEL_LINE_HEIGHT}
+            key={index}
+            x="0"
+          >
+            {line}
+          </tspan>
+        ))}
       </text>
     </g>
   );

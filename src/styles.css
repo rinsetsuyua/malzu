@@ -653,7 +653,13 @@ button { cursor: pointer; }
   stroke-width: 2.4;
 }
 
-.graph-edge text {
+/* arrowheads follow their line: typed colour, softened at rest, signal when selected */
+.graph-edge .edge-head { fill: currentColor; }
+.graph-edge:not(.activated):not(.selected) .edge-head { opacity: 0.55; }
+.graph-edge.selected .edge-head { fill: var(--signal); }
+
+/* relation labels live in their own layer above the nodes (halo keeps them legible) */
+.graph-edge-label {
   fill: var(--ink-soft);
   font-size: 11px;
   font-weight: 540;
@@ -668,9 +674,9 @@ button { cursor: pointer; }
   transition: opacity 140ms ease;
 }
 
-.graph-edge.activated text, .graph-edge.selected text, .graph-edge.force-label text { opacity: 1; }
-.graph-edge.force-label:not(.activated):not(.selected) text { opacity: 0.7; }
-.graph-edge.selected text { fill: var(--signal-deep); }
+.graph-edge-label.activated, .graph-edge-label.selected, .graph-edge-label.force-label { opacity: 1; }
+.graph-edge-label.force-label:not(.activated):not(.selected) { opacity: 0.7; }
+.graph-edge-label.selected { fill: var(--signal-deep); }
 
 .edge-hitbox { opacity: 0; stroke: transparent; stroke-width: 20; }
 
@@ -708,6 +714,8 @@ button { cursor: pointer; }
 
 /* status ring for actively-tracked families */
 .graph-node.status-active circle { stroke-dasharray: 0; }
+
+.graph-node text, .graph-node tspan { dominant-baseline: central; }
 
 .graph-node text {
   fill: var(--ink);

@@ -1,10 +1,16 @@
 import type { AtlasEdge, MalwareNode } from "../data/types";
+import { nodeLabel, type NodeLabel } from "./nodeLabel";
 
 export type PositionedNode = MalwareNode & {
   x: number;
   y: number;
   degree: number;
   layer: "focus" | "near" | "far" | "outer";
+  /** circle radius in render px, grown to hold the label */
+  radius: number;
+  lines: string[];
+  labelHalfWidth: number;
+  labelHalfHeight: number;
 };
 
 export type PositionedEdge = AtlasEdge & {
@@ -49,11 +55,11 @@ type Vec = { x: number; y: number };
 /**
  * Separation relaxation — pushes apart any pair of nodes that would visually
  * overlap. Distances are measured in render pixels (accounting for the
- * asymmetric x*10 / y*7 scaling) so the guarantee matches what's actually drawn.
+ * asymmetric x*10 / y*7 scaling) and use each node's own radius, so the
+ * guarantee matches what's actually drawn.
  * Deterministic: same input positions always yield the same result.
  */
-function separate(nodes: { id: string }[], pos: Map<string, Vec>): void {
-  const minGapPx = NODE_PX_RADIUS * 2 + 14; // diameter + breathing room
+function separate(nodes: { id: string }[], pos: Map<string, Vec>, labels: Map<string, NodeLabel>): void {
   const passes = 60;
 
   for (let pass = 0; pass < passes; pass += 1) {
@@ -62,6 +68,8 @@ function separate(nodes: { id: string }[], pos: Map<string, Vec>): void {
       for (let j = i + 1; j < nodes.length; j += 1) {
         const a = pos.get(nodes[i].id)!;
         const b = pos.get(nodes[j].id)!;
+        // rims + room for a visible line and an arrowhead between any two nodes
+        const minGapPx = labels.get(nodes[i].id)!.radius + labels.get(nodes[j].id)!.radius + RIM_CLEARANCE;
         // delta in pixel space
         let dxPx = (a.x - b.x) * X_UNIT_PX;
         let dyPx = (a.y - b.y) * Y_UNIT_PX;
@@ -92,9 +100,11 @@ function separate(nodes: { id: string }[], pos: Map<string, Vec>): void {
 const AREA = 100; // logical layout space, ~0..100 on both axes
 
 // The canvas renders layout units as x*10, y*7 inside a 1000x700 viewBox, with
-// node circles ~34-38px. So one layout unit is wider on x than on y; overlap
-// checks below correct for that. Node count drives how much room/iteration we need.
-const NODE_PX_RADIUS = 36;
+// node circles of 34px or more (grown to fit their label). So one layout unit is
+// wider on x than on y; overlap checks correct for that.
+const BASE_RADIUS = 34;
+const FOCUS_RADIUS = 38;
+const RIM_CLEARANCE = 28; // px between rims: 2 rim gaps + a 9px head + a short line
 const X_UNIT_PX = 10;
 const Y_UNIT_PX = 7;
 
@@ -228,19 +238,6 @@ export function buildGraphLayout(nodes: MalwareNode[], edges: AtlasEdge[]): Grap
     p.y = PAD + ((p.y - rawMinY) / rawSpanY) * extent;
   }
 
-  // now enforce non-overlap in the final coordinate space
-  separate(nodes, pos);
-
-  // recompute bounds (separation may have nudged the extremes outward)
-  const xs = nodes.map((node) => pos.get(node.id)!.x);
-  const ys = nodes.map((node) => pos.get(node.id)!.y);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
-  const spanX = maxX - minX || 1;
-  const spanY = maxY - minY || 1;
-
   // --- layer banding from graph distance (BFS) to the hub, for visual depth ---
   const adjacency = new Map<string, Set<string>>();
   for (const node of nodes) adjacency.set(node.id, new Set());
@@ -269,6 +266,23 @@ export function buildGraphLayout(nodes: MalwareNode[], edges: AtlasEdge[]): Grap
     return "outer";
   };
 
+  const labels = new Map(
+    nodes.map((node) => [node.id, nodeLabel(node, layerFor(node.id) === "focus" ? FOCUS_RADIUS : BASE_RADIUS)]),
+  );
+
+  // now enforce non-overlap in the final coordinate space
+  separate(nodes, pos, labels);
+
+  // recompute bounds (separation may have nudged the extremes outward)
+  const xs = nodes.map((node) => pos.get(node.id)!.x);
+  const ys = nodes.map((node) => pos.get(node.id)!.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const spanX = maxX - minX || 1;
+  const spanY = maxY - minY || 1;
+
   // positions already live in the final, separated coordinate space; emit as-is
   const positioned = new Map<string, PositionedNode>(
     nodes.map((node) => {
@@ -281,6 +295,7 @@ export function buildGraphLayout(nodes: MalwareNode[], edges: AtlasEdge[]): Grap
           y: p.y,
           degree: degree.get(node.id) ?? 0,
           layer: layerFor(node.id),
+          ...labels.get(node.id)!,
         },
       ];
     }),
@@ -389,8 +404,12 @@ export function buildLineageLayout(nodes: MalwareNode[], edges: AtlasEdge[]): Gr
     });
   }
 
+  const labels = new Map(
+    nodes.map((node) => [node.id, nodeLabel(node, layerById.get(node.id) === "focus" ? FOCUS_RADIUS : BASE_RADIUS)]),
+  );
+
   // guarantee non-overlap (handles the stagger pushing a node into a neighbour)
-  separate(nodes, pos);
+  separate(nodes, pos, labels);
 
   const xs = nodes.map((node) => pos.get(node.id)!.x);
   const ys = nodes.map((node) => pos.get(node.id)!.y);
@@ -410,6 +429,7 @@ export function buildLineageLayout(nodes: MalwareNode[], edges: AtlasEdge[]): Gr
           y: p.y,
           degree: degree.get(node.id) ?? 0,
           layer: layerById.get(node.id) ?? "outer",
+          ...labels.get(node.id)!,
         },
       ];
     }),
