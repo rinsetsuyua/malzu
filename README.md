@@ -75,6 +75,30 @@ Relation scope:
 - `behavior`: shared behavior without code proof
 - `reporting`: public relatedness claim where the mechanism is unclear
 
+## Reading The Graph
+
+Each dot is a malware family.
+
+A dot's area is proportional to the distinct public sources citing the family or its relationships, so thinly sourced lineage looks thin.
+
+Relationships read by line style, not colour:
+
+- solid arrow: lineage (`derived_from`, `forked_from`, `variant_of`, `inspired_by`), pointing to the ancestor
+- dashed: shared code, creator, operator, or behaviour, with no direction
+- dotted arrow: delivery (`loaded_by`, `distributed_with`), pointing to the loader
+- thin line: reported relatedness with an unclear mechanism
+- lighter strength: a tentative claim of any kind
+
+Colour marks state only: the selected family or relationship, and what it touches.
+
+Web view lays out each connected cluster with a seeded Fruchterman–Reingold simulation, then packs clusters largest first.
+
+Lineage view shows ancestry trees only, ancestors on the left.
+
+Filters and search fade what doesn't match; positions never move.
+
+Only families with at least one cited relationship ship to the app, so every count matches what the graph draws.
+
 ## Data And Build
 
 Rich source records live under `data/`.

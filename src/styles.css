@@ -4,49 +4,30 @@
    Surfaces (glass) appear only where structure genuinely requires enclosure:
    the graph canvas and the inspector. Everything else breathes. */
 
+/* Palette: the rin。 design tokens (Personal Projects/design-tokens/tokens.json
+   is canonical — change it there first). Cool only; colour marks state change;
+   two accents (green, blue); one surface; dark is its own blue-grey ramp. */
 :root {
   color-scheme: light;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-  /* ink — a near-black with a trace of blue, never pure #000 */
-  --ink: #10151d;
-  --ink-soft: #4a586b;
-  --ink-faint: #8893a4;
-  --ink-ghost: #aab3c0;
+  --ground: #F8FAF7;
+  --ink: #18221F;
+  --ink-muted: #59645F; /* all quiet text: labels, captions, metadata (4.5:1) */
+  --ink-faint: #8F9994; /* absent or not-applicable values only */
+  --line: rgba(143, 153, 148, 0.34);
+  --line-strong: rgba(143, 153, 148, 0.62);
+  --line-soft: rgba(143, 153, 148, 0.18);
+  --green: #397A68;
+  --blue: #5672AD;
+  --wash: rgba(121, 155, 217, 0.075);
 
-  /* aero atmosphere */
-  --sky: #cfeafe;
-  --sky-deep: #9fd0f5;
-  --meadow: #dff3e6;
-  --paper: #f4f9fd;
-
-  /* one decisive accent for the lens / selection — warm against the cool base */
-  --signal: #ff5d2e;
-  --signal-deep: #d8431a;
-  --signal-wash: rgba(255, 93, 46, 0.12);
-
-  /* relationship hues — quiet, distinct, never neon */
-  --rel-derived: #276c8e;
-  --rel-forked: #2f7df0;
-  --rel-inspired: #8a6dd8;
-  --rel-loaded: #47706a;
-  --rel-related: #68758a;
-  --rel-behavior: #6c8e27;
-  --rel-code: #1f9d74;
-  --rel-creator: #e0961b;
-  --rel-variant: #c1556b;
-
-  /* status */
-  --ok: #15935b;
-  --warn: #d98a06;
-  --bad: #c1455a;
-
-  /* glass tokens — warmth lives here, as inner light, never lingering shadow */
-  --glass: rgba(255, 255, 255, 0.55);
-  --glass-strong: rgba(255, 255, 255, 0.72);
-  --glass-edge: rgba(255, 255, 255, 0.85);
-  --hairline: rgba(16, 21, 29, 0.08);
-  --hairline-soft: rgba(16, 21, 29, 0.05);
+  /* Malzu derivations */
+  --cloud-core: rgba(121, 155, 217, 0.34); /* sky-blue radial cloud-wash: active states + selection */
+  --cloud-edge: rgba(121, 155, 217, 0);
+  --veil: rgba(248, 250, 247, 0.94); /* floating panels: the same ground, barely translucent */
+  --edge: #59645F; /* relationship lines at rest */
+  --dot: #59645F; /* family dots at rest */
 
   --rhythm: 3.6rem;
 }
@@ -60,18 +41,13 @@ body {
   color: var(--ink);
   overflow: hidden;
   /* sky -> meadow vertical wash, with soft radial glow blobs floating over it */
-  background:
-    radial-gradient(40rem 30rem at 12% -4%, rgba(159, 208, 245, 0.55), transparent 70%),
-    radial-gradient(34rem 28rem at 92% 8%, rgba(207, 234, 254, 0.6), transparent 72%),
-    radial-gradient(48rem 40rem at 78% 108%, rgba(223, 243, 230, 0.7), transparent 70%),
-    linear-gradient(178deg, var(--sky) 0%, var(--paper) 42%, var(--meadow) 100%);
-  background-attachment: fixed;
+  background: var(--ground);
 }
 
 button, input, select { font: inherit; }
 button { cursor: pointer; }
 
-::selection { background: var(--signal-wash); }
+::selection { background: var(--wash); }
 
 /* ---- boot splash : shown while atlas.json loads ---- */
 .boot {
@@ -84,7 +60,7 @@ button { cursor: pointer; }
 }
 
 .boot-mark {
-  border: 2px solid var(--signal);
+  border: 2px solid var(--blue);
   border-radius: 999px;
   border-top-color: transparent;
   height: 26px;
@@ -105,7 +81,7 @@ button { cursor: pointer; }
 }
 
 .boot-line {
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   font-size: 14px;
   line-height: 1.55;
   margin: -10px 0 0;
@@ -114,16 +90,15 @@ button { cursor: pointer; }
   text-align: center;
 }
 
-.boot-note { color: var(--ink-faint); font-size: 12px; margin: 0; }
+.boot-note { color: var(--ink-muted); font-size: 12px; margin: 0; }
 
-.boot-error { color: var(--ink-soft); font-size: 14px; }
+.boot-error { color: var(--ink-muted); font-size: 14px; }
 
 .boot-error button {
-  background: var(--glass-strong);
+  background: var(--wash);
   border: 0;
   border-radius: 10px;
-  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-  color: var(--signal-deep);
+  color: var(--ink);
   font-weight: 600;
   margin-top: 12px;
   padding: 9px 18px;
@@ -164,7 +139,7 @@ button { cursor: pointer; }
 }
 
 .mark span::after {
-  border: 1.6px solid var(--signal);
+  border: 1.6px solid var(--ink-muted);
   content: "";
   height: 18px;
   left: 8px;
@@ -185,7 +160,7 @@ button { cursor: pointer; }
   background: transparent;
   border: 0;
   border-radius: 14px;
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   display: grid;
   gap: 6px;
   justify-items: center;
@@ -203,16 +178,13 @@ button { cursor: pointer; }
 }
 
 .rail-button:hover {
-  color: var(--ink-soft);
+  color: var(--ink-muted);
 }
 
 .rail-button.active {
-  color: var(--signal-deep);
-  /* glass pill with inner light — warmth without a drop shadow */
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
-  box-shadow:
-    inset 0 1px 0 var(--glass-edge),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  color: var(--ink);
+  /* the sky-blue cloud-wash: the active state, never a frame */
+  background: radial-gradient(120% 150% at 50% 45%, var(--cloud-core), var(--cloud-edge) 72%);
 }
 
 /* ---- workspace ---- */
@@ -248,7 +220,7 @@ button { cursor: pointer; }
 
 .public-dot {
   align-items: center;
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   display: inline-flex;
   font-size: 11px;
   font-weight: 560;
@@ -258,9 +230,9 @@ button { cursor: pointer; }
 }
 
 .public-dot::before {
-  background: var(--ok);
+  background: var(--green);
   border-radius: 999px;
-  box-shadow: 0 0 0 4px rgba(21, 147, 91, 0.14);
+  box-shadow: 0 0 0 4px rgba(57, 122, 104, 0.14);
   content: "";
   height: 5px;
   width: 5px;
@@ -290,7 +262,7 @@ button { cursor: pointer; }
 }
 
 .metrics dd {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   font-size: 10px;
   font-weight: 560;
   letter-spacing: 0.08em;
@@ -300,8 +272,8 @@ button { cursor: pointer; }
 /* search — a single underline, the most restrained input possible */
 .search {
   align-items: center;
-  border-bottom: 1.5px solid var(--hairline);
-  color: var(--ink-faint);
+  border-bottom: 1.5px solid var(--line);
+  color: var(--ink-muted);
   display: flex;
   gap: 10px;
   height: 36px;
@@ -309,7 +281,7 @@ button { cursor: pointer; }
   transition: border-color 160ms ease;
 }
 
-.search:focus-within { border-color: var(--signal); }
+.search:focus-within { border-color: var(--blue); }
 
 .search input {
   background: transparent;
@@ -320,7 +292,7 @@ button { cursor: pointer; }
   width: 100%;
 }
 
-.search input::placeholder { color: var(--ink-ghost); }
+.search input::placeholder { color: var(--ink-faint); }
 
 /* ---- work surface : graph-first, panels float over it ---- */
 
@@ -336,11 +308,8 @@ button { cursor: pointer; }
   min-width: 0;
   overflow: hidden;
   position: relative;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.22));
-  box-shadow:
-    inset 0 1px 0 var(--glass-edge),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.35),
-    inset 0 0 0 1.5px var(--hairline-soft);
+  /* the wash tints the graph's field; it never encloses */
+  background: var(--wash);
 }
 
 /* ---- floating overlay panels (inspector, analytical dock) ---- */
@@ -349,13 +318,10 @@ button { cursor: pointer; }
   position: absolute;
   z-index: 5;
   display: flex;
-  background: linear-gradient(180deg, var(--glass-strong), rgba(255, 255, 255, 0.62));
-  backdrop-filter: blur(14px) saturate(1.1);
-  -webkit-backdrop-filter: blur(14px) saturate(1.1);
-  box-shadow:
-    inset 0 1px 0 var(--glass-edge),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.5),
-    0 18px 50px rgba(40, 56, 82, 0.12);
+  background: var(--veil);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
   transition: transform 240ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -371,7 +337,7 @@ button { cursor: pointer; }
   align-items: center;
   background: transparent;
   border: 0;
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   display: inline-flex;
   font-size: 11px;
   font-weight: 650;
@@ -383,7 +349,7 @@ button { cursor: pointer; }
   z-index: 1;
 }
 
-.overlay-handle:hover { color: var(--signal-deep); }
+.overlay-handle:hover { color: var(--ink); }
 
 /* right-docked inspector */
 .overlay-panel.right {
@@ -411,9 +377,9 @@ button { cursor: pointer; }
 .overlay-panel.right.collapsed .overlay-handle {
   right: calc(100% + 12px);
   top: 84px;
-  background: var(--glass-strong);
+  background: var(--veil);
   border-radius: 10px;
-  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(40, 56, 82, 0.12);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
   padding: 9px 12px;
   white-space: nowrap;
 }
@@ -450,17 +416,16 @@ button { cursor: pointer; }
   right: 16px;
 }
 
-/* faint engineering grid + a warm glow under the focus node */
+/* faint engineering grid */
 .canvas-region::before {
   background:
-    radial-gradient(circle at 50% 50%, rgba(255, 93, 46, 0.07), transparent 38%),
-    linear-gradient(90deg, rgba(16, 21, 29, 0.035) 1px, transparent 1px),
-    linear-gradient(rgba(16, 21, 29, 0.032) 1px, transparent 1px);
-  background-size: auto, 46px 46px, 46px 46px;
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px),
+    linear-gradient(var(--line-soft) 1px, transparent 1px);
+  background-size: 46px 46px, 46px 46px;
   content: "";
   inset: 0;
   mask-image: radial-gradient(circle at 50% 48%, black, transparent 76%);
-  opacity: 0.7;
+  opacity: 0.5;
   position: absolute;
   pointer-events: none;
 }
@@ -469,8 +434,11 @@ button { cursor: pointer; }
   align-items: flex-start;
   display: flex;
   gap: 26px;
-  /* tools and filters sit together on the left, clear of the inspector */
+  /* tools and filters sit together on the left, clear of the inspector;
+     the legend takes its own line beneath them */
+  flex-wrap: wrap;
   justify-content: flex-start;
+  row-gap: 10px;
   left: 22px;
   /* the row's empty stretch must not swallow zoom clicks or canvas pans */
   pointer-events: none;
@@ -484,9 +452,9 @@ button { cursor: pointer; }
 
 .graph-toolset {
   align-items: center;
-  background: var(--glass-strong);
+  background: var(--veil);
   border-radius: 12px;
-  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
   display: flex;
   gap: 2px;
   padding: 3px;
@@ -496,7 +464,7 @@ button { cursor: pointer; }
 
 .toolset-divider {
   align-self: stretch;
-  background: var(--hairline);
+  background: var(--line);
   margin: 4px 4px;
   width: 1px;
 }
@@ -510,7 +478,7 @@ button { cursor: pointer; }
 .graph-filterset label { display: grid; gap: 4px; }
 
 .graph-filterset label span {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   font-size: 9px;
   font-weight: 650;
   letter-spacing: 0.1em;
@@ -543,9 +511,9 @@ button { cursor: pointer; }
 
 .zoom-controls {
   align-items: center;
-  background: var(--glass-strong);
+  background: var(--veil);
   border-radius: 12px;
-  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
   display: flex;
   gap: 2px;
   padding: 3px;
@@ -564,7 +532,7 @@ button { cursor: pointer; }
   background: transparent;
   border: 0;
   border-radius: 9px;
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   display: inline-flex;
   height: 30px;
   justify-content: center;
@@ -573,12 +541,12 @@ button { cursor: pointer; }
 }
 
 .zoom-controls button:hover {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
-  color: var(--signal-deep);
+  background: var(--wash);
+  color: var(--ink);
 }
 
 .zoom-controls span {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
   font-weight: 600;
@@ -591,7 +559,7 @@ button { cursor: pointer; }
   background: transparent;
   border: 0;
   border-radius: 9px;
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   display: inline-flex;
   height: 32px;
   justify-content: center;
@@ -602,12 +570,14 @@ button { cursor: pointer; }
 .tool-button:hover { color: var(--ink); }
 
 .tool-button.active {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.5));
-  box-shadow: inset 0 1px 0 var(--glass-edge);
-  color: var(--signal-deep);
+  background: radial-gradient(120% 150% at 50% 45%, var(--cloud-core), var(--cloud-edge) 72%);
+  color: var(--ink);
 }
 
-/* ---- graph ---- */
+/* ---- graph ----
+   Dots sized by evidence, names below in ink. Relationships read by line style
+   (four families), never by hue. Blue appears only for the selection and what
+   it touches; the selected family also gets the sky-blue cloud-wash. */
 
 .graph-canvas {
   display: block;
@@ -618,115 +588,118 @@ button { cursor: pointer; }
   z-index: 1;
 }
 
-.graph-edge { color: rgba(74, 88, 107, 0.5); outline: 0; cursor: pointer; }
+.graph-edge { color: var(--edge); cursor: pointer; outline: 0; }
+.graph-edge.activated, .graph-edge.selected { color: var(--blue); }
 
-.graph-edge line:not(.edge-hitbox) {
+.graph-edge .edge-line {
+  opacity: 0.78;
   stroke: currentColor;
-  stroke-width: 1.4;
+  stroke-width: 1.5;
+  transition: stroke-width 140ms ease, opacity 140ms ease;
   vector-effect: non-scaling-stroke;
-  transition: stroke-width 140ms ease;
 }
 
-.graph-edge.dashed line:not(.edge-hitbox) { stroke-dasharray: 5 7; }
+.graph-edge .edge-head { fill: currentColor; opacity: 0.78; }
 
-/* relationship-typed color carries through the whole edge */
-.graph-edge.rel-derived_from { color: var(--rel-derived); }
-.graph-edge.rel-forked_from { color: var(--rel-forked); }
-.graph-edge.rel-inspired_by { color: var(--rel-inspired); }
-.graph-edge.rel-loaded_by { color: var(--rel-loaded); }
-.graph-edge.rel-reported_as_related_to { color: var(--rel-related); }
-.graph-edge.rel-shares_behavior_with { color: var(--rel-behavior); }
-.graph-edge.rel-shares_code_with { color: var(--rel-code); }
-.graph-edge.rel-shares_creator_with { color: var(--rel-creator); }
-.graph-edge.rel-uses_loader { color: var(--rel-loaded); }
-.graph-edge.rel-variant_of { color: var(--rel-variant); }
+/* line families — shared by the canvas and the legend */
+.fam-shared .edge-line, .legend-line.fam-shared { stroke-dasharray: 6 5; stroke-width: 1.3; }
+.fam-delivery .edge-line, .legend-line.fam-delivery { stroke-dasharray: 0.5 5; stroke-linecap: round; stroke-width: 1.9; }
+.fam-reported .edge-line, .legend-line.fam-reported { stroke-width: 0.9; }
+.fam-reported .edge-line { opacity: 0.5; }
 
-/* at rest, edges keep their typed hue but soften — lineage stays legible */
-.graph-edge:not(.activated):not(.selected) line:not(.edge-hitbox) {
-  opacity: 0.55;
-}
+/* tentative claims draw at lower strength, whatever their family */
+.graph-edge.tentative .edge-line, .graph-edge.tentative .edge-head { opacity: 0.42; }
 
-.graph-edge.activated line:not(.edge-hitbox) { stroke-width: 1.8; }
+.graph-edge.activated .edge-line, .graph-edge.activated .edge-head { opacity: 1; }
+.graph-edge.activated.tentative .edge-line, .graph-edge.activated.tentative .edge-head { opacity: 0.7; }
+.graph-edge.activated .edge-line { stroke-width: 2; }
+.graph-edge.selected .edge-line { stroke-width: 2.6; }
 
-.graph-edge.selected line:not(.edge-hitbox) {
-  stroke: var(--signal);
-  stroke-width: 2.4;
-}
+/* focus + context: what the selection doesn't touch recedes; filters fade harder */
+.graph-edge.receded { opacity: 0.5; }
+.graph-edge.faded { opacity: 0.1; pointer-events: none; }
 
-/* arrowheads follow their line: typed colour, softened at rest, signal when selected */
-.graph-edge .edge-head { fill: currentColor; }
-.graph-edge:not(.activated):not(.selected) .edge-head { opacity: 0.55; }
-.graph-edge.selected .edge-head { fill: var(--signal); }
+.graph-edge:focus-visible .edge-line { stroke-width: 3; }
 
-/* relation labels live in their own layer above the nodes (halo keeps them legible) */
+.edge-hitbox { opacity: 0; stroke: transparent; stroke-width: 16; vector-effect: non-scaling-stroke; }
+
+/* relation labels live in their own layer above the nodes; the halo keeps them legible */
 .graph-edge-label {
-  fill: var(--ink-soft);
+  fill: var(--ink-muted);
   font-size: 11px;
   font-weight: 540;
   letter-spacing: 0.01em;
   opacity: 0;
   paint-order: stroke;
   pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.95);
+  stroke: var(--ground);
   stroke-linejoin: round;
-  stroke-width: 5px;
+  stroke-width: 4px;
   text-anchor: middle;
   transition: opacity 140ms ease;
 }
 
 .graph-edge-label.activated, .graph-edge-label.selected, .graph-edge-label.force-label { opacity: 1; }
-.graph-edge-label.force-label:not(.activated):not(.selected) { opacity: 0.7; }
-.graph-edge-label.selected { fill: var(--signal-deep); }
+.graph-edge-label.force-label:not(.activated):not(.selected) { opacity: 0.75; }
+.graph-edge-label.selected { fill: var(--ink); font-weight: 600; }
+.graph-edge-label.faded { opacity: 0; }
 
-.edge-hitbox { opacity: 0; stroke: transparent; stroke-width: 20; }
+.graph-node { cursor: pointer; outline: 0; transition: opacity 160ms ease; }
 
-.graph-node { cursor: pointer; outline: 0; }
+.graph-node .dot { fill: var(--dot); transition: fill 140ms ease; }
+.graph-node .dot-hit { fill: transparent; }
+.graph-node .selection-wash { fill: url(#selection-wash); pointer-events: none; }
 
-.graph-node circle {
-  fill: rgba(255, 255, 255, 0.92);
-  stroke: rgba(16, 21, 29, 0.16);
-  stroke-width: 1.2;
-  transition: stroke 140ms ease, fill 140ms ease, r 140ms ease;
-}
+.graph-node.activated .dot { fill: var(--blue); fill-opacity: 0.78; }
+.graph-node.selected .dot { fill: var(--blue); fill-opacity: 1; }
 
-/* layer tints — depth from center, very quiet */
-.graph-node.focus circle {
-  fill: #fff;
-  stroke: rgba(16, 21, 29, 0.24);
-  stroke-width: 1.6;
-}
-
-.graph-node.focus:not(.selected) circle {
-  filter: drop-shadow(0 0 12px rgba(255, 93, 46, 0.16));
-}
-.graph-node.near circle { fill: rgba(231, 244, 255, 0.94); stroke: rgba(47, 125, 240, 0.26); }
-.graph-node.far circle { fill: rgba(231, 247, 240, 0.94); stroke: rgba(31, 157, 116, 0.28); }
-.graph-node.outer circle { fill: rgba(250, 244, 230, 0.94); stroke: rgba(224, 150, 27, 0.26); }
-
-.graph-node.activated circle { stroke-width: 1.6; }
-
-.graph-node.selected circle {
-  fill: #fff;
-  stroke: var(--signal);
-  stroke-width: 2.2;
-  filter: drop-shadow(0 0 14px rgba(255, 93, 46, 0.28));
-}
-
-/* status ring for actively-tracked families */
-.graph-node.status-active circle { stroke-dasharray: 0; }
-
-.graph-node text, .graph-node tspan { dominant-baseline: central; }
-
-.graph-node text {
+.graph-node .name {
   fill: var(--ink);
   font-size: 12px;
-  font-weight: 580;
-  letter-spacing: -0.01em;
-  pointer-events: none;
+  font-weight: 560;
+  letter-spacing: -0.005em;
+  paint-order: stroke;
+  stroke: var(--ground);
+  stroke-linejoin: round;
+  stroke-width: 3.5px;
   text-anchor: middle;
 }
 
-.graph-node.selected text { fill: var(--signal-deep); }
+.graph-node.selected .name { font-weight: 650; }
+
+.graph-node.receded { opacity: 0.5; }
+.graph-node.faded { opacity: 0.14; pointer-events: none; }
+
+.graph-node:focus-visible .dot { stroke: var(--blue); stroke-width: 2; }
+
+.canvas-empty {
+  color: var(--ink-muted);
+  font-size: 13px;
+  left: 50%;
+  margin: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* legend — read once, beside the filters */
+.graph-legend {
+  align-items: center;
+  color: var(--ink-muted);
+  display: flex;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  font-size: 11px;
+  font-weight: 540;
+  gap: 6px 16px;
+}
+
+.legend-item { align-items: center; display: inline-flex; gap: 7px; white-space: nowrap; }
+.legend-line { stroke: var(--edge); stroke-width: 1.5; }
+.legend-head { fill: var(--edge); }
+.legend-dot { fill: var(--dot); }
 
 /* ---- inspector : the second earned surface — a glass panel of detail ---- */
 
@@ -741,7 +714,7 @@ button { cursor: pointer; }
 }
 
 .inspector-kicker {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   font-size: 10px;
   font-weight: 650;
   letter-spacing: 0.12em;
@@ -763,7 +736,7 @@ button { cursor: pointer; }
 }
 
 .edge-type-row small {
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   font-size: 10px;
   font-weight: 650;
   letter-spacing: 0.08em;
@@ -778,7 +751,8 @@ button { cursor: pointer; }
   width: 9px;
 }
 
-.lens-dot { background: var(--signal); box-shadow: 0 0 0 4px var(--signal-wash); }
+.edge-dot { background: currentColor; }
+.lens-dot { background: var(--blue); box-shadow: 0 0 0 4px var(--wash); }
 
 .inspector h2 {
   font-size: 26px;
@@ -795,11 +769,11 @@ button { cursor: pointer; }
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 }
 
-.inspector h2 span { color: var(--ink-ghost); font-weight: 300; }
+.inspector h2 span { color: var(--ink-faint); font-weight: 300; }
 .entity-title { display: block; }
 
 /* collapsibles — hairline separation, not boxes */
-.collapsible-section { border-top: 1px solid var(--hairline); padding: 16px 0; }
+.collapsible-section { border-top: 1px solid var(--line); padding: 16px 0; }
 .collapsible-section:last-child { padding-bottom: 0; }
 
 .collapsible-section summary {
@@ -820,7 +794,7 @@ button { cursor: pointer; }
 .collapsible-section summary::-webkit-details-marker { display: none; }
 
 .collapsible-section summary::after {
-  color: var(--ink-ghost);
+  color: var(--ink-faint);
   content: "+";
   font-size: 16px;
   font-weight: 300;
@@ -831,7 +805,7 @@ button { cursor: pointer; }
 .collapsible-body { padding-top: 14px; }
 
 .collapsible-body p {
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   font-size: 13px;
   line-height: 1.62;
   margin: 0;
@@ -853,23 +827,22 @@ button { cursor: pointer; }
   text-transform: uppercase;
 }
 
-.confidence-meter small { color: var(--ink-faint); font-size: 11px; }
+.confidence-meter small { color: var(--ink-muted); font-size: 11px; }
 
 .confidence-dots { display: flex; gap: 7px; }
 
 .confidence-dots i {
-  background: rgba(16, 21, 29, 0.1);
+  background: var(--line);
   border-radius: 999px;
   height: 9px;
   width: 9px;
 }
 
-.tone-low { color: var(--bad); }
-.tone-medium { color: var(--warn); }
-.tone-high { color: var(--ok); }
-.confidence-dots .tone-low { background: var(--bad); }
-.confidence-dots .tone-medium { background: var(--warn); }
-.confidence-dots .tone-high { background: var(--ok); }
+/* confidence reads by weight and count, not hue */
+.tone-low { color: var(--ink-muted); font-weight: 500; }
+.tone-medium { color: var(--ink); font-weight: 580; }
+.tone-high { color: var(--ink); font-weight: 680; }
+.confidence-dots .tone-low, .confidence-dots .tone-medium, .confidence-dots .tone-high { background: var(--ink); }
 
 /* source list — link rows, no card chrome */
 .source-list { display: grid; gap: 2px; }
@@ -887,10 +860,10 @@ button { cursor: pointer; }
   transition: background 140ms ease;
 }
 
-.source-list a:hover { background: rgba(255, 255, 255, 0.6); }
+.source-list a:hover { background: var(--wash); }
 
 .source-list a span {
-  color: var(--signal-deep);
+  color: var(--blue);
   font-size: 11px;
   font-weight: 600;
   grid-column: 1;
@@ -910,7 +883,7 @@ button { cursor: pointer; }
 }
 
 .source-list a small {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   font-size: 11px;
   grid-column: 1;
   overflow: hidden;
@@ -918,7 +891,7 @@ button { cursor: pointer; }
   white-space: nowrap;
 }
 
-.source-list a svg { color: var(--ink-ghost); grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+.source-list a svg { color: var(--ink-faint); grid-column: 2; grid-row: 1 / span 3; align-self: center; }
 
 .metadata-row, .timeline-row {
   align-items: center;
@@ -928,7 +901,7 @@ button { cursor: pointer; }
   padding: 6px 0;
 }
 
-.metadata-row span, .timeline-row span { color: var(--ink-soft); font-size: 12px; }
+.metadata-row span, .timeline-row span { color: var(--ink-muted); font-size: 12px; }
 
 .metadata-row strong, .timeline-row strong {
   color: var(--ink);
@@ -937,17 +910,17 @@ button { cursor: pointer; }
   text-align: right;
 }
 
-.status-accepted { color: var(--ok) !important; }
-.status-tentative { color: var(--warn) !important; }
-.status-disputed, .status-deprecated { color: var(--bad) !important; }
+/* curation state: accepted is the one affirmed state (green); the rest by weight */
+.status-accepted { color: var(--green) !important; }
+.status-tentative { color: var(--ink-muted) !important; font-style: italic; }
+.status-disputed, .status-deprecated { color: var(--ink-muted) !important; text-decoration: line-through; }
 
 .tag-row { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
 
 .tag-row span {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--wash);
   border-radius: 999px;
-  box-shadow: inset 0 0 0 1px var(--hairline-soft);
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   font-size: 11px;
   font-weight: 540;
   padding: 5px 10px;
@@ -964,7 +937,7 @@ button { cursor: pointer; }
 }
 
 .relationship-row span, .relationship-row small {
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   font-size: 12px;
 }
 
@@ -995,7 +968,7 @@ button { cursor: pointer; }
   background: transparent;
   border: 0;
   border-radius: 9px;
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   display: inline-flex;
   font-size: 12px;
   font-weight: 580;
@@ -1005,18 +978,17 @@ button { cursor: pointer; }
   transition: color 140ms ease, background 140ms ease;
 }
 
-.dock-tab:hover { color: var(--ink-soft); }
+.dock-tab:hover { color: var(--ink-muted); }
 
 .dock-tab.active {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.45));
-  box-shadow: inset 0 1px 0 var(--glass-edge), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
-  color: var(--signal-deep);
+  background: radial-gradient(120% 150% at 50% 45%, var(--cloud-core), var(--cloud-edge) 72%);
+  color: var(--ink);
 }
 
 .dock-content { min-height: 0; }
 
 .dock-kicker {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   display: block;
   font-size: 10px;
   font-weight: 650;
@@ -1055,7 +1027,7 @@ button { cursor: pointer; }
 }
 
 .timeline-year {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -1063,9 +1035,9 @@ button { cursor: pointer; }
 
 .timeline-mark i {
   align-self: center;
-  background: var(--signal);
+  background: var(--blue);
   border-radius: 999px;
-  box-shadow: 0 0 0 3px var(--signal-wash);
+  box-shadow: 0 0 0 3px var(--wash);
   height: 7px;
   width: 7px;
 }
@@ -1119,7 +1091,7 @@ button { cursor: pointer; }
 .matrix-head { margin-bottom: 3px; }
 
 .matrix-head strong {
-  color: var(--ink-faint);
+  color: var(--ink-muted);
   font-size: 10px;
   font-weight: 650;
   letter-spacing: 0.04em;
@@ -1138,9 +1110,9 @@ button { cursor: pointer; }
 
 .matrix-cell {
   align-items: center;
-  background: rgba(16, 21, 29, 0.04);
+  background: var(--line-soft);
   border-radius: 6px;
-  color: var(--ink-soft);
+  color: var(--ink-muted);
   display: flex;
   font-size: 11px;
   font-weight: 650;
@@ -1148,16 +1120,16 @@ button { cursor: pointer; }
   justify-content: center;
 }
 
+/* the green tint marks "accepted"; the count stays ink so it keeps 4.5:1 */
 .matrix-cell.accepted {
-  background: rgba(21, 147, 91, 0.16);
-  box-shadow: inset 0 0 0 1px rgba(21, 147, 91, 0.32);
-  color: var(--ok);
+  background: rgba(57, 122, 104, 0.14);
+  color: var(--ink);
 }
 
 .matrix-cell.tentative {
-  background: rgba(217, 138, 6, 0.15);
-  box-shadow: inset 0 0 0 1px rgba(217, 138, 6, 0.32);
-  color: var(--warn);
+  background: var(--wash);
+  color: var(--ink-muted);
+  font-style: italic;
 }
 
 /* coverage dock — citation bars per family */
@@ -1180,20 +1152,20 @@ button { cursor: pointer; }
 }
 
 .coverage-bar {
-  background: rgba(16, 21, 29, 0.06);
+  background: var(--line-soft);
   border-radius: 999px;
   height: 8px;
   overflow: hidden;
 }
 
 .coverage-bar i {
-  background: linear-gradient(90deg, var(--signal), rgba(47, 125, 240, 0.55));
+  background: var(--ink-muted);
   border-radius: 999px;
   display: block;
   height: 100%;
 }
 
-.coverage-row small { color: var(--ink-faint); font-size: 11px; white-space: nowrap; }
+.coverage-row small { color: var(--ink-muted); font-size: 11px; white-space: nowrap; }
 
 /* lens dock — the explainable-attention readout */
 .lens-dock {
@@ -1211,7 +1183,7 @@ button { cursor: pointer; }
   margin-bottom: 10px;
 }
 
-.lens-copy p { color: var(--ink-soft); font-size: 12px; line-height: 1.6; margin: 0; }
+.lens-copy p { color: var(--ink-muted); font-size: 12px; line-height: 1.6; margin: 0; }
 
 .activation-list { display: grid; gap: 4px; align-content: start; }
 
@@ -1223,19 +1195,9 @@ button { cursor: pointer; }
   padding: 5px 0;
 }
 
-.rel-tick { border-radius: 999px; height: 8px; width: 8px; background: var(--ink-ghost); }
-.rel-tick.rel-derived_from { background: var(--rel-derived); }
-.rel-tick.rel-forked_from { background: var(--rel-forked); }
-.rel-tick.rel-inspired_by { background: var(--rel-inspired); }
-.rel-tick.rel-loaded_by { background: var(--rel-loaded); }
-.rel-tick.rel-reported_as_related_to { background: var(--rel-related); }
-.rel-tick.rel-shares_behavior_with { background: var(--rel-behavior); }
-.rel-tick.rel-shares_code_with { background: var(--rel-code); }
-.rel-tick.rel-shares_creator_with { background: var(--rel-creator); }
-.rel-tick.rel-uses_loader { background: var(--rel-loaded); }
-.rel-tick.rel-variant_of { background: var(--rel-variant); }
+.rel-glyph { display: block; }
 
-.activation-row > span:not(.rel-tick) { color: var(--ink-soft); font-size: 12px; }
+.activation-row > span { color: var(--ink-muted); font-size: 12px; }
 
 .activation-row strong {
   color: var(--ink);
@@ -1246,7 +1208,7 @@ button { cursor: pointer; }
   white-space: nowrap;
 }
 
-.activation-row small { color: var(--ink-faint); font-size: 11px; white-space: nowrap; }
+.activation-row small { color: var(--ink-muted); font-size: 11px; white-space: nowrap; }
 
 /* ---- responsive ---- */
 
@@ -1318,6 +1280,39 @@ button { cursor: pointer; }
   .overlay-panel.right { bottom: 56px; }
   .overlay-panel.right.collapsed { bottom: 10px; }
 
+  /* phones: the About panel explains the marks instead */
+  .graph-legend { display: none; }
+
   /* the inspector is a bottom sheet here, so zoom keeps the corner */
   .canvas-region:has(.inspector-overlay.open) .zoom-controls { right: 18px; }
+}
+
+/* ---- dark: its own cold blue-grey ramp, held light (not light inverted) ---- */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ground: #2E363D;
+    --ink: #E4ECF2;
+    --ink-muted: #A7B4BF;
+    --ink-faint: #7C8995;
+    --line: rgba(160, 176, 189, 0.24);
+    --line-strong: rgba(160, 176, 189, 0.4);
+    --line-soft: rgba(160, 176, 189, 0.13);
+    --green: #7DB8AA;
+    --blue: #92AAD8;
+    --wash: rgba(146, 170, 216, 0.14);
+    --cloud-core: rgba(146, 170, 216, 0.36);
+    --cloud-edge: rgba(146, 170, 216, 0);
+    --veil: rgba(46, 54, 61, 0.94);
+    --edge: #A7B4BF;
+    --dot: #A7B4BF;
+  }
+
+  .matrix-cell.accepted { background: rgba(125, 184, 170, 0.16); }
+  .public-dot::before { box-shadow: 0 0 0 4px rgba(125, 184, 170, 0.16); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

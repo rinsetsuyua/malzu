@@ -29,7 +29,7 @@ import {
   type PositionedEdge,
   type PositionedNode,
 } from "./lib/graphLayout";
-import { compactName, LABEL_LINE_HEIGHT, relationLabelWidth } from "./lib/nodeLabel";
+import { NAME_GAP, NAME_HEIGHT, compactName, dotRadius, relationLabelWidth } from "./lib/nodeLabel";
 
 type ViewMode = "graph" | "timeline" | "sources" | "curation" | "about";
 type DockMode = "timeline" | "matrix" | "coverage" | "lens";
@@ -171,19 +171,22 @@ export function App() {
     });
   }, [categoryFilter, query, relationshipFilter, statusFilter]);
 
-  // memoized so selection clicks don't rebuild the layout (or reset the camera)
   const visibleNodes = useMemo(() => {
     const visibleNodeIds = new Set(visibleEdges.flatMap((edge) => [edge.from, edge.to]));
     return atlas.nodes.filter((node) => visibleNodeIds.has(node.id));
   }, [visibleEdges]);
-  const layout = useMemo(
-    () => buildLayout(layoutMode, visibleNodes, visibleEdges),
-    [layoutMode, visibleEdges, visibleNodes],
-  );
+  // Positions are computed once per layout mode over the whole atlas, so filters
+  // and search never move a family: what doesn't match fades in place.
+  const layout = useMemo(() => buildLayout(layoutMode, atlas.nodes, atlas.edges), [layoutMode]);
+  const filtering =
+    categoryFilter !== "all" || statusFilter !== "all" || relationshipFilter !== "all" || query.trim() !== "";
+  const matchEdgeIds = useMemo(() => new Set(visibleEdges.map((edge) => edge.id)), [visibleEdges]);
+  const matchNodeIds = useMemo(() => new Set(visibleNodes.map((node) => node.id)), [visibleNodes]);
+  const maxEvidence = useMemo(() => Math.max(1, ...layout.nodes.map((node) => node.evidence)), [layout]);
 
   const selectedEdge =
     selection.type === "edge"
-      ? visibleEdges.find((edge) => edge.id === selection.id) ?? visibleEdges[0] ?? atlas.edges[0]
+      ? atlas.edges.find((edge) => edge.id === selection.id) ?? visibleEdges[0] ?? atlas.edges[0]
       : visibleEdges[0] ?? atlas.edges[0];
 
   const selectedNode = selection.type === "node" ? atlas.nodeById.get(selection.id) : undefined;
@@ -202,7 +205,7 @@ export function App() {
   } else {
     activatedNodeIds.add(selection.id);
 
-    for (const edge of visibleEdges) {
+    for (const edge of layout.edges) {
       if (edge.from === selection.id || edge.to === selection.id) {
         activatedEdgeIds.add(edge.id);
         activatedNodeIds.add(edge.from);
@@ -229,6 +232,7 @@ export function App() {
               categories={categories}
               categoryFilter={categoryFilter}
               layoutMode={layoutMode}
+              maxEvidence={maxEvidence}
               relationshipFilter={relationshipFilter}
               relationshipTypes={relationshipTypes}
               showEdgeLabels={showEdgeLabels}
@@ -244,7 +248,9 @@ export function App() {
               activatedNodeIds={activatedNodeIds}
               bounds={layout.bounds}
               edges={layout.edges}
-              isCompact={isCompact}
+              filtering={filtering}
+              matchEdgeIds={matchEdgeIds}
+              matchNodeIds={matchNodeIds}
               nodes={layout.nodes}
               selectedEdgeId={selection.type === "edge" ? selection.id : undefined}
               selectedNodeId={selection.type === "node" ? selection.id : undefined}
@@ -422,6 +428,7 @@ function GraphControls({
   categories,
   categoryFilter,
   layoutMode,
+  maxEvidence,
   relationshipFilter,
   relationshipTypes,
   showEdgeLabels,
@@ -435,6 +442,7 @@ function GraphControls({
   categories: string[];
   categoryFilter: string;
   layoutMode: LayoutMode;
+  maxEvidence: number;
   relationshipFilter: string;
   relationshipTypes: string[];
   showEdgeLabels: boolean;
@@ -462,7 +470,7 @@ function GraphControls({
             aria-pressed={layoutMode === "lineage"}
             className={layoutMode === "lineage" ? "tool-button active" : "tool-button"}
             onClick={() => onLayoutModeChange("lineage")}
-            title="Lineage view — ancestors flow to descendants"
+            title="Lineage view — ancestry trees, ancestors on the left"
             type="button"
           >
             <GitBranch size={17} strokeWidth={1.7} />
@@ -524,47 +532,53 @@ function GraphControls({
           </select>
         </label>
       </div>
+
+      <GraphLegend maxEvidence={maxEvidence} />
     </div>
   );
 }
 
 type View = { x: number; y: number; w: number; h: number };
 
-const MIN_ZOOM = 0.4;
+const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 4;
-// layout units render as x*X_SCALE / y*Y_SCALE (matches graphLayout geometry)
-const X_SCALE = 10;
-const Y_SCALE = 7;
+// 100% zoom = one layout px per screen px, on every screen size
+// below this zoom only the selection, its neighbours, and filter matches keep
+// names — and those hold a readable on-screen size instead of shrinking
+const NAME_ZOOM_FLOOR = 0.7;
+const READABLE_ZOOM = 0.85;
 
-// Initial view, centered on the content at a *readable* zoom. We deliberately
-// don't fit-everything for large graphs — that shrinks nodes to dots. Instead we
-// cap the viewport to a comfortable window (~the size that showed ~13 nodes well)
-// and center it on the content; the user pans/zooms out to explore the rest.
-const READABLE_W = 1000;
-const READABLE_H = 700;
-const targetAspect = READABLE_W / READABLE_H;
+/** How a relation type is drawn: four families of line style, no hue. */
+type EdgeFamily = "lineage" | "shared" | "delivery" | "reported";
 
-function fitView(bounds: GraphBounds): View {
-  const cx = ((bounds.minX + bounds.maxX) / 2) * X_SCALE;
-  const cy = ((bounds.minY + bounds.maxY) / 2) * Y_SCALE;
-  const contentW = (bounds.maxX - bounds.minX) * X_SCALE;
-  const contentH = (bounds.maxY - bounds.minY) * Y_SCALE;
+const edgeFamilies: Record<string, EdgeFamily> = {
+  derived_from: "lineage",
+  forked_from: "lineage",
+  inspired_by: "lineage",
+  variant_of: "lineage",
+  shares_behavior_with: "shared",
+  shares_code_with: "shared",
+  shares_creator_with: "shared",
+  shares_operator_with: "shared",
+  distributed_with: "delivery",
+  loaded_by: "delivery",
+  uses_loader: "delivery",
+  reported_as_related_to: "reported",
+  targets_same_ecosystem_as: "reported",
+};
 
-  // 100% = a readable window where nodes are full size. Small graphs that fit
-  // inside it are shown whole (centered); larger graphs open at this readable
-  // zoom centered on their middle, and the user pans/zooms out to see the rest.
-  const w = Math.max(READABLE_W, contentW <= READABLE_W ? contentW * 1.15 : READABLE_W);
-  const h = w / targetAspect;
-  void contentH;
-  // bias the content downward a little so top-row nodes clear the floating
-  // controls (which overlay the top ~70px of the canvas)
-  const topBias = h * 0.06;
-  return { x: cx - w / 2, y: cy - h / 2 - topBias, w, h };
-}
+const edgeFamily = (type: string): EdgeFamily => edgeFamilies[type] ?? "reported";
+
+const legendRows: Array<{ family: EdgeFamily; label: string; arrow: boolean }> = [
+  { family: "lineage", label: "lineage", arrow: true },
+  { family: "shared", label: "shared", arrow: false },
+  { family: "delivery", label: "delivery", arrow: true },
+  { family: "reported", label: "reported", arrow: false },
+];
 
 type Point = { x: number; y: number };
 
-/** The selected node, or the midpoint of the selected edge, in svg units. */
+/** The selected node, or the midpoint of the selected edge. */
 function selectionAnchor(
   nodes: PositionedNode[],
   edges: PositionedEdge[],
@@ -572,17 +586,23 @@ function selectionAnchor(
   selectedEdgeId?: string,
 ): Point | undefined {
   const node = selectedNodeId ? nodes.find((candidate) => candidate.id === selectedNodeId) : undefined;
-  if (node) return { x: node.x * X_SCALE, y: node.y * Y_SCALE };
+  if (node) return { x: node.x, y: node.y };
 
   const edge = selectedEdgeId ? edges.find((candidate) => candidate.id === selectedEdgeId) : undefined;
-  if (edge) {
-    return {
-      x: ((edge.fromNode.x + edge.toNode.x) / 2) * X_SCALE,
-      y: ((edge.fromNode.y + edge.toNode.y) / 2) * Y_SCALE,
-    };
-  }
+  if (edge) return { x: (edge.fromNode.x + edge.toNode.x) / 2, y: (edge.fromNode.y + edge.toNode.y) / 2 };
 
   return undefined;
+}
+
+/** Bounding box of some nodes, names included. */
+function nodesBox(nodes: PositionedNode[]): GraphBounds | undefined {
+  if (!nodes.length) return undefined;
+  return {
+    minX: Math.min(...nodes.map((node) => node.x - Math.max(node.radius, node.labelHalfWidth))),
+    maxX: Math.max(...nodes.map((node) => node.x + Math.max(node.radius, node.labelHalfWidth))),
+    minY: Math.min(...nodes.map((node) => node.y - node.radius)),
+    maxY: Math.max(...nodes.map((node) => node.y + node.radius + NAME_GAP + NAME_HEIGHT)),
+  };
 }
 
 /**
@@ -613,15 +633,13 @@ function uncoveredRect(svg: SVGSVGElement, rect: DOMRect) {
 /** An edge's visible run: rim to rim, leaving room for the arrowhead. */
 type Segment = { x1: number; y1: number; x2: number; y2: number; visible: boolean; head?: string };
 
-const RIM_GAP = 3; // air between a rim and the line (or arrow tip)
-const HEAD_LENGTH = 9;
-const HEAD_HALF_WIDTH = 3.6;
+const RIM_GAP = 3; // air between a dot's rim and the line (or arrow tip)
+const HEAD_LENGTH = 8;
+const HEAD_HALF_WIDTH = 3.4;
 
 function edgeSegment(edge: PositionedEdge): Segment {
-  const x1 = edge.fromNode.x * X_SCALE;
-  const y1 = edge.fromNode.y * Y_SCALE;
-  const x2 = edge.toNode.x * X_SCALE;
-  const y2 = edge.toNode.y * Y_SCALE;
+  const { x: x1, y: y1 } = edge.fromNode;
+  const { x: x2, y: y2 } = edge.toNode;
   const length = Math.hypot(x2 - x1, y2 - y1) || 1;
   const ux = (x2 - x1) / length;
   const uy = (y2 - y1) / length;
@@ -631,7 +649,7 @@ function edgeSegment(edge: PositionedEdge): Segment {
   const end = tip + (directed ? HEAD_LENGTH : 0);
 
   // only directed claims (descendant -> ancestor, loaded -> loader) get a head;
-  // drawn as geometry so it takes the edge's own colour and stays one size
+  // drawn as geometry so it takes the line's colour and stays one size
   let head: string | undefined;
   if (directed) {
     const tipX = x2 - ux * tip;
@@ -668,30 +686,24 @@ const RELATION_HALF_HEIGHT = 7; // 11px text
 
 const boxesOverlap = (a: Box, b: Box) => a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
 
-/** Gap between a label box and a circle's rim (negative = the box cuts into it). */
+/** Gap between a label box and a dot's rim (negative = the box cuts into it). */
 function rimClearance(box: Box, node: PositionedNode) {
-  const cx = node.x * X_SCALE;
-  const cy = node.y * Y_SCALE;
-  const dx = Math.max(box.left - cx, 0, cx - box.right);
-  const dy = Math.max(box.top - cy, 0, cy - box.bottom);
+  const dx = Math.max(box.left - node.x, 0, node.x - box.right);
+  const dy = Math.max(box.top - node.y, 0, node.y - box.bottom);
   return Math.hypot(dx, dy) - node.radius;
 }
 
-function nameBox(node: PositionedNode): Box {
-  const cx = node.x * X_SCALE;
-  const cy = node.y * Y_SCALE;
-  return {
-    left: cx - node.labelHalfWidth,
-    right: cx + node.labelHalfWidth,
-    top: cy - node.labelHalfHeight - 3,
-    bottom: cy + node.labelHalfHeight + 3,
-  };
-}
+const nameBox = (node: PositionedNode): Box => ({
+  left: node.x - node.labelHalfWidth,
+  right: node.x + node.labelHalfWidth,
+  top: node.y + node.radius + NAME_GAP - 1,
+  bottom: node.y + node.radius + NAME_GAP + NAME_HEIGHT,
+});
 
 /**
  * Relation label positions, placed greedily in edge order (stable across
  * selections). Each takes the spot near its line that avoids, in order of
- * cost: labels already placed, family names, then circle rims. The label layer
+ * cost: labels already placed, family names, then dots. The label layer
  * renders above the nodes, so a crowded label can overlap but is never hidden.
  */
 function placeEdgeLabels(
@@ -744,7 +756,9 @@ function GraphCanvas({
   activatedEdgeIds,
   activatedNodeIds,
   bounds,
-  isCompact,
+  filtering,
+  matchEdgeIds,
+  matchNodeIds,
   selectedEdgeId,
   selectedNodeId,
   showEdgeLabels,
@@ -756,67 +770,144 @@ function GraphCanvas({
   activatedEdgeIds: Set<string>;
   activatedNodeIds: Set<string>;
   bounds: GraphBounds;
-  isCompact: boolean;
+  filtering: boolean;
+  matchEdgeIds: Set<string>;
+  matchNodeIds: Set<string>;
   selectedEdgeId?: string;
   selectedNodeId?: string;
   showEdgeLabels: boolean;
   onSelectEdge: (edgeId: string) => void;
   onSelectNode: (nodeId: string) => void;
 }) {
-  const home = useMemo(() => fitView(bounds), [bounds]);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  // the canvas's size in client px; `measured` flips once the element has laid out
+  const [size, setSize] = useState({ w: 1000, h: 700, measured: false });
+  useLayoutEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
+    const measure = () => {
+      const rect = svg.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      setSize((current) =>
+        current.measured && Math.abs(current.w - rect.width) < 1 && Math.abs(current.h - rect.height) < 1
+          ? current
+          : { w: rect.width, h: rect.height, measured: true },
+      );
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(svg);
+    return () => observer.disconnect();
+  }, []);
+  const home = useMemo<View>(
+    () => ({
+      x: (bounds.minX + bounds.maxX) / 2 - size.w / 2,
+      y: (bounds.minY + bounds.maxY) / 2 - size.h / 2,
+      w: size.w,
+      h: size.h,
+    }),
+    [bounds, size],
+  );
   const segments = useMemo(() => new Map(edges.map((edge) => [edge.id, edgeSegment(edge)])), [edges]);
   const labelPoints = useMemo(() => placeEdgeLabels(edges, segments, nodes), [edges, nodes, segments]);
+  // positions never move with filters; the camera goes to the matches instead
+  const matchBox = useMemo(
+    () => (filtering ? nodesBox(nodes.filter((node) => matchNodeIds.has(node.id))) : undefined),
+    [filtering, matchNodeIds, nodes],
+  );
   // selected and activated labels paint last, so they win any overlap
   const labelOrder = [...edges].sort(
     (a, b) =>
       Number(a.id === selectedEdgeId || activatedEdgeIds.has(a.id)) -
       Number(b.id === selectedEdgeId || activatedEdgeIds.has(b.id)),
   );
-  const svgRef = useRef<SVGSVGElement | null>(null);
   const [view, setView] = useState<View>(home);
   const [isPanning, setIsPanning] = useState(false);
   const drag = useRef<{ pointerId: number; startX: number; startY: number; origin: View; moved: boolean } | null>(null);
 
-  // Frame the selection (or the content centre) inside the uncovered canvas, so
-  // the opening view shows what the inspector describes.
-  const framedView = (): View => {
+  /**
+   * A view that shows `target` (fitted, never past 100%) or, without one, the
+   * selection at 100% — centred in the canvas area the panels leave uncovered.
+   */
+  const frame = (target?: GraphBounds): View => {
     const svg = svgRef.current;
     const rect = svg?.getBoundingClientRect();
     if (!svg || !rect || rect.width === 0) return home;
 
-    const anchor = selectionAnchor(nodes, edges, selectedNodeId, selectedEdgeId) ?? {
-      x: ((bounds.minX + bounds.maxX) / 2) * X_SCALE,
-      y: ((bounds.minY + bounds.maxY) / 2) * Y_SCALE,
-    };
     const free = uncoveredRect(svg, rect);
-    // the viewBox is fitted with "meet": one svg unit = `scale` px, centred in the element
-    const scale = Math.min(rect.width / home.w, rect.height / home.h);
+    // the viewBox is fitted with "meet": at 100% one unit is `atHome` px (≈1)
+    const atHome = Math.min(rect.width / home.w, rect.height / home.h);
+    let scale = atHome;
+    let centre: Point;
+    if (target) {
+      const pad = 48;
+      scale = Math.min(
+        atHome,
+        (free.right - free.left - pad * 2) / Math.max(target.maxX - target.minX, 1),
+        (free.bottom - free.top - pad * 2) / Math.max(target.maxY - target.minY, 1),
+      );
+      scale = Math.max(scale, atHome * MIN_ZOOM);
+      centre = { x: (target.minX + target.maxX) / 2, y: (target.minY + target.maxY) / 2 };
+    } else {
+      centre = selectionAnchor(nodes, edges, selectedNodeId, selectedEdgeId) ?? {
+        x: (bounds.minX + bounds.maxX) / 2,
+        y: (bounds.minY + bounds.maxY) / 2,
+      };
+    }
+    const w = home.w * (atHome / scale);
+    const h = home.h * (atHome / scale);
     const dx = ((free.left + free.right) / 2 - (rect.left + rect.width / 2)) / scale;
     const dy = ((free.top + free.bottom) / 2 - (rect.top + rect.height / 2)) / scale;
-    return { ...home, x: anchor.x - dx - home.w / 2, y: anchor.y - dy - home.h / 2 };
+    return { x: centre.x - dx - w / 2, y: centre.y - dy - h / 2, w, h };
   };
 
-  // Re-frame only when the content changes shape (data, filters, layout mode).
-  // Selection is deliberately not a dependency: clicking a family must keep the
-  // reader's pan and zoom. Layout effect, so the first paint is already framed.
+  // Frame once the canvas is measured, and again when the layout changes (data
+  // or layout mode). Selection is deliberately not a dependency: clicking a
+  // family keeps the reader's pan and zoom. Layout effect, so the first paint
+  // is already framed.
   useLayoutEffect(() => {
-    setView(framedView());
-  }, [home]);
+    if (size.measured) setView(frame(matchBox));
+  }, [bounds, size.measured]);
 
-  const pxToSvg = () => {
+  // On resize, keep the centre and the zoom; only the window's extent changes.
+  const lastSize = useRef(size);
+  useLayoutEffect(() => {
+    const previous = lastSize.current;
+    lastSize.current = size;
+    if (!previous.measured || !size.measured || previous === size) return;
+    setView((current) => {
+      const w = current.w * (size.w / previous.w);
+      const h = current.h * (size.h / previous.h);
+      return { x: current.x + (current.w - w) / 2, y: current.y + (current.h - h) / 2, w, h };
+    });
+  }, [size]);
+
+  // When filters change, glide to what matches (debounced while typing).
+  const filtersSettled = useRef(false);
+  useEffect(() => {
+    if (!filtersSettled.current) {
+      filtersSettled.current = true;
+      return;
+    }
+    if (!matchBox) return;
+    const timer = window.setTimeout(() => setView(frame(matchBox)), 240);
+    return () => window.clearTimeout(timer);
+  }, [matchBox]);
+
+  // one svg unit in client px (uniform: "meet" keeps the aspect)
+  const unitPx = () => {
     const rect = svgRef.current?.getBoundingClientRect();
-    if (!rect || rect.width === 0) return { sx: view.w / 1000, sy: view.h / 700 };
-    return { sx: view.w / rect.width, sy: view.h / rect.height };
+    if (!rect || rect.width === 0) return 1;
+    return Math.min(rect.width / view.w, rect.height / view.h);
   };
 
   const zoomAround = (factor: number, anchor?: { fx: number; fy: number }) => {
     setView((current) => {
-      const baseW = home.w;
-      const currentZoom = baseW / current.w;
+      const currentZoom = home.w / current.w;
       const nextZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom * factor));
-      const w = baseW / nextZoom;
+      const w = home.w / nextZoom;
       const h = home.h / nextZoom;
-      // keep the anchor point (fraction of viewport, default center) fixed
+      // keep the anchor point (fraction of viewport, default centre) fixed
       const fx = anchor?.fx ?? 0.5;
       const fy = anchor?.fy ?? 0.5;
       const anchorX = current.x + current.w * fx;
@@ -836,9 +927,9 @@ function GraphCanvas({
   const onPointerMove = (event: React.PointerEvent<SVGSVGElement>) => {
     const state = drag.current;
     if (!state || state.pointerId !== event.pointerId) return;
-    const { sx, sy } = pxToSvg();
-    const dx = (event.clientX - state.startX) * sx;
-    const dy = (event.clientY - state.startY) * sy;
+    const px = unitPx();
+    const dx = (event.clientX - state.startX) / px;
+    const dy = (event.clientY - state.startY) / px;
     if (Math.abs(event.clientX - state.startX) + Math.abs(event.clientY - state.startY) > 3) state.moved = true;
     setView({ ...state.origin, x: state.origin.x - dx, y: state.origin.y - dy });
   };
@@ -856,7 +947,11 @@ function GraphCanvas({
     zoomAround(event.deltaY < 0 ? 1.12 : 1 / 1.12, { fx, fy });
   };
 
-  const zoomPct = Math.round((home.w / view.w) * 100);
+  const zoom = home.w / view.w;
+  const allNames = zoom >= NAME_ZOOM_FLOOR;
+  // counter-scales emphasised text when zoomed out, so it stays ~10px on screen
+  const textScale = allNames ? 1 : READABLE_ZOOM / zoom;
+  const hasSelection = Boolean(selectedEdgeId || selectedNodeId);
 
   return (
     <div className="canvas-viewport">
@@ -872,11 +967,21 @@ function GraphCanvas({
         onPointerCancel={endPan}
         onWheel={onWheel}
       >
+        <defs>
+          {/* the sky-blue cloud-wash that marks the selection */}
+          <radialGradient id="selection-wash">
+            <stop offset="0%" style={{ stopColor: "var(--cloud-core)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--cloud-edge)" }} />
+          </radialGradient>
+        </defs>
+
         <g className="edge-layer">
           {edges.map((edge) => (
             <GraphEdge
               edge={edge}
               isActivated={activatedEdgeIds.has(edge.id)}
+              isFaded={filtering && !matchEdgeIds.has(edge.id)}
+              isReceded={hasSelection && !activatedEdgeIds.has(edge.id)}
               isSelected={edge.id === selectedEdgeId}
               key={edge.id}
               segment={segments.get(edge.id)!}
@@ -886,18 +991,28 @@ function GraphCanvas({
         </g>
 
         <g className="node-layer">
-          {nodes.map((node) => (
-            <GraphNode
-              isActivated={activatedNodeIds.has(node.id)}
-              isSelected={node.id === selectedNodeId}
-              key={node.id}
-              node={node}
-              onSelect={onSelectNode}
-            />
-          ))}
+          {nodes.map((node) => {
+            const isSelected = node.id === selectedNodeId;
+            const isActivated = activatedNodeIds.has(node.id);
+            const isFaded = filtering && !matchNodeIds.has(node.id);
+            const isEmphasised = isSelected || isActivated || (filtering && !isFaded);
+            return (
+              <GraphNode
+                isActivated={isActivated}
+                isFaded={isFaded}
+                isReceded={hasSelection && !isActivated}
+                isSelected={isSelected}
+                key={node.id}
+                node={node}
+                nameScale={isEmphasised ? textScale : 1}
+                showName={!isFaded && (allNames || isEmphasised)}
+                onSelect={onSelectNode}
+              />
+            );
+          })}
         </g>
 
-        {/* relation labels ride above the nodes, so a circle can never cover them */}
+        {/* relation labels ride above the nodes, so a dot or name never covers them */}
         <g className="edge-label-layer" aria-hidden="true">
           {labelOrder.map((edge) => {
             const point = labelPoints.get(edge.id)!;
@@ -906,12 +1021,19 @@ function GraphCanvas({
               edge.id === selectedEdgeId ? "selected" : "",
               activatedEdgeIds.has(edge.id) ? "activated" : "",
               showEdgeLabels ? "force-label" : "",
+              filtering && !matchEdgeIds.has(edge.id) ? "faded" : "",
             ]
               .filter(Boolean)
               .join(" ");
 
             return (
-              <text className={className} key={edge.id} x={point.x} y={point.y}>
+              <text
+                className={className}
+                key={edge.id}
+                style={textScale > 1 ? { fontSize: 11 * textScale, strokeWidth: 4 * textScale } : undefined}
+                x={point.x}
+                y={point.y}
+              >
                 {edgeLabel(edge)}
               </text>
             );
@@ -919,15 +1041,21 @@ function GraphCanvas({
         </g>
       </svg>
 
+      {filtering && matchEdgeIds.size === 0 && (
+        <p className="canvas-empty" role="status">
+          No relationships match these filters.
+        </p>
+      )}
+
       <div className="zoom-controls" aria-label="Zoom and pan">
         <button onClick={() => zoomAround(1.25)} title="Zoom in" type="button">
           <Plus size={16} strokeWidth={2} />
         </button>
-        <span aria-label="Current zoom">{zoomPct}%</span>
+        <span aria-label="Current zoom">{Math.round(zoom * 100)}%</span>
         <button onClick={() => zoomAround(1 / 1.25)} title="Zoom out" type="button">
           <Minus size={16} strokeWidth={2} />
         </button>
-        <button onClick={() => setView(framedView())} title="Reset view" type="button">
+        <button onClick={() => setView(frame(matchBox))} title="Reset view" type="button">
           <Crosshair size={15} strokeWidth={1.8} />
         </button>
       </div>
@@ -935,29 +1063,64 @@ function GraphCanvas({
   );
 }
 
+/** Line families and dot sizes, read once in the corner of the canvas. */
+function GraphLegend({ maxEvidence }: { maxEvidence: number }) {
+  return (
+    <div className="graph-legend" aria-label="How to read the graph">
+      {legendRows.map((row) => (
+        <span className="legend-item" key={row.family}>
+          <svg aria-hidden="true" height="10" viewBox="0 0 28 10" width="28">
+            <line className={`legend-line fam-${row.family}`} x1="1" x2={row.arrow ? 20 : 27} y1="5" y2="5" />
+            {row.arrow && <polygon className="legend-head" points="27,5 20,1.8 20,8.2" />}
+          </svg>
+          {row.label}
+        </span>
+      ))}
+      <span className="legend-item">
+        <svg aria-hidden="true" height="22" viewBox="0 0 34 22" width="34">
+          <circle className="legend-dot" cx="5" cy="11" r={dotRadius(1)} />
+          <circle className="legend-dot" cx="22" cy="11" r={dotRadius(maxEvidence)} />
+        </svg>
+        area = sources, 1–{maxEvidence}
+      </span>
+    </div>
+  );
+}
+
 function GraphEdge({
   edge,
   isActivated,
+  isFaded,
+  isReceded,
   isSelected,
   segment,
   onSelect,
 }: {
   edge: PositionedEdge;
   isActivated: boolean;
+  isFaded: boolean;
+  isReceded: boolean;
   isSelected: boolean;
   segment: Segment;
   onSelect: (edgeId: string) => void;
 }) {
-  const { x1, y1, x2, y2 } = segment;
-  const dashed = edge.type.startsWith("shares_");
-
   if (!segment.visible) return null;
+
+  const { x1, y1, x2, y2 } = segment;
+  const className = [
+    "graph-edge",
+    `fam-${edgeFamily(edge.type)}`,
+    edge.status,
+    isSelected ? "selected" : "",
+    isActivated ? "activated" : "",
+    isFaded ? "faded" : isReceded ? "receded" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <g
-      className={`graph-edge rel-${edge.type} ${isSelected ? "selected" : ""} ${
-        isActivated ? "activated" : ""
-      } ${dashed ? "dashed" : ""}`}
+      className={className}
       onClick={() => onSelect(edge.id)}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -966,9 +1129,12 @@ function GraphEdge({
         }
       }}
       role="button"
-      tabIndex={0}
+      tabIndex={isFaded ? -1 : 0}
     >
-      <line x1={x1} x2={x2} y1={y1} y2={y2} />
+      <title>
+        {`${compactName(edge.fromNode)} ${edgeLabel(edge)} ${compactName(edge.toNode)} · ${edge.status}`}
+      </title>
+      <line className="edge-line" x1={x1} x2={x2} y1={y1} y2={y2} />
       {segment.head && <polygon className="edge-head" points={segment.head} />}
       <line className="edge-hitbox" x1={x1} x2={x2} y1={y1} y2={y2} />
     </g>
@@ -978,28 +1144,34 @@ function GraphEdge({
 function GraphNode({
   node,
   isActivated,
+  isFaded,
+  isReceded,
   isSelected,
+  nameScale,
+  showName,
   onSelect,
 }: {
   node: PositionedNode;
   isActivated: boolean;
+  isFaded: boolean;
+  isReceded: boolean;
   isSelected: boolean;
+  nameScale: number;
+  showName: boolean;
   onSelect: (nodeId: string) => void;
 }) {
   const className = [
     "graph-node",
-    node.layer,
-    isActivated ? "activated" : "",
     isSelected ? "selected" : "",
-    node.tags?.includes("maas") ? "tag-maas" : "",
-    node.status === "active" ? "status-active" : "",
+    isActivated ? "activated" : "",
+    isFaded ? "faded" : isReceded ? "receded" : "",
   ]
     .filter(Boolean)
     .join(" ");
 
   return (
     <g
-      aria-label={`${node.name} family`}
+      aria-label={`${node.name}, ${node.evidence} source${node.evidence === 1 ? "" : "s"}`}
       className={className}
       onClick={() => onSelect(node.id)}
       onKeyDown={(event) => {
@@ -1009,22 +1181,27 @@ function GraphNode({
         }
       }}
       role="button"
-      tabIndex={0}
-      transform={`translate(${node.x * 10} ${node.y * 7})`}
+      tabIndex={isFaded ? -1 : 0}
+      transform={`translate(${node.x} ${node.y})`}
     >
-      <circle r={node.radius} />
-      {/* lines centred on the node: the first rises by half the block */}
-      <text>
-        {node.lines.map((line, index) => (
-          <tspan
-            dy={index === 0 ? -((node.lines.length - 1) * LABEL_LINE_HEIGHT) / 2 : LABEL_LINE_HEIGHT}
-            key={index}
-            x="0"
-          >
-            {line}
-          </tspan>
-        ))}
-      </text>
+      <title>
+        {`${node.name} · ${node.evidence} source${node.evidence === 1 ? "" : "s"} · ${node.degree} relationship${
+          node.degree === 1 ? "" : "s"
+        }`}
+      </title>
+      {isSelected && <circle className="selection-wash" r={Math.max(node.radius * 4.2, 34)} />}
+      <circle className="dot" r={node.radius} />
+      {/* a hit target larger than the mark */}
+      <circle className="dot-hit" r={Math.max(node.radius + 8, 14)} />
+      {showName && (
+        <text
+          className="name"
+          style={nameScale > 1 ? { fontSize: 12 * nameScale, strokeWidth: 3.5 * nameScale } : undefined}
+          y={node.radius + (NAME_GAP + 10) * nameScale}
+        >
+          {compactName(node)}
+        </text>
+      )}
     </g>
   );
 }
@@ -1120,7 +1297,8 @@ function NodeInspector({ node }: { node: MalwareNode }) {
         <Metadata label="Scope" value={node.first_seen?.scope ?? "unknown"} />
         <Metadata label="Identity" value={readableToken(node.identity_basis)} />
         <Metadata label="Relationships" value={String(connectedEdges.length)} />
-        <Metadata label="Sources" value={String(nodeSources.length)} />
+        <Metadata label="Family sources" value={String(nodeSources.length)} />
+        <Metadata label="With relationships" value={String(evidenceFor(node.id))} />
       </CollapsibleSection>
 
       <CollapsibleSection title="Connected Relationships">
@@ -1245,8 +1423,11 @@ function AboutInspector() {
 
       <CollapsibleSection title="How to read it">
         <p>
-          Each node declares its identity basis; each edge declares its relationship scope. Select any
-          node or edge to focus the graph and open its sources in this panel.
+          Each dot is a malware family; its area is proportional to the distinct public sources citing the
+          family or its relationships. Solid arrows are lineage and point to the ancestor; dashed lines are
+          shared code, operators, or behaviour; dotted arrows are delivery and point to the loader; thin
+          lines are reported links. Tentative claims draw lighter. Select a family or a line to open its
+          sources here.
         </p>
       </CollapsibleSection>
 
@@ -1287,6 +1468,14 @@ function CollapsibleSection({
       <div className="collapsible-body">{children}</div>
     </details>
   );
+}
+
+/** Distinct sources citing a family or its relationships: what its dot's area shows. */
+function evidenceFor(nodeId: string) {
+  const node = atlas.nodeById.get(nodeId);
+  const cited = new Set([...(node?.sources ?? []), ...(node?.first_seen?.sources ?? [])].map((c) => c.source));
+  for (const edge of connectedEdgesForNode(nodeId)) for (const c of edge.sources) cited.add(c.source);
+  return cited.size;
 }
 
 function connectedEdgesForNode(nodeId: string) {
@@ -1613,7 +1802,9 @@ function LensDock({
       <div className="activation-list">
         {activatedEdges.slice(0, 5).map((candidate) => (
           <div className="activation-row" key={candidate.id}>
-            <span className={`rel-tick rel-${candidate.type}`} aria-hidden="true" />
+            <svg aria-hidden="true" className="rel-glyph" height="10" viewBox="0 0 22 10" width="22">
+              <line className={`legend-line fam-${edgeFamily(candidate.type)}`} x1="1" x2="21" y1="5" y2="5" />
+            </svg>
             <span>{edgeLabel(candidate)}</span>
             <strong>
               {compactName(atlas.nodeById.get(candidate.from))} / {compactName(atlas.nodeById.get(candidate.to))}
